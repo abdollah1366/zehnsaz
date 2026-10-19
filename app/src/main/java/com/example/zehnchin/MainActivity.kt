@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.hierarchy
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -120,6 +120,16 @@ private val gameGraphChapters = mapOf(
     "problem_solving_graph" to 6
 )
 
+/** The chapter of the game this destination belongs to, found by walking up to its navigation graph. */
+private fun NavDestination.gameChapter(): Int? {
+    var current: NavDestination? = this
+    while (current != null) {
+        current.route?.let { gameGraphChapters[it] }?.let { return it }
+        current = current.parent
+    }
+    return null
+}
+
 /**
  * Switches to the dark, game-like look while a training game (or its result) is on screen.
  * Every other screen keeps the light brand theme.
@@ -154,8 +164,7 @@ fun ZehnchinApp(
 ) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val gameChapter = backStackEntry?.destination?.hierarchy
-        ?.firstNotNullOfOrNull { destination -> destination.route?.let { gameGraphChapters[it] } }
+    val gameChapter = backStackEntry?.destination?.gameChapter()
 
     GameAwareTheme(gameChapter = gameChapter) { inGame ->
         ZehnchinNavHost(navController, inGame, chapterRepository, levelRepository, playerRepository)
