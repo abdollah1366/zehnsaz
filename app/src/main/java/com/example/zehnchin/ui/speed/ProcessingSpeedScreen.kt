@@ -24,6 +24,7 @@ import com.example.zehnchin.ui.attention.toComposeColor
 import com.example.zehnchin.ui.common.FormatUtils
 import com.example.zehnchin.ui.common.GeometricShape
 import com.example.zehnchin.domain.model.CognitiveScoreResult
+import com.example.zehnchin.ui.theme.LocalFeedbackColors
 
 @Composable
 fun ProcessingSpeedScreen(
@@ -233,7 +234,7 @@ fun SpeedGameplayView(
                 text = stringResource(R.string.game_round_label, uiState.currentRound, config?.roundCount ?: 0),
                 style = MaterialTheme.typography.titleMedium
             )
-            val timeColor = if (remainingTime < 5000) Color.Red else MaterialTheme.colorScheme.onSurface
+            val timeColor = if (remainingTime < 5000) LocalFeedbackColors.current.warning else MaterialTheme.colorScheme.onSurface
             Text(
                 text = stringResource(R.string.game_time_label, FormatUtils.formatNumber(remainingTime / 1000)),
                 style = MaterialTheme.typography.titleMedium,
@@ -248,9 +249,9 @@ fun SpeedGameplayView(
         Box(modifier = Modifier.height(40.dp), contentAlignment = Alignment.Center) {
             uiState.lastFeedback?.let { feedback ->
                 val (textRes, color) = when (feedback) {
-                    ProcessingSpeedEngine.FeedbackType.CORRECT -> R.string.correct_feedback to Color(0xFF4CAF50)
-                    ProcessingSpeedEngine.FeedbackType.INCORRECT -> R.string.incorrect_feedback to Color.Red
-                    ProcessingSpeedEngine.FeedbackType.FALSE_START -> R.string.false_start_msg to Color(0xFFFF9800)
+                    ProcessingSpeedEngine.FeedbackType.CORRECT -> R.string.correct_feedback to LocalFeedbackColors.current.correct
+                    ProcessingSpeedEngine.FeedbackType.INCORRECT -> R.string.incorrect_feedback to LocalFeedbackColors.current.incorrect
+                    ProcessingSpeedEngine.FeedbackType.FALSE_START -> R.string.false_start_msg to LocalFeedbackColors.current.warning
                     ProcessingSpeedEngine.FeedbackType.TOO_SLOW -> R.string.game_remaining_label to Color.Gray // Placeholder
                 }
                 if (feedback != ProcessingSpeedEngine.FeedbackType.TOO_SLOW) {

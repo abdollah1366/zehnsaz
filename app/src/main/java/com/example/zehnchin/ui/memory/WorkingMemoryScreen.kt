@@ -34,6 +34,7 @@ import com.example.zehnchin.ui.attention.toComposeColor
 import com.example.zehnchin.ui.common.FormatUtils
 import com.example.zehnchin.ui.common.GeometricShape
 import kotlinx.coroutines.flow.collectLatest
+import com.example.zehnchin.ui.theme.LocalFeedbackColors
 
 @Composable
 fun WorkingMemoryScreen(
@@ -70,7 +71,7 @@ fun WorkingMemoryScreen(
             )
             Text(
                 text = stringResource(R.string.game_time_label, FormatUtils.formatNumber(timer / 1000)),
-                color = if (timer < 3000) Color.Red else Color.Unspecified
+                color = if (timer < 3000) LocalFeedbackColors.current.warning else Color.Unspecified
             )
         }
 
@@ -103,7 +104,7 @@ fun WorkingMemoryScreen(
                             Text(
                                 text = stringResource(R.string.memory_correct_feedback),
                                 style = MaterialTheme.typography.headlineMedium,
-                                color = Color(0xFF4CAF50),
+                                color = LocalFeedbackColors.current.correct,
                                 fontWeight = FontWeight.Bold
                             )
                         } else {
@@ -224,7 +225,7 @@ fun EncodingView(
         Text(
             text = stringResource(R.string.memory_memorize_time_label, FormatUtils.formatNumber(remainingTime / 1000)),
             style = MaterialTheme.typography.headlineLarge,
-            color = if (remainingTime < 3000) Color.Red else MaterialTheme.colorScheme.primary,
+            color = if (remainingTime < 3000) LocalFeedbackColors.current.warning else MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Black
         )
         

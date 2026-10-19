@@ -22,6 +22,7 @@ import com.example.zehnchin.R
 import com.example.zehnchin.domain.model.Tube
 import com.example.zehnchin.ui.attention.toComposeColor
 import com.example.zehnchin.ui.common.FormatUtils
+import com.example.zehnchin.ui.theme.LocalFeedbackColors
 
 @Composable
 fun ProblemSolvingScreen(
@@ -51,7 +52,7 @@ fun ProblemSolvingScreen(
                 )
                 Text(
                     text = stringResource(R.string.game_remaining_label, FormatUtils.formatNumber(state.remainingMoves)),
-                    color = if (state.remainingMoves < 5) Color.Red else Color.Unspecified
+                    color = if (state.remainingMoves < 5) LocalFeedbackColors.current.warning else Color.Unspecified
                 )
             }
         }

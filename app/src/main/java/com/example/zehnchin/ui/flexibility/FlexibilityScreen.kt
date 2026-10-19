@@ -28,6 +28,7 @@ import com.example.zehnchin.ui.attention.StimulusItem
 import com.example.zehnchin.ui.attention.toComposeColor
 import com.example.zehnchin.ui.common.FormatUtils
 import com.example.zehnchin.ui.common.GeometricShape
+import com.example.zehnchin.ui.theme.LocalFeedbackColors
 
 @Composable
 fun FlexibilityScreen(
@@ -82,7 +83,7 @@ fun FlexibilityScreen(
         Box(modifier = Modifier.height(40.dp), contentAlignment = Alignment.Center) {
             uiState.lastFeedback?.let { feedback ->
                 val (textRes, color) = if (feedback == CognitiveFlexibilityEngine.FeedbackType.CORRECT) 
-                    R.string.correct_feedback to Color(0xFF4CAF50) else R.string.incorrect_feedback to Color.Red
+                    R.string.correct_feedback to LocalFeedbackColors.current.correct else R.string.incorrect_feedback to LocalFeedbackColors.current.incorrect
                 Text(text = stringResource(textRes), color = color, fontWeight = FontWeight.Bold, fontSize = 20.sp)
             }
         }
@@ -130,7 +131,7 @@ fun FlexibilityScreen(
 
 @Composable
 fun RuleDisplay(ruleName: String, isSwitching: Boolean) {
-    val backgroundColor = if (isSwitching) Color.Red.copy(alpha = 0.1f) else MaterialTheme.colorScheme.primaryContainer
+    val backgroundColor = if (isSwitching) LocalFeedbackColors.current.warning.copy(alpha = 0.12f) else MaterialTheme.colorScheme.primaryContainer
     
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -143,7 +144,7 @@ fun RuleDisplay(ruleName: String, isSwitching: Boolean) {
         ) {
             Text(
                 text = if (isSwitching) stringResource(R.string.rule_changed) else "قانون فعلی:",
-                color = if (isSwitching) Color.Red else MaterialTheme.colorScheme.primary,
+                color = if (isSwitching) LocalFeedbackColors.current.warning else MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold,
                 fontSize = if (isSwitching) 20.sp else 14.sp
             )
