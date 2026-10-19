@@ -9,6 +9,8 @@ import com.example.zehnchin.domain.assessment.MeasureTrend
 import com.example.zehnchin.domain.assessment.MeasureTrends
 import com.example.zehnchin.domain.progression.AttemptSummary
 import com.example.zehnchin.domain.progression.DomainSummary
+import com.example.zehnchin.domain.progression.WeeklyPlan
+import com.example.zehnchin.domain.progression.WeeklyPlanner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +28,11 @@ class ProfileViewModel @Inject constructor(
     val domains: StateFlow<List<DomainSummary>> = attemptDao.getAttempts("default_player")
         .map { AttemptSummary.summarize(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    /** This week's training plan, built from the attempts so far. */
+    val weeklyPlan: StateFlow<WeeklyPlan> = attemptDao.getAttempts("default_player")
+        .map { attempts -> WeeklyPlanner.build(attempts, WeeklyPlanner.weekStart(System.currentTimeMillis())) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WeeklyPlan(emptyList()))
 
     /** Baseline assessment measures over time, one trend per task and measure. */
     val assessmentTrends: StateFlow<List<MeasureTrend>> = combine(

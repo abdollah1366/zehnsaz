@@ -317,4 +317,9 @@
     <string name="reminder_channel_name">یادآور تمرین</string>
     <string name="reminder_title">وقت تمرین است</string>
     <string name="reminder_text">چند دقیقه برای تمرین امروز وقت بگذارید.</string>
+    <string name="weekly_plan_title">برنامه‌ی این هفته</string>
+    <string name="weekly_plan_progress">%1$d از %2$d جلسه انجام شد</string>
+    <string name="weekly_plan_explain">اول حوزه‌هایی می‌آیند که دقت شما در آن‌ها کمتر است. حوزه‌هایی که هنوز بازی نکرده‌اید، کمترین دقت حساب می‌شوند.</string>
+    <string name="weekly_plan_done">انجام شد</string>
+    <string name="weekly_plan_start">شروع</string>
 </resources>
