@@ -59,9 +59,10 @@ class InhibitoryControlEngine : BaseGameEngine<InhibitoryControlEngine.Inhibitor
         val stimulusType = if (isGo) InhibitoryStimulusType.GO else InhibitoryStimulusType.NO_GO
 
         val stimulus = if (isGo) {
-            AttentionStimulus(color = PuzzleColor.GREEN, shape = Shape.CIRCLE, isTarget = true)
+            // Same colour for both stimuli: only the shape tells Go from No-Go, so colour-blind players are not disadvantaged.
+            AttentionStimulus(color = PuzzleColor.BLUE, shape = Shape.CIRCLE, isTarget = true)
         } else {
-            AttentionStimulus(color = PuzzleColor.RED, shape = Shape.SQUARE, isTarget = false)
+            AttentionStimulus(color = PuzzleColor.BLUE, shape = Shape.SQUARE, isTarget = false)
         }
 
         _gameState.update {

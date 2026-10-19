@@ -126,8 +126,8 @@
     <!-- Inhibitory Control -->
     <string name="get_ready">Get ready...</string>
     <string name="btn_next_round">Next Round</string>
-    <string name="go_instruction">🟢 GO</string>
-    <string name="stop_instruction">🔴 STOP</string>
+    <string name="go_instruction">● Circle: tap</string>
+    <string name="stop_instruction">■ Square: wait</string>
 
     <!-- Flexibility -->
     <string name="rule_changed">⚡ Rule Changed!</string>

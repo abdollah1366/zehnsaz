@@ -126,8 +126,8 @@
     <!-- Inhibitory Control -->
     <string name="get_ready">آماده باش...</string>
     <string name="btn_next_round">راند بعدی</string>
-    <string name="go_instruction">🟢 بزن</string>
-    <string name="stop_instruction">🔴 صبر کن</string>
+    <string name="go_instruction">● دایره: بزن</string>
+    <string name="stop_instruction">■ مربع: صبر کن</string>
 
     <!-- Flexibility -->
     <string name="rule_changed">⚡ قانون تغییر کرد!</string>

@@ -146,8 +146,9 @@ class LevelRepository @Inject constructor() {
             difficulty = (n + 1) / 2,
             config = LevelConfig.InhibitoryControlConfig(
                 roundCount = 10 + n,
-                goProbability = 0.7f,
-                noGoProbability = 0.3f,
+                // Go trials are frequent (about 80%), which builds the prepotent response that No-Go must override.
+                goProbability = 0.8f,
+                noGoProbability = 0.2f,
                 stimulusDuration = (1200 - (n * 30L)).coerceAtLeast(600L),
                 responseWindow = (1500 - (n * 40L)).coerceAtLeast(700L)
             )

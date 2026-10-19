@@ -11,7 +11,11 @@ object InhibitoryControlScoreCalculator {
         val noGoAccuracy: Int,
         val falseAlarmRate: Int,
         val avgReactionTime: Long,
-        val stars: Int
+        val stars: Int,
+        /** Sensitivity of Go responses, corrected for bias (signal detection). */
+        val dPrime: Double = 0.0,
+        /** Variability of Go reaction times (SD / mean). Null with fewer than two Go hits. */
+        val reactionTimeVariability: Double? = null
     )
 
     fun calculate(
@@ -36,6 +40,14 @@ object InhibitoryControlScoreCalculator {
             .mapNotNull { it.reactionTimeMillis }
         
         val avgRT = if (validGoRTs.isNotEmpty()) validGoRTs.average().toLong() else 0L
+        // Go is the signal: a hit is a tap on Go, a false alarm is a tap on No-Go.
+        val dPrime = SignalDetection.dPrime(
+            hits = goCorrect,
+            misses = goTrials.size - goCorrect,
+            falseAlarms = falseAlarms,
+            correctRejections = noGoCorrect
+        )
+        val reactionTimeVariability = SignalDetection.coefficientOfVariation(validGoRTs)
 
         // Speed factor for Go trials
         val speedFactor = if (avgRT > 0) 1f - (avgRT.toFloat() / responseWindowMillis.coerceAtLeast(1000L).toFloat()) else 0f
@@ -58,7 +70,9 @@ object InhibitoryControlScoreCalculator {
             noGoAccuracy = noGoAccuracy,
             falseAlarmRate = falseAlarmRate,
             avgReactionTime = avgRT,
-            stars = stars
+            stars = stars,
+            dPrime = dPrime,
+            reactionTimeVariability = reactionTimeVariability
         )
     }
 }
