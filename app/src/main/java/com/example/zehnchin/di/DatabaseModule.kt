@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.zehnchin.data.local.AppDatabase
 import com.example.zehnchin.data.local.MIGRATION_3_4
+import com.example.zehnchin.data.local.MIGRATION_4_5
+import com.example.zehnchin.data.local.dao.AssessmentDao
 import com.example.zehnchin.data.local.dao.AttemptDao
 import com.example.zehnchin.data.local.dao.CognitiveSessionDao
 import com.example.zehnchin.data.local.dao.LevelDao
@@ -29,7 +31,7 @@ object DatabaseModule {
             "zehnchin_db"
         )
             // No destructive fallback: a missing migration should fail loudly, not erase player data.
-            .addMigrations(MIGRATION_3_4)
+            .addMigrations(MIGRATION_3_4, MIGRATION_4_5)
             .build()
     }
 
@@ -38,6 +40,9 @@ object DatabaseModule {
 
     @Provides
     fun provideAttemptDao(database: AppDatabase): AttemptDao = database.attemptDao()
+
+    @Provides
+    fun provideAssessmentDao(database: AppDatabase): AssessmentDao = database.assessmentDao()
 
     @Provides
     fun provideCognitiveSessionDao(database: AppDatabase): CognitiveSessionDao = database.cognitiveSessionDao()
