@@ -20,5 +20,7 @@ data class InhibitoryRoundResult(
     val reactionTimeMillis: Long?,
     val isCorrect: Boolean,
     val score: Int,
-    val combo: Int
+    val combo: Int,
+    /** The response window that was in force on this trial. */
+    val responseWindowMillis: Long = 0L
 )

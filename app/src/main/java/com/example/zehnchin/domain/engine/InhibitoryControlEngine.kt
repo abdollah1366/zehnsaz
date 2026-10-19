@@ -19,6 +19,7 @@ class InhibitoryControlEngine : BaseGameEngine<InhibitoryControlEngine.Inhibitor
         val currentCombo: Int = 0,
         val maxCombo: Int = 0,
         val roundStartTime: Long = 0,
+        val responseWindowMillis: Long = 0L,
         val isStimulusVisible: Boolean = false,
         val waitingForResponse: Boolean = false,
         val lastFeedback: FeedbackType? = null
@@ -41,7 +42,8 @@ class InhibitoryControlEngine : BaseGameEngine<InhibitoryControlEngine.Inhibitor
                 currentCombo = 0,
                 maxCombo = 0,
                 isStimulusVisible = false,
-                waitingForResponse = false
+                waitingForResponse = false,
+                responseWindowMillis = (level.config as? LevelConfig.InhibitoryControlConfig)?.responseWindow ?: 0L
             )
         }
     }
@@ -103,11 +105,22 @@ class InhibitoryControlEngine : BaseGameEngine<InhibitoryControlEngine.Inhibitor
             reactionTimeMillis = if (clicked) reactionTime else null,
             isCorrect = isCorrect,
             score = 0, // Computed elsewhere
-            combo = newCombo
+            combo = newCombo,
+            responseWindowMillis = state.responseWindowMillis
         )
+
+        // Only Go trials move the window: a No-Go trial says nothing about how fast the player can respond.
+        val nextWindow = if (state.stimulusType == InhibitoryStimulusType.GO) {
+            ResponseWindowStaircase(state.responseWindowMillis)
+                .afterGoTrial(hit = responseType == InhibitoryResponseType.GO_CORRECT)
+                .windowMillis
+        } else {
+            state.responseWindowMillis
+        }
 
         _gameState.update {
             it.copy(
+                responseWindowMillis = nextWindow,
                 roundResults = it.roundResults + result,
                 currentCombo = newCombo,
                 maxCombo = maxOf(it.maxCombo, newCombo),
