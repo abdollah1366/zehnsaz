@@ -16,7 +16,7 @@ class SignalDetectionTest {
     }
 
     @Test
-    fun `80 percent hits and 20 percent false alarms gives d prime near 1.7`() {
+    fun `80 percent hits and 20 percent false alarms gives d prime near one point seven`() {
         // z(0.8) − z(0.2) ≈ 1.68; the log-linear correction moves it slightly.
         val dPrime = SignalDetection.dPrime(80, 20, 20, 80)
         assertTrue("was $dPrime", dPrime in 1.6..1.75)
