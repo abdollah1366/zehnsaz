@@ -47,6 +47,32 @@ class CognitiveFlexibilityEngineTest {
     }
 
     @Test
+    fun `the first three trials after a switch are marked as post-switch`() {
+        val level = Level(
+            id = 5002,
+            chapterId = 5,
+            levelNumber = 1,
+            difficulty = 1,
+            config = LevelConfig.CognitiveFlexibilityConfig(
+                roundCount = 8,
+                ruleTypes = listOf(RuleType.COLOR_MATCH, RuleType.SHAPE_MATCH),
+                switchInterval = 4,
+                responseTimeLimit = 3000L
+            )
+        )
+        engine.loadLevel(level)
+
+        // The switch happens before round 5, so rounds 5, 6 and 7 are post-switch.
+        repeat(8) {
+            engine.nextRound()
+            engine.onUserAction("ANY")
+        }
+
+        val flags = engine.gameState.value.roundResults.map { it.wasAfterRuleSwitch }
+        assertEquals(listOf(false, false, false, false, true, true, true, false), flags)
+    }
+
+    @Test
     fun `test correct response evaluation based on current rule`() {
         val rule = CognitiveRule("test", RuleType.COLOR_MATCH, R.string.rule_color_match)
         val stimulus = AttentionStimulus(color = PuzzleColor.RED, shape = Shape.CIRCLE)

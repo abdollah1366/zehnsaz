@@ -23,12 +23,21 @@ class CognitiveFlexibilityEngine : BaseGameEngine<CognitiveFlexibilityEngine.Fle
         val isStimulusVisible: Boolean = false,
         val switchCount: Int = 0,
         val isSwitchingRule: Boolean = false,
+        val postSwitchTrialsLeft: Int = 0,
         val lastFeedback: FeedbackType? = null,
         val availableOptions: List<Any> = emptyList()
     )
 
     enum class FeedbackType {
         CORRECT, INCORRECT
+    }
+
+    companion object {
+        /**
+         * Trials after a rule switch that count as post-switch. Using the first few, not only the first,
+         * gives the switch-cost measure more data than a single trial.
+         */
+        const val POST_SWITCH_WINDOW = 3
     }
 
     private val _gameState = MutableStateFlow(FlexibilityState())
@@ -50,7 +59,8 @@ class CognitiveFlexibilityEngine : BaseGameEngine<CognitiveFlexibilityEngine.Fle
                 maxCombo = 0,
                 isStimulusVisible = false,
                 switchCount = 0,
-                isSwitchingRule = false
+                isSwitchingRule = false,
+                postSwitchTrialsLeft = 0
             )
         }
     }
@@ -115,6 +125,7 @@ class CognitiveFlexibilityEngine : BaseGameEngine<CognitiveFlexibilityEngine.Fle
                 currentStimulus = stimulus,
                 currentRule = nextRule,
                 isSwitchingRule = isSwitching,
+                postSwitchTrialsLeft = if (isSwitching) POST_SWITCH_WINDOW else it.postSwitchTrialsLeft,
                 isStimulusVisible = true,
                 roundStartTime = System.currentTimeMillis(),
                 status = GameStatus.PLAYING,
@@ -146,7 +157,7 @@ class CognitiveFlexibilityEngine : BaseGameEngine<CognitiveFlexibilityEngine.Fle
             isCorrect = isCorrect,
             reactionTimeMillis = reactionTime,
             userResponse = userResponse.toString(),
-            wasAfterRuleSwitch = state.isSwitchingRule,
+            wasAfterRuleSwitch = state.postSwitchTrialsLeft > 0,
             switchNumber = state.switchCount,
             score = 0,
             combo = newCombo
@@ -159,6 +170,7 @@ class CognitiveFlexibilityEngine : BaseGameEngine<CognitiveFlexibilityEngine.Fle
                 maxCombo = maxOf(it.maxCombo, newCombo),
                 isStimulusVisible = false,
                 isSwitchingRule = false,
+                postSwitchTrialsLeft = maxOf(0, it.postSwitchTrialsLeft - 1),
                 lastFeedback = if (isCorrect) FeedbackType.CORRECT else FeedbackType.INCORRECT
             )
         }
