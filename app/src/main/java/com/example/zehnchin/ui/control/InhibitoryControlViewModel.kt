@@ -76,10 +76,10 @@ class InhibitoryControlViewModel @Inject constructor(
     }
 
     private fun startRoundTimer() {
-        val config = uiState.value.level?.config as? LevelConfig.InhibitoryControlConfig ?: return
+        val window = uiState.value.responseWindowMillis
         roundJob?.cancel()
         roundJob = viewModelScope.launch {
-            delay(config.responseWindow)
+            delay(window)
             // If window ends and no action was taken
             if (uiState.value.status == GameStatus.PLAYING && uiState.value.waitingForResponse) {
                 onUserAction(clicked = false)
@@ -108,7 +108,8 @@ class InhibitoryControlViewModel @Inject constructor(
         return state.roundResults.mapIndexed { index, round ->
             TrialRecord(
                 trialIndex = index,
-                stimulusLabel = round.stimulusType.name,
+                // The window is part of the stimulus label, so each trial's timing rule is stored without a schema change.
+                stimulusLabel = "${round.stimulusType.name}|window=${round.responseWindowMillis}ms",
                 responseLabel = round.responseType.name,
                 isCorrect = round.isCorrect,
                 reactionTimeMillis = round.reactionTimeMillis
