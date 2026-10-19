@@ -1,0 +1,276 @@
+<resources>
+    <string name="app_name">Zehn chin</string>
+
+    <!-- Home Screen -->
+    <string name="welcome_message">Welcome to Zehn chin</string>
+    <string name="continue_training">Continue Training</string>
+    <string name="streak_days">%1$s Consecutive Days</string>
+    <string name="level_label">Level %1$s</string>
+    <string name="coins_label">🪙 %1$s</string>
+    <string name="gems_label">💎 %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_training">Training</string>
+    <string name="nav_achievements">Achievements</string>
+    <string name="nav_shop">Shop</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Chapter List -->
+    <string name="training_chapters">Training Chapters</string>
+    <string name="cognitive_domain_label">Cognitive Domain: %1$s</string>
+
+    <!-- Chapter Names and Descriptions -->
+    <string name="chapter_0_title">Basics Tutorial</string>
+    <string name="chapter_0_subtitle">Identify Color, Shape, and Size</string>
+    <string name="chapter_0_desc">In this section, you will learn the basics of cognitive games (Color, Shape, and Size).</string>
+
+    <string name="chapter_1_title">Attention Lab</string>
+    <string name="chapter_1_subtitle">Selective Attention Practice</string>
+    <string name="chapter_1_desc">Identify target stimuli among distractors.</string>
+
+    <string name="chapter_2_title">Memory Lab</string>
+    <string name="chapter_2_subtitle">Working Memory</string>
+    <string name="chapter_2_desc">Remember and reconstruct visual sequences.</string>
+
+    <string name="chapter_3_title">Speed Lab</string>
+    <string name="chapter_3_subtitle">Processing Speed</string>
+    <string name="chapter_3_desc">Identify stimuli as quickly as possible.</string>
+
+    <string name="chapter_4_title">Control Lab</string>
+    <string name="chapter_4_subtitle">Response Inhibition</string>
+    <string name="chapter_4_desc">Differentiate between stimuli requiring response and those that don\'t.</string>
+
+    <string name="chapter_5_title">Flexibility Lab</string>
+    <string name="chapter_5_subtitle">Cognitive Flexibility</string>
+    <string name="chapter_5_desc">Quickly change strategy when game rules switch.</string>
+
+    <string name="chapter_6_title">Problem Solving Lab</string>
+    <string name="chapter_6_subtitle">Think, Plan, Solve</string>
+    <string name="chapter_6_desc">Solve puzzles in minimum moves with proper planning.</string>
+
+    <!-- Cognitive Domains -->
+    <string name="domain_attention">Attention</string>
+    <string name="domain_memory">Memory</string>
+    <string name="domain_executive">Executive Function</string>
+    <string name="domain_speed">Speed</string>
+    <string name="domain_logic">Logic</string>
+
+    <!-- Game UI -->
+    <string name="game_level_label">Level %1$s</string>
+    <string name="game_time_label">Time: %1$s seconds</string>
+    <string name="game_round_label">Round %1$d of %2$d</string>
+    <string name="game_combo_label">Combo: 🔥 %1$s</string>
+    <string name="game_moves_label">Moves: %1$s</string>
+    <string name="game_remaining_label">Remaining: %1$s</string>
+
+    <!-- Selective Attention -->
+    <string name="find_target_stimulus">Find the target stimulus: %1$s %2$s</string>
+    <string name="target_found_title">Excellent! 🎯</string>
+    <string name="target_found_desc">You found the target.</string>
+    <string name="view_results">View Results</string>
+
+    <!-- Working Memory -->
+    <string name="remember_sequence">Remember this sequence</string>
+    <string name="memory_direction_instruction">Sequence direction is Right-to-Left</string>
+    <string name="memory_rule_shape">Remember the shapes</string>
+    <string name="memory_rule_shape_color">Remember the shapes and colors</string>
+    <string name="memory_rule_all">Remember the shape, color, and size</string>
+    <string name="memory_rule_title">Important Features</string>
+    <string name="memory_feature_shape">✓ Shape</string>
+    <string name="memory_feature_color">✓ Color</string>
+    <string name="memory_feature_size">✓ Size</string>
+    <string name="memory_error_shape">Shape of one item was incorrect.</string>
+    <string name="memory_error_color">Color of one item was incorrect.</string>
+    <string name="memory_error_size">Size of one item was incorrect.</string>
+    <string name="memory_error_length">Number of items is incorrect.</string>
+    <string name="memory_recall_instruction">Now select the same sequence</string>
+    <string name="memory_memorize_time_label">Time remaining: %1$s</string>
+    <string name="attention_target_label">Level target:</string>
+    <string name="attention_instruction_action">Click on this shape as fast as possible when you see it.</string>
+    <string name="attention_skip_unlock_msg">Unlock next level with %1$s coins or watch an ad</string>
+    <string name="btn_unlock_coins">Unlock with 50 coins</string>
+    <string name="btn_watch_ad_unlock">Watch Ad</string>
+    <string name="attention_fail_title">Try Again</string>
+    <string name="attention_fail_msg">Your score was not enough.</string>
+    <string name="memory_correct_feedback">Well done! Correct ✓</string>
+    <string name="memory_wrong_msg">The selected sequence was incorrect.</string>
+    <string name="memory_retry_btn">Try Again</string>
+    <string name="reconstruct_sequence">Reconstruct the sequence</string>
+    <string name="clear_last">Clear Last Item</string>
+    <string name="submit_answer">Submit Final</string>
+    <string name="memory_correct_title">Well done! 🧠</string>
+    <string name="memory_correct_desc">You guessed the sequence correctly.</string>
+    <string name="memory_wrong_title">Try Again</string>
+    <string name="memory_wrong_desc">The sequence was incorrect.</string>
+
+    <string name="click_if_seen">Click quickly if you see this:</string>
+    <string name="start_test">Start Test</string>
+    <!-- Processing Speed -->
+    <string name="speed_training_title">Processing Speed Training</string>
+    <string name="speed_instruction_goal">The goal of this exercise is to measure your reaction speed.</string>
+    <string name="speed_target_label">Target for this level:</string>
+    <string name="speed_instruction_action">Whenever you see this shape, click on the shape itself as fast as possible.</string>
+    <string name="speed_distractor_instruction">If you see another shape, do not click it and wait for the next target.</string>
+    <string name="speed_scoring_instruction">The faster and more accurately you respond, the more points you get.</string>
+    <string name="btn_start_speed">Start Training</string>
+    <string name="countdown_go">GO!</string>
+    <string name="speed_fast">Fast!</string>
+    <string name="false_start_msg">A bit too early!</string>
+    <string name="correct_feedback">✓ Excellent</string>
+    <string name="incorrect_feedback">✕ Wrong</string>
+    <string name="wrong_target_feedback">This wasn\'t the target</string>
+    <string name="avg_reaction_time_label">Avg Reaction Time: %1$s ms</string>
+    <string name="ms_unit">ms</string>
+
+    <!-- Inhibitory Control -->
+    <string name="get_ready">Get ready...</string>
+    <string name="btn_next_round">Next Round</string>
+    <string name="go_instruction">🟢 GO</string>
+    <string name="stop_instruction">🔴 STOP</string>
+
+    <!-- Flexibility -->
+    <string name="rule_changed">⚡ Rule Changed!</string>
+
+    <!-- Problem Solving -->
+    <string name="planning">Planning</string>
+    <string name="hint_text">Hint: From tube %1$s to %2$s</string>
+    <string name="deadlock_text">Deadlock!</string>
+    <string name="puzzle_solved_title">🎉 Well done!</string>
+    <string name="puzzle_solved_desc">Puzzle solved successfully.</string>
+    <string name="deadlock_title">⚠️ Deadlock</string>
+    <string name="deadlock_desc">This path is no longer solvable.</string>
+    <string name="undo_move">Undo one move</string>
+
+    <!-- Game Controls -->
+    <string name="btn_start">Start</string>
+    <string name="btn_pause">Pause</string>
+    <string name="btn_resume">Resume</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_restart">Restart</string>
+    <string name="btn_help">Help</string>
+    <string name="btn_hint">Hint</string>
+    <string name="btn_undo">Undo</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_end">End</string>
+    <string name="btn_try_again">Try Again</string>
+
+    <!-- Results Screen -->
+    <string name="attention_result_title">🧠 Attention Training Result</string>
+    <string name="memory_result_title">🧠 Memory Training Result</string>
+    <string name="speed_result_title">🧠 Speed Training Result</string>
+    <string name="control_result_title">🧠 Control Training Result</string>
+    <string name="flexibility_result_title">🧠 Flexibility Training Result</string>
+    <string name="problem_solving_result_title">🧠 Problem Solving Result</string>
+    <string name="accuracy_label">Accuracy</string>
+    <string name="reaction_speed_label">Reaction Speed</string>
+    <string name="final_score_label">Final Score</string>
+    <string name="stars_label">Stars</string>
+    <string name="encouragement_good">Great job! You performed well today.</string>
+    <string name="btn_continue">Continue</string>
+    <string name="btn_next_level">Next Level</string>
+    <string name="btn_level_list">Level List</string>
+    <string name="reward_section_title">Rewards Earned</string>
+    <string name="xp_gain">+%1$s XP</string>
+    <string name="coin_gain">+%1$s Coins</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Player Profile</string>
+    <string name="completed_levels">Completed Levels</string>
+    <string name="unlocked_chapters">Unlocked Chapters</string>
+    <string name="total_stars">Total Stars</string>
+    <string name="longest_streak">Longest Streak</string>
+    <string name="training_scores">Training Scores</string>
+    <string name="score_attention">Selective Attention: %1$s</string>
+    <string name="score_memory">Working Memory: %1$s</string>
+    <string name="score_speed">Processing Speed: %1$s</string>
+
+    <!-- Achievements -->
+    <string name="my_achievements">My Achievements</string>
+    <string name="achievement_first_step">First Step</string>
+    <string name="achievement_first_step_desc">Complete your first level.</string>
+    <string name="achievement_10_levels">10 Levels</string>
+    <string name="achievement_10_levels_desc">Complete 10 levels successfully.</string>
+    <string name="achievement_3_stars">3 Golden Stars</string>
+    <string name="achievement_3_stars_desc">Finish a level with a perfect 3-star performance.</string>
+    <string name="achievement_independent_mind">Independent Mind</string>
+    <string name="achievement_independent_mind_desc">Complete a level without using any hints.</string>
+
+    <!-- Daily Rewards -->
+    <string name="daily_reward_title">Daily Reward</string>
+    <string name="daily_reward_msg">Come back every day to get a reward!</string>
+    <string name="claim_reward">Claim Reward</string>
+    <string name="reward_claimed">Today\'s reward received</string>
+    <string name="day_n">Day %1$s</string>
+
+    <!-- Shop -->
+    <string name="shop_title">Shop</string>
+    <string name="shop_currency_section">🪙 Coins and Gems</string>
+    <string name="watch_ad_title">🎁 Watch Ad</string>
+    <string name="watch_ad_desc">Get 50 free coins</string>
+    <string name="btn_watch">Watch</string>
+    <string name="ad_not_available">Ad not available.</string>
+    <string name="ad_reward_success">Reward received successfully.</string>
+    <string name="shop_coins">Coins</string>
+    <string name="shop_gems">Gems</string>
+    <string name="shop_boosters">Boosters</string>
+    <string name="shop_level_packs">Level Packs</string>
+    <string name="shop_special">Special</string>
+    <string name="btn_buy">Buy</string>
+    <string name="btn_claim">Claim</string>
+    <string name="btn_restore">Restore</string>
+
+    <!-- Product Titles -->
+    <string name="product_coins_100">100 Coins Pack</string>
+    <string name="product_coins_500">500 Coins Pack</string>
+    <string name="product_coins_1200">1200 Coins Pack</string>
+    <string name="product_gems_10">10 Gems Pack</string>
+    <string name="product_gems_50">50 Gems Pack</string>
+    <string name="product_gems_150">150 Gems Pack</string>
+    <string name="product_boosters_small">Small Booster Pack</string>
+    <string name="product_boosters_large">Large Booster Pack</string>
+    <string name="product_remove_ads">Remove Ads</string>
+    <string name="product_premium_pack">Premium Training Pack</string>
+    <string name="product_level_pack_01">Level Pack 01</string>
+    <string name="product_test">Test Product: %1$s</string>
+
+    <!-- Errors -->
+    <string name="error_generic">An error occurred</string>
+    <string name="error_no_connection">No connection</string>
+
+    <!-- Colors -->
+    <string name="color_red">Red</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_green">Green</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_cyan">Cyan</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_brown">Brown</string>
+    <string name="color_gray">Gray</string>
+
+    <!-- Shapes -->
+    <string name="shape_circle">Circle</string>
+    <string name="shape_square">Square</string>
+    <string name="shape_triangle">Triangle</string>
+    <string name="shape_star">Star</string>
+    <string name="shape_hexagon">Hexagon</string>
+    <string name="shape_diamond">Diamond</string>
+
+    <string name="shape_circle_short">C</string>
+    <string name="shape_square_short">S</string>
+    <string name="shape_triangle_short">T</string>
+    <string name="shape_star_short">St</string>
+    <string name="shape_hexagon_short">H</string>
+    <string name="shape_diamond_short">D</string>
+
+    <!-- Flexibility Rules -->
+    <string name="rule_color_match">Match by Color</string>
+    <string name="rule_shape_match">Match by Shape</string>
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="sound_effects_label">Sound Effects</string>
+    <string name="background_music_label">Background Music</string>
+    <string name="haptic_feedback_label">Vibration &amp; Haptic</string>
+</resources>

@@ -1,0 +1,276 @@
+<resources>
+    <string name="app_name">ذهن‌چین</string>
+
+    <!-- Home Screen -->
+    <string name="welcome_message">به ذهن‌چین خوش آمدید</string>
+    <string name="continue_training">ادامه تمرینات</string>
+    <string name="streak_days">%1$s روز متوالی</string>
+    <string name="level_label">سطح %1$s</string>
+    <string name="coins_label">🪙 %1$s</string>
+    <string name="gems_label">💎 %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">خانه</string>
+    <string name="nav_training">تمرین</string>
+    <string name="nav_achievements">دستاورد</string>
+    <string name="nav_shop">فروشگاه</string>
+    <string name="nav_profile">پروفایل</string>
+
+    <!-- Chapter List -->
+    <string name="training_chapters">فصل‌های آموزشی</string>
+    <string name="cognitive_domain_label">حوزه شناختی: %1$s</string>
+
+    <!-- Chapter Names and Descriptions -->
+    <string name="chapter_0_title">آموزش اصول</string>
+    <string name="chapter_0_subtitle">شناسایی رنگ، شکل و اندازه</string>
+    <string name="chapter_0_desc">در این بخش با الفبای بازی‌های شناختی (رنگ، شکل و اندازه) آشنا می‌شوید.</string>
+
+    <string name="chapter_1_title">توجه و تمرکز</string>
+    <string name="chapter_1_subtitle">تمرین توجه انتخابی</string>
+    <string name="chapter_1_desc">در این بخش باید بتوانید محرک‌های هدف را از میان مزاحم‌ها تشخیص دهید.</string>
+
+    <string name="chapter_2_title">حافظه فعال</string>
+    <string name="chapter_2_subtitle">حافظه کاری</string>
+    <string name="chapter_2_desc">توالی‌های بصری را به خاطر بسپارید و آن‌ها را بازسازی کنید.</string>
+
+    <string name="chapter_3_title">سرعت پردازش</string>
+    <string name="chapter_3_subtitle">سرعت پردازش</string>
+    <string name="chapter_3_desc">محرک‌ها را در سریع‌ترین زمان ممکن شناسایی کنید.</string>
+
+    <string name="chapter_4_title">کنترل تکانه</string>
+    <string name="chapter_4_subtitle">مهار پاسخ</string>
+    <string name="chapter_4_desc">بین محرک‌هایی که نیاز به پاسخ دارند و آن‌هایی که ندارند تمایز قائل شوید.</string>
+
+    <string name="chapter_5_title">انعطاف ذهنی</string>
+    <string name="chapter_5_subtitle">انعطاف‌پذیری شناختی</string>
+    <string name="chapter_5_desc">هنگام تغییر قوانین بازی، استراتژی خود را سریعاً تغییر دهید.</string>
+
+    <string name="chapter_6_title">حل مسئله و برنامه‌ریزی</string>
+    <string name="chapter_6_subtitle">فکر کن، برنامه‌ریزی کن، حل کن</string>
+    <string name="chapter_6_desc">با برنامه‌ریزی صحیح، پازل‌ها را در کمترین حرکت ممکن حل کنید.</string>
+
+    <!-- Cognitive Domains -->
+    <string name="domain_attention">توجه</string>
+    <string name="domain_memory">حافظه</string>
+    <string name="domain_executive">عملکرد اجرایی</string>
+    <string name="domain_speed">سرعت</string>
+    <string name="domain_logic">منطق</string>
+
+    <!-- Game UI -->
+    <string name="game_level_label">مرحله %1$s</string>
+    <string name="game_time_label">زمان: %1$s ثانیه</string>
+    <string name="game_round_label">دور %1$d از %2$d</string>
+    <string name="game_combo_label">کامبو: 🔥 %1$s</string>
+    <string name="game_moves_label">حرکت: %1$s</string>
+    <string name="game_remaining_label">باقیمانده: %1$s</string>
+
+    <!-- Selective Attention -->
+    <string name="find_target_stimulus">محرک هدف را پیدا کنید: %1$s %2$s</string>
+    <string name="target_found_title">عالی! 🎯</string>
+    <string name="target_found_desc">شما هدف را پیدا کردید.</string>
+    <string name="view_results">مشاهده نتایج</string>
+
+    <!-- Working Memory -->
+    <string name="remember_sequence">این ترتیب را به خاطر بسپار</string>
+    <string name="memory_direction_instruction">ترتیب از راست به چپ است</string>
+    <string name="memory_rule_shape">شکل‌ها را به خاطر بسپار</string>
+    <string name="memory_rule_shape_color">شکل و رنگ را به خاطر بسپار</string>
+    <string name="memory_rule_all">شکل، رنگ و اندازه را به خاطر بسپار</string>
+    <string name="memory_rule_title">ویژگی‌های مهم</string>
+    <string name="memory_feature_shape">✓ شکل</string>
+    <string name="memory_feature_color">✓ رنگ</string>
+    <string name="memory_feature_size">✓ اندازه</string>
+    <string name="memory_error_shape">شکل یکی از موارد درست نبود.</string>
+    <string name="memory_error_color">رنگ یکی از موارد درست نبود.</string>
+    <string name="memory_error_size">اندازه یکی از موارد درست نبود.</string>
+    <string name="memory_error_length">تعداد موارد انتخاب شده درست نیست.</string>
+    <string name="memory_recall_instruction">حالا همان ترتیب را انتخاب کنید</string>
+    <string name="memory_memorize_time_label">زمان باقی‌مانده: %1$s</string>
+    <string name="attention_target_label">هدف این مرحله:</string>
+    <string name="attention_instruction_action">هر وقت این شکل را دیدی، هرچه سریع‌تر روی آن بزن.</string>
+    <string name="attention_skip_unlock_msg">باز کردن مرحله بعد با %1$s سکه یا مشاهده تبلیغ</string>
+    <string name="btn_unlock_coins">بازکردن با ۵۰ سکه</string>
+    <string name="btn_watch_ad_unlock">مشاهده تبلیغ</string>
+    <string name="attention_fail_title">دوباره تلاش کن</string>
+    <string name="attention_fail_msg">امتیاز شما کافی نبود.</string>
+    <string name="memory_correct_feedback">آفرین! درست بود ✓</string>
+    <string name="memory_wrong_msg">ترتیب انتخاب‌شده درست نبود.</string>
+    <string name="memory_retry_btn">دوباره تلاش می‌کنم</string>
+    <string name="reconstruct_sequence">توالی را بازسازی کنید</string>
+    <string name="clear_last">پاک کردن آخرین مورد</string>
+    <string name="submit_answer">ثبت نهایی</string>
+    <string name="memory_correct_title">آفرین! 🧠</string>
+    <string name="memory_correct_desc">توالی را درست حدس زدید.</string>
+    <string name="memory_wrong_title">دوباره تلاش کن</string>
+    <string name="memory_wrong_desc">توالی اشتباه بود.</string>
+
+    <string name="click_if_seen">اگر این را دیدی سریع کلیک کن:</string>
+    <string name="start_test">شروع آزمایش</string>
+    <!-- Processing Speed -->
+    <string name="speed_training_title">تمرین سرعت پردازش</string>
+    <string name="speed_instruction_goal">هدف این تمرین، سنجش سرعت واکنش شماست.</string>
+    <string name="speed_target_label">هدف این مرحله:</string>
+    <string name="speed_instruction_action">هر وقت این شکل را دیدی، هرچه سریع‌تر روی خودِ شکل بزن.</string>
+    <string name="speed_distractor_instruction">اگر شکل دیگری دیدی، روی آن نزن و منتظر هدف بعدی بمان.</string>
+    <string name="speed_scoring_instruction">هرچه سریع‌تر و دقیق‌تر پاسخ بدهی، امتیاز بیشتری می‌گیری.</string>
+    <string name="btn_start_speed">شروع تمرین</string>
+    <string name="countdown_go">شروع!</string>
+    <string name="speed_fast">سریع!</string>
+    <string name="false_start_msg">کمی زود بود!</string>
+    <string name="correct_feedback">✓ عالی</string>
+    <string name="incorrect_feedback">✕ اشتباه</string>
+    <string name="wrong_target_feedback">این هدف نبود</string>
+    <string name="avg_reaction_time_label">میانگین زمان واکنش: %1$s میلی‌ثانیه</string>
+    <string name="ms_unit">میلی‌ثانیه</string>
+
+    <!-- Inhibitory Control -->
+    <string name="get_ready">آماده باش...</string>
+    <string name="btn_next_round">راند بعدی</string>
+    <string name="go_instruction">🟢 بزن</string>
+    <string name="stop_instruction">🔴 صبر کن</string>
+
+    <!-- Flexibility -->
+    <string name="rule_changed">⚡ قانون تغییر کرد!</string>
+
+    <!-- Problem Solving -->
+    <string name="planning">برنامه‌ریزی</string>
+    <string name="hint_text">پیشنهاد: از ظرف %1$s به %2$s</string>
+    <string name="deadlock_text">بن‌بست!</string>
+    <string name="puzzle_solved_title">🎉 آفرین!</string>
+    <string name="puzzle_solved_desc">پازل با موفقیت حل شد.</string>
+    <string name="deadlock_title">⚠️ بن‌بست</string>
+    <string name="deadlock_desc">این مسیر دیگر قابل حل نیست.</string>
+    <string name="undo_move">بازگشت یک حرکت</string>
+
+    <!-- Game Controls -->
+    <string name="btn_start">شروع</string>
+    <string name="btn_pause">توقف</string>
+    <string name="btn_resume">ادامه</string>
+    <string name="btn_back">بازگشت</string>
+    <string name="btn_restart">شروع مجدد</string>
+    <string name="btn_help">راهنما</string>
+    <string name="btn_hint">راهنمایی</string>
+    <string name="btn_undo">بازگشت به عقب</string>
+    <string name="btn_next">بعدی</string>
+    <string name="btn_end">پایان</string>
+    <string name="btn_try_again">تلاش دوباره</string>
+
+    <!-- Results Screen -->
+    <string name="attention_result_title">🧠 نتیجه تمرین توجه</string>
+    <string name="memory_result_title">🧠 نتیجه تمرین حافظه</string>
+    <string name="speed_result_title">🧠 نتیجه تمرین سرعت</string>
+    <string name="control_result_title">🧠 نتیجه تمرین کنترل</string>
+    <string name="flexibility_result_title">🧠 نتیجه تمرین انعطاف</string>
+    <string name="problem_solving_result_title">🧠 نتیجه حل مسئله</string>
+    <string name="accuracy_label">دقت</string>
+    <string name="reaction_speed_label">سرعت واکنش</string>
+    <string name="final_score_label">امتیاز نهایی</string>
+    <string name="stars_label">ستاره‌ها</string>
+    <string name="encouragement_good">عالی بود! امروز عملکرد خوبی داشتی.</string>
+    <string name="btn_continue">ادامه</string>
+    <string name="btn_next_level">مرحله بعد</string>
+    <string name="btn_level_list">لیست مراحل</string>
+    <string name="reward_section_title">پاداش کسب شده</string>
+    <string name="xp_gain">+%1$s تجربه</string>
+    <string name="coin_gain">+%1$s سکه</string>
+
+    <!-- Profile -->
+    <string name="profile_title">پروفایل بازیکن</string>
+    <string name="completed_levels">مراحل تکمیل شده</string>
+    <string name="unlocked_chapters">فصل‌های باز شده</string>
+    <string name="total_stars">مجموع ستاره‌ها</string>
+    <string name="longest_streak">بیشترین استریک</string>
+    <string name="training_scores">امتیازات تمرینی</string>
+    <string name="score_attention">توجه انتخابی: %1$s</string>
+    <string name="score_memory">حافظه کاری: %1$s</string>
+    <string name="score_speed">سرعت پردازش: %1$s</string>
+
+    <!-- Achievements -->
+    <string name="my_achievements">دستاوردهای من</string>
+    <string name="achievement_first_step">اولین قدم</string>
+    <string name="achievement_first_step_desc">اولین مرحله رو با موفقیت پشت سر بگذار.</string>
+    <string name="achievement_10_levels">۱۰ مرحله</string>
+    <string name="achievement_10_levels_desc">۱۰ مرحله رو با موفقیت به پایان برسان.</string>
+    <string name="achievement_3_stars">۳ ستاره طلایی</string>
+    <string name="achievement_3_stars_desc">یک مرحله رو با عملکرد عالی (۳ ستاره) تموم کن.</string>
+    <string name="achievement_independent_mind">ذهن مستقل</string>
+    <string name="achievement_independent_mind_desc">یک مرحله رو بدون استفاده از راهنما حل کن.</string>
+
+    <!-- Daily Rewards -->
+    <string name="daily_reward_title">جایزه روزانه</string>
+    <string name="daily_reward_msg">هر روز برگرد و جایزه بگیر!</string>
+    <string name="claim_reward">دریافت جایزه</string>
+    <string name="reward_claimed">جایزه امروز دریافت شد</string>
+    <string name="day_n">روز %1$s</string>
+
+    <!-- Shop -->
+    <string name="shop_title">فروشگاه</string>
+    <string name="shop_currency_section">🪙 سکه‌ها و الماس‌ها</string>
+    <string name="watch_ad_title">🎁 تماشای تبلیغ</string>
+    <string name="watch_ad_desc">دریافت ۵۰ سکه رایگان</string>
+    <string name="btn_watch">تماشا</string>
+    <string name="ad_not_available">تبلیغ در دسترس نیست.</string>
+    <string name="ad_reward_success">دریافت پاداش با موفقیت انجام شد.</string>
+    <string name="shop_coins">سکه</string>
+    <string name="shop_gems">الماس</string>
+    <string name="shop_boosters">تقویت‌کننده‌ها</string>
+    <string name="shop_level_packs">بسته‌های مرحله</string>
+    <string name="shop_special">ویژه</string>
+    <string name="btn_buy">خرید</string>
+    <string name="btn_claim">دریافت</string>
+    <string name="btn_restore">بازیابی</string>
+
+    <!-- Product Titles -->
+    <string name="product_coins_100">بسته ۱۰۰ سکه</string>
+    <string name="product_coins_500">بسته ۵۰۰ سکه</string>
+    <string name="product_coins_1200">بسته ۱۲۰۰ سکه</string>
+    <string name="product_gems_10">بسته ۱۰ الماس</string>
+    <string name="product_gems_50">بسته ۵۰ الماس</string>
+    <string name="product_gems_150">بسته ۱۵۰ الماس</string>
+    <string name="product_boosters_small">بسته تقویت‌کننده کوچک</string>
+    <string name="product_boosters_large">بسته تقویت‌کننده بزرگ</string>
+    <string name="product_remove_ads">حذف تبلیغات</string>
+    <string name="product_premium_pack">بسته آموزش حرفه‌ای</string>
+    <string name="product_level_pack_01">بسته مرحله ۰۱</string>
+    <string name="product_test">محصول آزمایشی: %1$s</string>
+
+    <!-- Errors -->
+    <string name="error_generic">خطایی رخ داده است</string>
+    <string name="error_no_connection">اتصال برقرار نیست</string>
+
+    <!-- Colors -->
+    <string name="color_red">قرمز</string>
+    <string name="color_blue">آبی</string>
+    <string name="color_green">سبز</string>
+    <string name="color_yellow">زرد</string>
+    <string name="color_purple">بنفش</string>
+    <string name="color_orange">نارنجی</string>
+    <string name="color_cyan">فیروزه‌ای</string>
+    <string name="color_pink">صورتی</string>
+    <string name="color_brown">قهوه‌ای</string>
+    <string name="color_gray">خاکستری</string>
+
+    <!-- Shapes -->
+    <string name="shape_circle">دایره</string>
+    <string name="shape_square">مربع</string>
+    <string name="shape_triangle">مثلث</string>
+    <string name="shape_star">ستاره</string>
+    <string name="shape_hexagon">شش‌ضلعی</string>
+    <string name="shape_diamond">لوزی</string>
+
+    <string name="shape_circle_short">د</string>
+    <string name="shape_square_short">م</string>
+    <string name="shape_triangle_short">ث</string>
+    <string name="shape_star_short">س</string>
+    <string name="shape_hexagon_short">ش</string>
+    <string name="shape_diamond_short">ل</string>
+
+    <!-- Flexibility Rules -->
+    <string name="rule_color_match">طبق رنگ پاسخ بده</string>
+    <string name="rule_shape_match">طبق شکل پاسخ بده</string>
+    <!-- Settings -->
+    <string name="settings_title">تنظیمات</string>
+    <string name="sound_effects_label">افکت‌های صوتی</string>
+    <string name="background_music_label">موسیقی پس‌زمینه</string>
+    <string name="haptic_feedback_label">لرزش و بازخورد لمسی</string>
+</resources>

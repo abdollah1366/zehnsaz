@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer brain shape (Lobes) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,25c-15.5,0 -28,12.5 -28,28c0,4.5 2,8.5 5,11.5c-2.5,4 -4,8.5 -4,13.5c0,11 9,20 20,20c2,0 4,-0.5 6,-1c0.5,0 0.5,0 1,0c0.5,0.5 0.5,1 1,1c2,0.5 4,1 6,1c11,0 20,-9 20,-20c0,-5 -1.5,-9.5 -4,-13.5c3,-3 5,-7 5,-11.5C82,37.5 69.5,25 54,25z M52,83c-9,0 -16,-7 -16,-16c0,-4.5 1.5,-8.5 4,-11.5c-3,-3 -5,-7 -5,-11.5c0,-9 7,-16 16,-16V83z M56,83V28c9,0 16,7 16,16c0,4.5 -2,8.5 -5,11.5c2.5,3 4,7 4,11.5C71,76 64,83 56,83z" />
+
+    <!-- Interior details (Neural paths) -->
+    <path
+        android:strokeColor="#E1BEE7"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M44,45c0,0 2,-2 4,0 M64,45c0,0 -2,-2 -4,0 M40,60c0,0 4,-2 8,0 M68,60c0,0 -4,-2 -8,0 M44,72c0,0 3,-2 6,0 M64,72c0,0 -3,-2 -6,0" />
+
+</vector>
