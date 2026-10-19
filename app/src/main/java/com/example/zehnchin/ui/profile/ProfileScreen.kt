@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import com.example.zehnchin.R
 import com.example.zehnchin.data.local.entities.PlayerProfileEntity
 import com.example.zehnchin.domain.assessment.MeasureTrend
 import com.example.zehnchin.domain.progression.DomainSummary
+import com.example.zehnchin.domain.progression.WeeklyPlan
 import com.example.zehnchin.ui.assessment.measureLabelRes
 import com.example.zehnchin.ui.common.FormatUtils
 import com.example.zehnchin.ui.theme.domainColor
@@ -29,6 +31,8 @@ fun ProfileScreen(
     profile: PlayerProfileEntity?,
     domains: List<DomainSummary>,
     assessmentTrends: List<MeasureTrend>,
+    weeklyPlan: WeeklyPlan,
+    onStartSession: (chapterId: Int) -> Unit,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -71,8 +75,12 @@ fun ProfileScreen(
                 value = FormatUtils.formatNumber(profile?.longestStreak ?: 0)
             )
             
+            Spacer(modifier = Modifier.height(32.dp))
+
+            WeeklyPlanCard(plan = weeklyPlan, onStartSession = onStartSession)
+
             Spacer(modifier = Modifier.height(48.dp))
-            
+
             Text(
                 text = stringResource(R.string.training_scores),
                 style = MaterialTheme.typography.titleMedium,
@@ -137,6 +145,62 @@ fun DomainScoreCard(domain: DomainSummary) {
                     text = stringResource(R.string.profile_attempts, FormatUtils.formatNumber(domain.attemptCount)),
                     style = MaterialTheme.typography.bodyMedium
                 )
+            }
+        }
+    }
+}
+
+/** This week's three sessions, weakest domain first. Each one is ticked once it has been played this week. */
+@Composable
+fun WeeklyPlanCard(plan: WeeklyPlan, onStartSession: (chapterId: Int) -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.weekly_plan_title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = stringResource(R.string.weekly_plan_progress, plan.completedCount, plan.sessions.size),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(R.string.weekly_plan_explain),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            plan.sessions.forEach { session ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = (if (session.done) "✓ " else "") + stringResource(chapterTitleRes(session.chapterId)),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = if (session.done) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
+                    )
+                    if (session.done) {
+                        Text(
+                            text = stringResource(R.string.weekly_plan_done),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    } else {
+                        Button(
+                            onClick = { onStartSession(session.chapterId) },
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(text = stringResource(R.string.weekly_plan_start))
+                        }
+                    }
+                }
             }
         }
     }

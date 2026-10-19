@@ -541,10 +541,13 @@ private fun ZehnchinNavHost(
                 val profileViewModel: ProfileViewModel = hiltViewModel()
                 val domains by profileViewModel.domains.collectAsState()
                 val assessmentTrends by profileViewModel.assessmentTrends.collectAsState()
+                val weeklyPlan by profileViewModel.weeklyPlan.collectAsState()
                 ProfileScreen(
                     profile = profile,
                     domains = domains,
                     assessmentTrends = assessmentTrends,
+                    weeklyPlan = weeklyPlan,
+                    onStartSession = { chapterId -> navController.navigate("level_selection/$chapterId") },
                     onBack = { navController.popBackStack() }
                 )
             }
