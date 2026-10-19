@@ -13,7 +13,8 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
-private val DarkColorScheme = darkColorScheme(
+// Internal so that game screens can always use the dark scheme, whatever the system theme is.
+internal val DarkColorScheme = darkColorScheme(
     primary = Blue200,
     onPrimary = Blue900,
     primaryContainer = Blue800,

@@ -11,6 +11,7 @@
 
     <!-- Navigation -->
     <string name="nav_home">Home</string>
+    <string name="returning_home_hint">Returning to the home screen…</string>
     <string name="nav_training">Training</string>
     <string name="nav_achievements">Achievements</string>
     <string name="nav_shop">Shop</string>
