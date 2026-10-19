@@ -3,6 +3,7 @@ package com.example.zehnchin.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.zehnchin.data.local.dao.AssessmentDao
 import com.example.zehnchin.data.local.dao.AttemptDao
 import com.example.zehnchin.data.local.dao.CognitiveSessionDao
 import com.example.zehnchin.data.local.dao.LevelDao
@@ -21,15 +22,17 @@ import com.example.zehnchin.data.local.entities.*
         AchievementEntity::class,
         EntitlementEntity::class,
         LevelAttemptEntity::class,
-        TrialRecordEntity::class
+        TrialRecordEntity::class,
+        AssessmentMeasureEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun levelDao(): LevelDao
     abstract fun attemptDao(): AttemptDao
+    abstract fun assessmentDao(): AssessmentDao
     abstract fun cognitiveSessionDao(): CognitiveSessionDao
     abstract fun personalBestDao(): PersonalBestDao
     abstract fun playerDao(): PlayerDao

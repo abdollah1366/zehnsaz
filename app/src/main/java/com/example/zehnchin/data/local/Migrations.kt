@@ -39,3 +39,24 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_trial_records_attemptId` ON `trial_records` (`attemptId`)")
     }
 }
+
+/**
+ * v4 → v5: adds the baseline assessment measures table. Player progress and attempts are untouched.
+ */
+val MIGRATION_4_5 = object : Migration(4, 5) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `assessment_measures` (" +
+                "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "`playerId` TEXT NOT NULL, " +
+                "`task` TEXT NOT NULL, " +
+                "`takenAt` INTEGER NOT NULL, " +
+                "`measure` TEXT NOT NULL, " +
+                "`measureValue` REAL NOT NULL)"
+        )
+        db.execSQL(
+            "CREATE INDEX IF NOT EXISTS `index_assessment_measures_playerId_task_takenAt` " +
+                "ON `assessment_measures` (`playerId`, `task`, `takenAt`)"
+        )
+    }
+}
