@@ -292,6 +292,15 @@
     <string name="task_n_back_hint">When a letter matches the one two steps back, press Match.</string>
     <string name="respond_tap">Tap</string>
     <string name="respond_match">Match</string>
+
+    <string name="task_grad_cpt_instructions">Numbers appear one after another in the middle of the screen. Press the Tap button for every number except 3. When 3 appears, do nothing and wait. Each number stays for less than a second, so respond as fast as you can while staying accurate.</string>
+    <string name="task_ant_instructions">Before each arrow row, a short cue may appear: a dot, a plus sign, or a triangle. Then a row of five arrows appears above or below the centre. Press the key for the direction of the middle arrow only, ← or →. The other arrows are distractions.</string>
+    <string name="task_n_back_instructions">Letters appear one after another. Whenever a letter is the same as the one two steps back, press Match. The first two letters only start the sequence. If the letter is not a match, do nothing.</string>
+    <string name="assessment_briefing_sound">Each new stimulus is marked with a short beep. Start responding from the moment you hear it.</string>
+    <string name="assessment_briefing_countdown">Three beeps count down before the test starts.</string>
+    <string name="assessment_begin">Begin test</string>
+    <string name="assessment_progress">Trial %1$d of %2$d</string>
+    <string name="assessment_time_left">%1$s left</string>
     <string name="measure_dprime">Sensitivity (d′)</string>
     <string name="measure_commission">Commission errors</string>
     <string name="measure_omission">Omission errors</string>

@@ -292,6 +292,15 @@
     <string name="task_n_back_hint">وقتی حرفی با حرفِ دو مرحله قبل یکی بود، دکمه‌ی تطابق را بزنید.</string>
     <string name="respond_tap">ضربه بزن</string>
     <string name="respond_match">تطابق</string>
+
+    <string name="task_grad_cpt_instructions">عددها یکی‌یکی وسط صفحه ظاهر می‌شوند. برای هر عددی جز ۳ دکمه‌ی «ضربه بزن» را بزنید. وقتی ۳ دیدید، کاری نکنید و صبر کنید. هر عدد کمتر از یک ثانیه می‌ماند، پس تا جای ممکن سریع و در عین حال دقیق پاسخ دهید.</string>
+    <string name="task_ant_instructions">پیش از هر ردیف فلش، ممکن است یک نشانه‌ی کوتاه ببینید: نقطه، علامت + یا مثلث. بعد یک ردیف پنج‌تایی از فلش‌ها بالا یا پایین مرکز ظاهر می‌شود. فقط جهت فلش وسطِ ردیف را با کلید ← یا → نشان دهید. بقیه‌ی فلش‌ها حواس‌پرتی هستند.</string>
+    <string name="task_n_back_instructions">حرف‌ها یکی‌یکی نشان داده می‌شوند. هر وقت حرفی با حرفِ دو مرحله قبل یکی بود، دکمه‌ی «تطابق» را بزنید. دو حرف اول فقط برای شروع هستند. اگر حرف تطابق نداشت، کاری نکنید.</string>
+    <string name="assessment_briefing_sound">با هر محرک یک بیپ کوتاه شنیده می‌شود. از همان لحظه‌ای که صدا را می‌شنوید پاسخ دهید.</string>
+    <string name="assessment_briefing_countdown">پیش از شروع آزمون سه بیپ شمارش معکوس شنیده می‌شود.</string>
+    <string name="assessment_begin">شروع آزمون</string>
+    <string name="assessment_progress">کوشش %1$d از %2$d</string>
+    <string name="assessment_time_left">%1$s مانده</string>
     <string name="measure_dprime">حساسیت (d′)</string>
     <string name="measure_commission">خطای ارتکاب</string>
     <string name="measure_omission">خطای حذف</string>

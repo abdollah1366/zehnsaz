@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -43,12 +44,18 @@ fun AssessmentScreen(viewModel: AssessmentViewModel, onBack: () -> Unit) {
         when (val current = state) {
             AssessmentUiState.Menu -> AssessmentMenu(
                 lastTaken = lastTaken,
-                onStart = viewModel::start,
+                onStart = viewModel::prepare,
                 onBack = onBack
+            )
+            is AssessmentUiState.Briefing -> AssessmentBriefing(
+                task = current.task,
+                onBegin = { viewModel.start(current.task) },
+                onBack = viewModel::backToMenu
             )
             is AssessmentUiState.Running -> AssessmentRunning(
                 task = current.task,
                 stimulus = current.stimulus,
+                progress = current.progress,
                 onRespond = viewModel::respond
             )
             is AssessmentUiState.Finished -> AssessmentFinished(
@@ -110,9 +117,55 @@ private fun AssessmentMenu(
 }
 
 @Composable
+private fun AssessmentBriefing(task: AssessmentTask, onBegin: () -> Unit, onBack: () -> Unit) {
+    Text(
+        text = stringResource(taskTitleRes(task)),
+        style = MaterialTheme.typography.headlineSmall,
+        fontWeight = FontWeight.Bold
+    )
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = stringResource(instructionRes(task)),
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = stringResource(R.string.assessment_briefing_sound),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(R.string.assessment_briefing_countdown),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+    Button(
+        onClick = onBegin,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Text(text = stringResource(R.string.assessment_begin), fontSize = 18.sp)
+    }
+    TextButton(onClick = onBack) {
+        Text(text = stringResource(R.string.assessment_back))
+    }
+}
+
+@Composable
 private fun ColumnScope.AssessmentRunning(
     task: AssessmentTask,
     stimulus: Stimulus,
+    progress: Progress,
     onRespond: (String) -> Unit
 ) {
     Text(
@@ -120,6 +173,7 @@ private fun ColumnScope.AssessmentRunning(
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
+    AssessmentProgressHeader(progress)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -172,6 +226,38 @@ private fun ColumnScope.AssessmentRunning(
             Text(text = stringResource(R.string.respond_match), fontSize = 22.sp)
         }
     }
+}
+
+/** Shows how many trials are done and how long is left, so the player can see the end coming. */
+@Composable
+private fun AssessmentProgressHeader(progress: Progress) {
+    LinearProgressIndicator(
+        progress = { if (progress.total == 0) 0f else progress.completed.toFloat() / progress.total },
+        modifier = Modifier.fillMaxWidth()
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = stringResource(
+                R.string.assessment_progress,
+                (progress.completed + 1).coerceAtMost(progress.total),
+                progress.total
+            ),
+            style = MaterialTheme.typography.labelLarge
+        )
+        Text(
+            text = stringResource(R.string.assessment_time_left, formatRemaining(progress.remainingMillis)),
+            style = MaterialTheme.typography.labelLarge
+        )
+    }
+}
+
+/** Rounds up to whole seconds and writes the result as m:ss. */
+private fun formatRemaining(millis: Long): String {
+    val seconds = (millis + 999) / 1_000
+    return "%d:%02d".format(seconds / 60, seconds % 60)
 }
 
 @Composable
@@ -242,6 +328,13 @@ private fun taskHintRes(task: AssessmentTask): Int = when (task) {
     AssessmentTask.GRAD_CPT -> R.string.task_grad_cpt_hint
     AssessmentTask.ANT -> R.string.task_ant_hint
     AssessmentTask.N_BACK -> R.string.task_n_back_hint
+}
+
+@StringRes
+private fun instructionRes(task: AssessmentTask): Int = when (task) {
+    AssessmentTask.GRAD_CPT -> R.string.task_grad_cpt_instructions
+    AssessmentTask.ANT -> R.string.task_ant_instructions
+    AssessmentTask.N_BACK -> R.string.task_n_back_instructions
 }
 
 @StringRes

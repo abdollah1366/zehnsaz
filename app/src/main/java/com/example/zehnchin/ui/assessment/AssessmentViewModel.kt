@@ -12,6 +12,7 @@ import com.example.zehnchin.domain.assessment.AssessmentScorer
 import com.example.zehnchin.domain.assessment.AssessmentTask
 import com.example.zehnchin.domain.assessment.GradCptTrial
 import com.example.zehnchin.domain.assessment.NBackTrial
+import com.example.zehnchin.ui.common.SoundManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -29,16 +30,22 @@ import kotlin.random.Random
 /** What the assessment screen shows at any moment. */
 sealed interface AssessmentUiState {
     data object Menu : AssessmentUiState
-    data class Running(val task: AssessmentTask, val stimulus: Stimulus) : AssessmentUiState
+    /** The instructions for [task], shown before anything is timed. */
+    data class Briefing(val task: AssessmentTask) : AssessmentUiState
+    data class Running(val task: AssessmentTask, val stimulus: Stimulus, val progress: Progress) : AssessmentUiState
     data class Finished(val task: AssessmentTask, val measures: Map<String, Double>) : AssessmentUiState
 }
 
 /** What is on screen for one moment. Empty parts are simply not drawn. */
 data class Stimulus(val top: String = "", val middle: String = "", val bottom: String = "")
 
+/** How far the task has got. [remainingMillis] is the time left at the planned pace. */
+data class Progress(val completed: Int, val total: Int, val remainingMillis: Long)
+
 @HiltViewModel
 class AssessmentViewModel @Inject constructor(
-    private val assessmentDao: AssessmentDao
+    private val assessmentDao: AssessmentDao,
+    private val soundManager: SoundManager
 ) : ViewModel() {
 
     /** When each task was last taken. Null means it never was. */
@@ -58,11 +65,23 @@ class AssessmentViewModel @Inject constructor(
     private var windowOpen = false
     private var pendingResponse: Pair<String, Long>? = null
 
+    private var completedTrials = 0
+    private var totalTrials = 0
+
     private data class Response(val key: String?, val reactionTimeMillis: Long?)
+
+    /** Opens the instructions for [task]. Nothing is timed until the player starts. */
+    fun prepare(task: AssessmentTask) {
+        if (job?.isActive == true) return
+        _state.value = AssessmentUiState.Briefing(task)
+    }
 
     fun start(task: AssessmentTask) {
         if (job?.isActive == true) return
         job = viewModelScope.launch {
+            completedTrials = 0
+            totalTrials = trialCount(task)
+            countdown(task)
             val measures = when (task) {
                 AssessmentTask.GRAD_CPT -> AssessmentMeasures.of(AssessmentScorer.gradCpt(runGradCpt()))
                 AssessmentTask.ANT -> AssessmentMeasures.of(AssessmentScorer.ant(runAnt()))
@@ -92,6 +111,16 @@ class AssessmentViewModel @Inject constructor(
     fun respond(key: String) {
         if (!windowOpen || pendingResponse != null) return
         pendingResponse = key to nowMillis()
+    }
+
+    /** Three beeps, one per second, so the player knows when the first stimulus comes. */
+    private suspend fun countdown(task: AssessmentTask) {
+        repeat(COUNTDOWN_SECONDS) { index ->
+            soundManager.play(SoundManager.SoundEvent.COUNTDOWN_TICK)
+            showStimulus(task, Stimulus(middle = (COUNTDOWN_SECONDS - index).toString()))
+            delay(1_000L)
+        }
+        showStimulus(task, Stimulus())
     }
 
     private suspend fun runGradCpt(): List<GradCptTrial> {
@@ -181,24 +210,45 @@ class AssessmentViewModel @Inject constructor(
     }
 
     private fun showStimulus(task: AssessmentTask, stimulus: Stimulus) {
-        _state.value = AssessmentUiState.Running(task, stimulus)
+        val left = (totalTrials - completedTrials).coerceAtLeast(0)
+        val progress = Progress(
+            completed = completedTrials,
+            total = totalTrials,
+            remainingMillis = left * trialDurationMillis(task)
+        )
+        _state.value = AssessmentUiState.Running(task, stimulus, progress)
     }
 
     /** Shows a stimulus for [windowMillis], accepts a response during that time, then leaves a short gap. */
     private suspend fun presentTrial(task: AssessmentTask, stimulus: Stimulus, windowMillis: Long): Response {
         pendingResponse = null
         showStimulus(task, stimulus)
+        soundManager.play(SoundManager.SoundEvent.COUNTDOWN_TICK)
         val shownAt = nowMillis()
         windowOpen = true
         delay(windowMillis)
         windowOpen = false
         val given = pendingResponse
+        completedTrials++
         showStimulus(task, Stimulus())
         delay(GAP_MILLIS)
         return Response(
             key = given?.first,
             reactionTimeMillis = given?.let { it.second - shownAt }
         )
+    }
+
+    private fun trialCount(task: AssessmentTask): Int = when (task) {
+        AssessmentTask.GRAD_CPT -> GRAD_CPT_TRIALS
+        AssessmentTask.ANT -> ANT_TRIALS
+        AssessmentTask.N_BACK -> N_BACK_TRIALS
+    }
+
+    /** Planned length of one trial, including its gap, so the timer can count down. */
+    private fun trialDurationMillis(task: AssessmentTask): Long = when (task) {
+        AssessmentTask.GRAD_CPT -> GRAD_CPT_WINDOW_MILLIS + GAP_MILLIS
+        AssessmentTask.ANT -> ANT_CUE_MILLIS + ANT_CUE_TO_TARGET_MILLIS + ANT_WINDOW_MILLIS + GAP_MILLIS
+        AssessmentTask.N_BACK -> N_BACK_WINDOW_MILLIS + GAP_MILLIS
     }
 
     private fun nowMillis(): Long = System.nanoTime() / 1_000_000L
@@ -211,6 +261,7 @@ class AssessmentViewModel @Inject constructor(
 
         private const val PLAYER_ID = "default_player"
         private const val GAP_MILLIS = 500L
+        private const val COUNTDOWN_SECONDS = 3
 
         private const val GRAD_CPT_TRIALS = 100
         private const val GRAD_CPT_NO_GO_TRIALS = 11
