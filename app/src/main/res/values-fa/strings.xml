@@ -11,6 +11,7 @@
 
     <!-- Navigation -->
     <string name="nav_home">خانه</string>
+    <string name="returning_home_hint">در چند ثانیه به صفحه‌ی اصلی برمی‌گردید…</string>
     <string name="nav_training">تمرین</string>
     <string name="nav_achievements">دستاورد</string>
     <string name="nav_shop">فروشگاه</string>

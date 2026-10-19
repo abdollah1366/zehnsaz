@@ -11,8 +11,12 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.runtime.LaunchedEffect
 import com.example.zehnchin.R
 import com.example.zehnchin.domain.model.CognitiveScoreResult
+import kotlinx.coroutines.delay
+
+private const val AUTO_RETURN_DELAY_MILLIS = 6_000L
 
 @Composable
 fun CognitiveResultScreen(
@@ -22,6 +26,13 @@ fun CognitiveResultScreen(
     onBackToLevels: () -> Unit,
     onExit: () -> Unit
 ) {
+    // After a stage ends, the player goes back to the home screen by itself.
+    // Leaving this screen earlier (next level, level list) cancels the countdown.
+    LaunchedEffect(Unit) {
+        delay(AUTO_RETURN_DELAY_MILLIS)
+        onExit()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,6 +98,12 @@ fun CognitiveResultScreen(
         ) {
             Text(text = stringResource(R.string.nav_home))
         }
+
+        Text(
+            text = stringResource(R.string.returning_home_hint),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 

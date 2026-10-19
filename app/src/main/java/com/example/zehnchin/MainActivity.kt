@@ -4,15 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
@@ -25,6 +31,7 @@ import com.example.zehnchin.ui.attention.SelectiveAttentionScreen
 import com.example.zehnchin.ui.attention.SelectiveAttentionViewModel
 import com.example.zehnchin.ui.common.ActivityProvider
 import com.example.zehnchin.ui.common.CognitiveResultScreen
+import com.example.zehnchin.ui.common.drawGameBackdrop
 import com.example.zehnchin.ui.control.InhibitoryControlScreen
 import com.example.zehnchin.ui.control.InhibitoryControlViewModel
 import com.example.zehnchin.ui.flexibility.FlexibilityScreen
@@ -43,7 +50,11 @@ import com.example.zehnchin.ui.shop.ShopScreen
 import com.example.zehnchin.ui.shop.ShopViewModel
 import com.example.zehnchin.ui.speed.ProcessingSpeedScreen
 import com.example.zehnchin.ui.speed.ProcessingSpeedViewModel
+import com.example.zehnchin.ui.theme.DarkColorScheme
+import com.example.zehnchin.ui.theme.DarkFeedbackColors
+import com.example.zehnchin.ui.theme.LocalFeedbackColors
 import com.example.zehnchin.ui.theme.ZehnChinTheme
+import com.example.zehnchin.ui.theme.domainColor
 import com.example.zehnchin.ui.training.LevelSelectionScreen
 import com.example.zehnchin.ui.training.LevelSelectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,6 +109,42 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// Navigation graph route -> chapter whose accent colour the game uses.
+private val gameGraphChapters = mapOf(
+    "attention_graph" to 1,
+    "memory_graph" to 2,
+    "speed_graph" to 3,
+    "control_graph" to 4,
+    "flexibility_graph" to 5,
+    "problem_solving_graph" to 6
+)
+
+/**
+ * Switches to the dark, game-like look while a training game (or its result) is on screen.
+ * Every other screen keeps the light brand theme.
+ */
+@Composable
+private fun GameAwareTheme(gameChapter: Int?, content: @Composable (inGame: Boolean) -> Unit) {
+    val inGame = gameChapter != null
+    MaterialTheme(
+        colorScheme = if (inGame) DarkColorScheme else MaterialTheme.colorScheme,
+        typography = MaterialTheme.typography,
+        shapes = MaterialTheme.shapes
+    ) {
+        CompositionLocalProvider(
+            LocalFeedbackColors provides (if (inGame) DarkFeedbackColors else LocalFeedbackColors.current)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .drawBehind { if (inGame) drawGameBackdrop(domainColor(gameChapter ?: 0)) }
+            ) {
+                content(inGame)
+            }
+        }
+    }
+}
+
 @Composable
 fun ZehnchinApp(
     chapterRepository: ChapterRepository,
@@ -105,9 +152,29 @@ fun ZehnchinApp(
     playerRepository: PlayerRepository
 ) {
     val navController = rememberNavController()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val gameChapter = backStackEntry?.destination?.hierarchy
+        ?.firstNotNullOfOrNull { destination -> destination.route?.let { gameGraphChapters[it] } }
+
+    GameAwareTheme(gameChapter = gameChapter) { inGame ->
+        ZehnchinNavHost(navController, inGame, chapterRepository, levelRepository, playerRepository)
+    }
+}
+
+@Composable
+private fun ZehnchinNavHost(
+    navController: NavHostController,
+    inGame: Boolean,
+    chapterRepository: ChapterRepository,
+    levelRepository: LevelRepository,
+    playerRepository: PlayerRepository
+) {
     val homeViewModel: HomeViewModel = hiltViewModel()
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = if (inGame) Color.Transparent else MaterialTheme.colorScheme.background
+    ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = "home",

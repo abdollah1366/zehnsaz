@@ -423,7 +423,7 @@ fun StimulusDisplay(stimulus: AttentionStimulus, size: androidx.compose.ui.unit.
         modifier = Modifier
             .size(size)
             .scale(stimulus.scale)
-            .background(Color.White, CircleShape),
+            .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape),
         contentAlignment = Alignment.Center
     ) {
         GeometricShape(
