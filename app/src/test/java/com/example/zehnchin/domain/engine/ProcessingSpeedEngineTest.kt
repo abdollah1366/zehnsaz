@@ -46,7 +46,7 @@ class ProcessingSpeedEngineTest {
             )
         )
         engine.loadLevel(level)
-        engine.nextRound()
+        engine.startTrial()
         
         assertTrue(engine.gameState.value.isStimulusVisible)
         
