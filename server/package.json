@@ -1,0 +1,19 @@
+{
+  "name": "zehnsaz-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Accounts and roles for the Zehnsaz app and the doctor panel",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test test/server.test.js",
+    "make-doctor": "node src/cli/make-doctor.js"
+  },
+  "dependencies": {
+    "express": "4.22.3",
+    "pg": "8.13.1"
+  }
+}
