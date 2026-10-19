@@ -275,4 +275,31 @@
     <string name="profile_avg_accuracy">Average accuracy: %1$s%%</string>
     <string name="profile_attempts">Attempts: %1$s</string>
     <string name="profile_no_data">No training attempts yet</string>
+
+    <string name="assessment_title">Baseline check</string>
+    <string name="assessment_intro">These three short tests are separate from training and measure real progress. Take them every 14 days.</string>
+    <string name="assessment_due">Due now</string>
+    <string name="assessment_not_due">Not due yet</string>
+    <string name="assessment_start">Start</string>
+    <string name="assessment_back">Back</string>
+    <string name="assessment_done">Result saved</string>
+    <string name="home_assessment">Baseline check</string>
+    <string name="task_grad_cpt_title">Sustained attention (gradCPT)</string>
+    <string name="task_grad_cpt_hint">Digits appear one at a time. Tap for every digit except 3. When you see 3, wait.</string>
+    <string name="task_ant_title">Attention networks (ANT)</string>
+    <string name="task_ant_hint">Respond to the middle arrow with the key for its direction. Cues above or below may help.</string>
+    <string name="task_n_back_title">Working memory 2-back</string>
+    <string name="task_n_back_hint">When a letter matches the one two steps back, press Match.</string>
+    <string name="respond_tap">Tap</string>
+    <string name="respond_match">Match</string>
+    <string name="measure_dprime">Sensitivity (d′)</string>
+    <string name="measure_commission">Commission errors</string>
+    <string name="measure_omission">Omission errors</string>
+    <string name="measure_rt_variability">Reaction time variability</string>
+    <string name="measure_alerting">Alerting effect</string>
+    <string name="measure_orienting">Orienting effect</string>
+    <string name="measure_conflict">Conflict effect</string>
+    <string name="measure_accuracy">Accuracy</string>
+    <string name="measure_hit_rate">Hit rate</string>
+    <string name="measure_false_alarm_rate">False alarm rate</string>
 </resources>

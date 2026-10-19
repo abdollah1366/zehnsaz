@@ -28,6 +28,8 @@ import com.example.zehnchin.domain.repository.ChapterRepository
 import com.example.zehnchin.domain.repository.LevelRepository
 import com.example.zehnchin.domain.repository.PlayerRepository
 import com.example.zehnchin.ui.achievements.AchievementScreen
+import com.example.zehnchin.ui.assessment.AssessmentScreen
+import com.example.zehnchin.ui.assessment.AssessmentViewModel
 import com.example.zehnchin.ui.attention.SelectiveAttentionScreen
 import com.example.zehnchin.ui.attention.SelectiveAttentionViewModel
 import com.example.zehnchin.ui.common.ActivityProvider
@@ -197,7 +199,8 @@ private fun ZehnchinNavHost(
                     onNavigateToAchievements = { navController.navigate("achievements") },
                     onNavigateToShop = { navController.navigate("shop") },
                     onNavigateToProfile = { navController.navigate("profile") },
-                    onNavigateToSettings = { navController.navigate("settings") }
+                    onNavigateToSettings = { navController.navigate("settings") },
+                    onNavigateToAssessment = { navController.navigate("assessment") }
                 )
             }
 
@@ -526,6 +529,11 @@ private fun ZehnchinNavHost(
                         onExit = { navController.popBackStack("home", false) }
                     )
                 }
+            }
+
+            composable("assessment") {
+                val viewModel: AssessmentViewModel = hiltViewModel()
+                AssessmentScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
             }
 
             composable("profile") {

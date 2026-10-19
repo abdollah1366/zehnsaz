@@ -23,7 +23,8 @@ fun HomeScreen(
     onNavigateToAchievements: () -> Unit,
     onNavigateToShop: () -> Unit,
     onNavigateToProfile: () -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToAssessment: () -> Unit
 ) {
     val profile by viewModel.playerProfile.collectAsState()
 
@@ -65,6 +66,18 @@ fun HomeScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedButton(
+                onClick = onNavigateToAssessment,
+                modifier = Modifier.fillMaxWidth().height(52.dp),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(text = stringResource(R.string.home_assessment), fontSize = 18.sp)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             val streak = profile?.currentStreak ?: 0
             Text(
                 text = stringResource(R.string.streak_days, FormatUtils.formatNumber(streak)),
