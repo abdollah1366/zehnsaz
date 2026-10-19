@@ -41,6 +41,7 @@ class ProcessingSpeedViewModel @Inject constructor(
     val navigationEffect = _navigationEffect.asSharedFlow()
 
     private var isFinishing = false
+    private var attemptStartTime = 0L
 
     init {
         viewModelScope.launch {
@@ -70,8 +71,11 @@ class ProcessingSpeedViewModel @Inject constructor(
         globalTimerJob?.cancel()
         
         val results = calculateResults()
+        val isWon = uiState.value.status == GameStatus.WON
+        val trials = speedTrials(uiState.value)
         uiState.value.level?.let {
             viewModelScope.launch {
+                sessionManager.recordAttempt(it, isWon = isWon, startTime = attemptStartTime, results = results, trials = trials)
                 sessionManager.completeLevel(it, results.stars, results.finalScore)
                 soundManager.play(SoundManager.SoundEvent.LEVEL_COMPLETE)
                 delay(500)
@@ -82,6 +86,7 @@ class ProcessingSpeedViewModel @Inject constructor(
 
     fun loadLevel(level: Level) {
         isFinishing = false
+        attemptStartTime = System.currentTimeMillis()
         engine.loadLevel(level)
         _viewPhase.value = SpeedViewPhase.INSTRUCTION
     }
@@ -164,6 +169,19 @@ class ProcessingSpeedViewModel @Inject constructor(
     fun onScreenClick() {
         if (uiState.value.status == GameStatus.PLAYING && !uiState.value.isStimulusVisible) {
             engine.onAction(responded = false, early = true)
+        }
+    }
+
+    private fun speedTrials(state: ProcessingSpeedEngine.SpeedState): List<TrialRecord> {
+        return state.roundResults.mapIndexed { index, round ->
+            val kind = if (round.stimulus.isTarget) "TARGET" else "DISTRACTOR"
+            TrialRecord(
+                trialIndex = index,
+                stimulusLabel = "${round.stimulus.color}_${round.stimulus.shape}_$kind",
+                responseLabel = round.responseType.name,
+                isCorrect = round.responseType == ResponseType.CORRECT,
+                reactionTimeMillis = round.reactionTimeMillis.takeIf { round.responseType != ResponseType.TIMEOUT && it > 0 }
+            )
         }
     }
 

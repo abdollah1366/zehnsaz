@@ -7,6 +7,7 @@ data class FlexibilityRoundResult(
     val stimulus: AttentionStimulus,
     val isCorrect: Boolean,
     val reactionTimeMillis: Long,
+    val userResponse: String,
     val wasAfterRuleSwitch: Boolean,
     val switchNumber: Int,
     val score: Int,

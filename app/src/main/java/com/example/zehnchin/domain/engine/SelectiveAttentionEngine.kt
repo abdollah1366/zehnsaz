@@ -22,7 +22,8 @@ class SelectiveAttentionEngine : BaseGameEngine<SelectiveAttentionEngine.Attenti
         val currentRoundStartTime: Long = 0,
         val moves: Int = 0,
         val currentTrial: Int = 0,
-        val lastFeedback: FeedbackType? = null
+        val lastFeedback: FeedbackType? = null,
+        val trialLog: List<TrialRecord> = emptyList()
     )
 
     enum class FeedbackType {
@@ -47,7 +48,8 @@ class SelectiveAttentionEngine : BaseGameEngine<SelectiveAttentionEngine.Attenti
                 totalReactionTimeMillis = 0,
                 moves = 0,
                 currentTrial = 0,
-                lastFeedback = null
+                lastFeedback = null,
+                trialLog = emptyList()
             )
         }
         generateRound()
@@ -118,11 +120,18 @@ class SelectiveAttentionEngine : BaseGameEngine<SelectiveAttentionEngine.Attenti
         val reactionTime = now - state.currentRoundStartTime
         
         val stimulus = state.stimuli.find { it.id == stimulusId } ?: return
+        val newTrial = state.currentTrial + 1
+        val isFinished = newTrial >= config.trialCount
+        val record = TrialRecord(
+            trialIndex = state.currentTrial,
+            stimulusLabel = "${stimulus.color}_${stimulus.shape}_scale${stimulus.scale}",
+            responseLabel = if (stimulus.isTarget) "SELECT_TARGET" else "SELECT_DISTRACTOR",
+            isCorrect = stimulus.isTarget,
+            reactionTimeMillis = reactionTime
+        )
         
         if (stimulus.isTarget) {
             val newCorrectCount = state.correctCount + 1
-            val newTrial = state.currentTrial + 1
-            val isFinished = newTrial >= config.trialCount
             
             _gameState.update { 
                 it.copy(
@@ -131,20 +140,19 @@ class SelectiveAttentionEngine : BaseGameEngine<SelectiveAttentionEngine.Attenti
                     moves = it.moves + 1,
                     currentTrial = newTrial,
                     lastFeedback = FeedbackType.CORRECT,
-                    status = if (isFinished) GameStatus.WON else GameStatus.READY
+                    status = if (isFinished) GameStatus.WON else GameStatus.READY,
+                    trialLog = it.trialLog + record
                 )
             }
         } else {
-            val newTrial = state.currentTrial + 1
-            val isFinished = newTrial >= config.trialCount
-
             _gameState.update { 
                 it.copy(
                     mistakeCount = it.mistakeCount + 1,
                     moves = it.moves + 1,
                     currentTrial = newTrial,
                     lastFeedback = FeedbackType.INCORRECT,
-                    status = if (isFinished) GameStatus.WON else GameStatus.READY
+                    status = if (isFinished) GameStatus.WON else GameStatus.READY,
+                    trialLog = it.trialLog + record
                 )
             }
         }
