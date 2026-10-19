@@ -54,7 +54,8 @@ class WorkingMemoryEngine : BaseGameEngine<WorkingMemoryEngine.MemoryState> {
             else -> MemoryRule.ALL
         }
 
-        val random = kotlin.random.Random(level.id)
+        // Fresh random sequence on every load (including retries). A fixed seed let players memorise the sequence.
+        val random = kotlin.random.Random.Default
         val sequence = generateRandomSequence(config, random, rule)
         val options = generateOptions(sequence, config, random, rule)
         

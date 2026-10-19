@@ -39,13 +39,16 @@ class WorkingMemoryViewModel @Inject constructor(
     val isNextLevelUnlocked = _isNextLevelUnlocked.asStateFlow()
 
     private var isFinishing = false
+    private var attemptStartTime = 0L
 
     init {
         viewModelScope.launch {
             uiState.collect { state ->
                 if (state.status == GameStatus.WON && !isFinishing) {
+                    isFinishing = true
                     val results = calculateResults()
                     state.level?.let {
+                        sessionManager.recordAttempt(it, isWon = true, startTime = attemptStartTime, results = results, trials = memoryTrials(state))
                         sessionManager.completeLevel(it, results.stars, results.finalScore)
                         soundManager.play(SoundManager.SoundEvent.LEVEL_COMPLETE)
                         // Show feedback and auto-navigate
@@ -53,8 +56,12 @@ class WorkingMemoryViewModel @Inject constructor(
                         _navigationEffect.emit(MemoryNavEffect.AutoNextLevel(it.levelNumber + 1))
                     }
                 } else if (state.status == GameStatus.LOST && !isFinishing) {
+                    isFinishing = true
                     soundManager.play(SoundManager.SoundEvent.LEVEL_FAILED)
-                    state.level?.let { checkNextLevelUnlocked(it.levelNumber + 1) }
+                    state.level?.let {
+                        sessionManager.recordAttempt(it, isWon = false, startTime = attemptStartTime, results = calculateResults(), trials = memoryTrials(state))
+                        checkNextLevelUnlocked(it.levelNumber + 1)
+                    }
                 }
             }
         }
@@ -70,12 +77,15 @@ class WorkingMemoryViewModel @Inject constructor(
 
     fun loadLevel(level: Level) {
         isFinishing = false
+        attemptStartTime = System.currentTimeMillis()
         engine.loadLevel(level)
     }
 
     fun retryLevel() {
         soundManager.play(SoundManager.SoundEvent.BUTTON_CLICK)
         uiState.value.level?.let {
+            isFinishing = false
+            attemptStartTime = System.currentTimeMillis()
             engine.loadLevel(it)
             startSession()
         }
@@ -162,6 +172,20 @@ class WorkingMemoryViewModel @Inject constructor(
 
     fun submitAnswer() {
         engine.submitAnswer()
+    }
+
+    /** One trial per target position: what was expected there and what the player picked. */
+    private fun memoryTrials(state: WorkingMemoryEngine.MemoryState): List<TrialRecord> {
+        return state.targetSequence.mapIndexed { index, target ->
+            val answer = state.userSequence.getOrNull(index)
+            TrialRecord(
+                trialIndex = index,
+                stimulusLabel = "${target.color}_${target.shape}_scale${target.scale}",
+                responseLabel = answer?.let { "${it.color}_${it.shape}_scale${it.scale}" } ?: "NO_RESPONSE",
+                isCorrect = answer == target,
+                reactionTimeMillis = null
+            )
+        }
     }
 
     fun calculateResults(): CognitiveScoreResult {

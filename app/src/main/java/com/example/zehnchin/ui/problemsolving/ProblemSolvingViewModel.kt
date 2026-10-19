@@ -23,13 +23,18 @@ class ProblemSolvingViewModel @Inject constructor(
 
     private var currentLevel: Level? = null
     private var hintCount = 0
+    private var isFinishing = false
+    private var attemptStartTime = 0L
 
     init {
         viewModelScope.launch {
             gameState.collect { state ->
-                if (state.isSolved) {
+                if (state.isSolved && !isFinishing) {
+                    isFinishing = true
                     val results = calculateResults()
                     currentLevel?.let {
+                        // Only solved attempts are stored for now; the puzzle has no per-move log yet.
+                        sessionManager.recordAttempt(it, isWon = true, startTime = attemptStartTime, results = results, trials = emptyList())
                         sessionManager.completeLevel(it, results.stars, results.finalScore)
                         soundManager.play(SoundManager.SoundEvent.LEVEL_COMPLETE)
                     }
@@ -40,6 +45,8 @@ class ProblemSolvingViewModel @Inject constructor(
 
     fun loadLevel(level: Level) {
         currentLevel = level
+        isFinishing = false
+        attemptStartTime = System.currentTimeMillis()
         engine.loadLevel(level)
         hintCount = 0
     }
@@ -75,6 +82,7 @@ class ProblemSolvingViewModel @Inject constructor(
         soundManager.play(SoundManager.SoundEvent.BUTTON_CLICK)
         engine.reset()
         hintCount = 0
+        isFinishing = false
     }
 
     fun getHint(): Pair<Int, Int>? {

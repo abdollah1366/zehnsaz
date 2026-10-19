@@ -25,6 +25,8 @@ class InhibitoryControlViewModel @Inject constructor(
     val uiState = engine.gameState
 
     private var roundJob: Job? = null
+    private var isFinishing = false
+    private var attemptStartTime = 0L
 
     private val _navigationEffect = MutableSharedFlow<ControlNavEffect>()
     val navigationEffect = _navigationEffect.asSharedFlow()
@@ -32,9 +34,11 @@ class InhibitoryControlViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             uiState.collect { state ->
-                if (state.status == GameStatus.WON) {
+                if (state.status == GameStatus.WON && !isFinishing) {
+                    isFinishing = true
                     val results = calculateResults()
                     state.level?.let {
+                        sessionManager.recordAttempt(it, isWon = true, startTime = attemptStartTime, results = results, trials = inhibitoryTrials(state))
                         sessionManager.completeLevel(it, results.stars, results.finalScore)
                         soundManager.play(SoundManager.SoundEvent.LEVEL_COMPLETE)
                         delay(1000)
@@ -55,6 +59,8 @@ class InhibitoryControlViewModel @Inject constructor(
     }
 
     fun loadLevel(level: Level) {
+        isFinishing = false
+        attemptStartTime = System.currentTimeMillis()
         engine.loadLevel(level)
     }
 
@@ -95,6 +101,18 @@ class InhibitoryControlViewModel @Inject constructor(
             if (uiState.value.status == GameStatus.PLAYING) {
                 startNextRound()
             }
+        }
+    }
+
+    private fun inhibitoryTrials(state: InhibitoryControlEngine.InhibitoryState): List<TrialRecord> {
+        return state.roundResults.mapIndexed { index, round ->
+            TrialRecord(
+                trialIndex = index,
+                stimulusLabel = round.stimulusType.name,
+                responseLabel = round.responseType.name,
+                isCorrect = round.isCorrect,
+                reactionTimeMillis = round.reactionTimeMillis
+            )
         }
     }
 

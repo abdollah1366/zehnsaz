@@ -38,6 +38,7 @@ class SelectiveAttentionViewModel @Inject constructor(
     val isNextLevelUnlocked = _isNextLevelUnlocked.asStateFlow()
 
     private var isFinishing = false
+    private var attemptStartTime = 0L
 
     init {
         viewModelScope.launch {
@@ -72,8 +73,10 @@ class SelectiveAttentionViewModel @Inject constructor(
     private fun finishLevel() {
         isFinishing = true
         val results = calculateResults()
+        val trials = uiState.value.trialLog
         uiState.value.level?.let {
             viewModelScope.launch {
+                sessionManager.recordAttempt(it, isWon = true, startTime = attemptStartTime, results = results, trials = trials)
                 sessionManager.completeLevel(it, results.stars, results.finalScore)
                 soundManager.play(SoundManager.SoundEvent.LEVEL_COMPLETE)
                 delay(1200)
@@ -84,6 +87,7 @@ class SelectiveAttentionViewModel @Inject constructor(
 
     fun loadLevel(level: Level) {
         isFinishing = false
+        attemptStartTime = System.currentTimeMillis()
         engine.loadLevel(level)
         // Auto start
         viewModelScope.launch {
@@ -97,6 +101,7 @@ class SelectiveAttentionViewModel @Inject constructor(
         soundManager.play(SoundManager.SoundEvent.BUTTON_CLICK)
         uiState.value.level?.let {
             isFinishing = false
+            attemptStartTime = System.currentTimeMillis()
             engine.loadLevel(it)
             viewModelScope.launch {
                 delay(500)

@@ -145,6 +145,7 @@ class CognitiveFlexibilityEngine : BaseGameEngine<CognitiveFlexibilityEngine.Fle
             stimulus = stimulus,
             isCorrect = isCorrect,
             reactionTimeMillis = reactionTime,
+            userResponse = userResponse.toString(),
             wasAfterRuleSwitch = state.isSwitchingRule,
             switchNumber = state.switchCount,
             score = 0,
