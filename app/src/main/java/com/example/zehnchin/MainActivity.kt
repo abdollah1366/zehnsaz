@@ -35,6 +35,7 @@ import com.example.zehnchin.ui.memory.WorkingMemoryViewModel
 import com.example.zehnchin.ui.problemsolving.ProblemSolvingScreen
 import com.example.zehnchin.ui.problemsolving.ProblemSolvingViewModel
 import com.example.zehnchin.ui.profile.ProfileScreen
+import com.example.zehnchin.ui.profile.ProfileViewModel
 import com.example.zehnchin.ui.rewards.DailyRewardScreen
 import com.example.zehnchin.ui.settings.SettingsScreen
 import com.example.zehnchin.ui.settings.SettingsViewModel
@@ -452,7 +453,9 @@ fun ZehnchinApp(
 
             composable("profile") {
                 val profile by playerRepository.getPlayerProfile().collectAsState(null)
-                ProfileScreen(profile = profile, onBack = { navController.popBackStack() })
+                val profileViewModel: ProfileViewModel = hiltViewModel()
+                val domains by profileViewModel.domains.collectAsState()
+                ProfileScreen(profile = profile, domains = domains, onBack = { navController.popBackStack() })
             }
 
             composable("achievements") {

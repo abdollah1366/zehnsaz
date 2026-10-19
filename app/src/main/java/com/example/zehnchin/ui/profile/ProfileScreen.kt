@@ -1,6 +1,8 @@
 package com.example.zehnchin.ui.profile
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,12 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.example.zehnchin.R
 import com.example.zehnchin.data.local.entities.PlayerProfileEntity
+import com.example.zehnchin.domain.progression.DomainSummary
 import com.example.zehnchin.ui.common.FormatUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     profile: PlayerProfileEntity?,
+    domains: List<DomainSummary>,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -24,7 +28,11 @@ fun ProfileScreen(
         }
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding).fillMaxSize().padding(24.dp),
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "👤", style = MaterialTheme.typography.displayLarge)
@@ -62,13 +70,52 @@ fun ProfileScreen(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(16.dp))
-            
-            // Simplified Score list
-            Text(text = stringResource(R.string.score_attention, FormatUtils.formatNumber(780)), style = MaterialTheme.typography.bodyMedium)
-            Text(text = stringResource(R.string.score_memory, FormatUtils.formatNumber(650)), style = MaterialTheme.typography.bodyMedium)
-            Text(text = stringResource(R.string.score_speed, FormatUtils.formatNumber(920)), style = MaterialTheme.typography.bodyMedium)
+
+            if (domains.isEmpty()) {
+                Text(text = stringResource(R.string.profile_no_data), style = MaterialTheme.typography.bodyMedium)
+            }
+            domains.forEach { domain ->
+                DomainScoreCard(domain)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
         }
     }
+}
+
+@Composable
+fun DomainScoreCard(domain: DomainSummary) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(chapterTitleRes(domain.chapterId)),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.profile_best_score, FormatUtils.formatNumber(domain.bestScore)),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(R.string.profile_avg_accuracy, FormatUtils.formatNumber(domain.averageAccuracy)),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(R.string.profile_attempts, FormatUtils.formatNumber(domain.attemptCount)),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+
+private fun chapterTitleRes(chapterId: Int): Int = when (chapterId) {
+    0 -> R.string.chapter_0_title
+    1 -> R.string.chapter_1_title
+    2 -> R.string.chapter_2_title
+    3 -> R.string.chapter_3_title
+    4 -> R.string.chapter_4_title
+    5 -> R.string.chapter_5_title
+    else -> R.string.chapter_6_title
 }
 
 @Composable

@@ -181,9 +181,6 @@
     <string name="total_stars">مجموع ستاره‌ها</string>
     <string name="longest_streak">بیشترین استریک</string>
     <string name="training_scores">امتیازات تمرینی</string>
-    <string name="score_attention">توجه انتخابی: %1$s</string>
-    <string name="score_memory">حافظه کاری: %1$s</string>
-    <string name="score_speed">سرعت پردازش: %1$s</string>
 
     <!-- Achievements -->
     <string name="my_achievements">دستاوردهای من</string>
@@ -273,4 +270,8 @@
     <string name="sound_effects_label">افکت‌های صوتی</string>
     <string name="background_music_label">موسیقی پس‌زمینه</string>
     <string name="haptic_feedback_label">لرزش و بازخورد لمسی</string>
+    <string name="profile_best_score">بهترین امتیاز: %1$s</string>
+    <string name="profile_avg_accuracy">میانگین دقت: %1$s٪</string>
+    <string name="profile_attempts">تعداد تلاش‌ها: %1$s</string>
+    <string name="profile_no_data">هنوز تمرینی ثبت نشده است</string>
 </resources>
