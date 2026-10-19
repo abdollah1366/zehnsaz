@@ -304,4 +304,8 @@
     <string name="measure_false_alarm_rate">نرخ هشدار کاذب</string>
     <string name="trend_title">روند ارزیابی پایه</string>
     <string name="trend_empty">هنوز ارزیابی پایه‌ای ثبت نشده است.</string>
+    <string name="daily_reminder_label">یادآور روزانه ساعت ۱۹</string>
+    <string name="reminder_channel_name">یادآور تمرین</string>
+    <string name="reminder_title">وقت تمرین است</string>
+    <string name="reminder_text">چند دقیقه برای تمرین امروز وقت بگذارید.</string>
 </resources>
