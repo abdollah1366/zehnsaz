@@ -540,7 +540,13 @@ private fun ZehnchinNavHost(
                 val profile by playerRepository.getPlayerProfile().collectAsState(null)
                 val profileViewModel: ProfileViewModel = hiltViewModel()
                 val domains by profileViewModel.domains.collectAsState()
-                ProfileScreen(profile = profile, domains = domains, onBack = { navController.popBackStack() })
+                val assessmentTrends by profileViewModel.assessmentTrends.collectAsState()
+                ProfileScreen(
+                    profile = profile,
+                    domains = domains,
+                    assessmentTrends = assessmentTrends,
+                    onBack = { navController.popBackStack() }
+                )
             }
 
             composable("achievements") {

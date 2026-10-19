@@ -245,7 +245,7 @@ private fun taskHintRes(task: AssessmentTask): Int = when (task) {
 }
 
 @StringRes
-private fun measureLabelRes(key: String): Int = when (key) {
+internal fun measureLabelRes(key: String): Int = when (key) {
     "dPrime" -> R.string.measure_dprime
     "commissionErrorRate" -> R.string.measure_commission
     "omissionErrorRate" -> R.string.measure_omission
