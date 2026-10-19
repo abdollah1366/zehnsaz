@@ -147,8 +147,9 @@ fun InhibitoryStimulusDisplay(stimulusType: InhibitoryStimulusType, color: Color
 @Composable
 fun InstructionView() {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(text = stringResource(R.string.go_instruction), color = Color.Green, fontWeight = FontWeight.Bold)
+        // Instructions name the shape, so the rule does not depend on colour.
+        Text(text = stringResource(R.string.go_instruction), color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = stringResource(R.string.stop_instruction), color = Color.Red, fontWeight = FontWeight.Bold)
+        Text(text = stringResource(R.string.stop_instruction), color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
     }
 }
