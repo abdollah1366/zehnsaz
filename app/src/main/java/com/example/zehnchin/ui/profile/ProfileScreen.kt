@@ -1,5 +1,6 @@
 package com.example.zehnchin.ui.profile
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -8,12 +9,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.example.zehnchin.R
 import com.example.zehnchin.data.local.entities.PlayerProfileEntity
+import com.example.zehnchin.domain.assessment.MeasureTrend
 import com.example.zehnchin.domain.progression.DomainSummary
+import com.example.zehnchin.ui.assessment.measureLabelRes
 import com.example.zehnchin.ui.common.FormatUtils
 import com.example.zehnchin.ui.theme.domainColor
 
@@ -22,6 +28,7 @@ import com.example.zehnchin.ui.theme.domainColor
 fun ProfileScreen(
     profile: PlayerProfileEntity?,
     domains: List<DomainSummary>,
+    assessmentTrends: List<MeasureTrend>,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -80,6 +87,23 @@ fun ProfileScreen(
                 DomainScoreCard(domain)
                 Spacer(modifier = Modifier.height(12.dp))
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = stringResource(R.string.trend_title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (assessmentTrends.isEmpty()) {
+                Text(text = stringResource(R.string.trend_empty), style = MaterialTheme.typography.bodyMedium)
+            }
+            assessmentTrends.forEach { trend ->
+                TrendCard(trend)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
         }
     }
 }
@@ -136,5 +160,45 @@ fun ProfileStatRow(label: String, value: String) {
     ) {
         Text(text = label, style = MaterialTheme.typography.bodyLarge)
         Text(text = value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+fun TrendCard(trend: MeasureTrend) {
+    val values = trend.points.map { it.value }
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = stringResource(measureLabelRes(trend.measure)), style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "%.2f".format(values.last()),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Sparkline(values = values, color = MaterialTheme.colorScheme.primary)
+        }
+    }
+}
+
+/** A small line chart of the values in time order. Needs at least two points to draw a line. */
+@Composable
+fun Sparkline(values: List<Double>, color: Color) {
+    Canvas(modifier = Modifier.fillMaxWidth().height(56.dp)) {
+        if (values.size < 2) return@Canvas
+        val low = values.min()
+        val high = values.max()
+        val range = if (high - low < 1e-9) 1.0 else high - low
+        val stepX = size.width / (values.size - 1)
+        val path = Path()
+        values.forEachIndexed { index, value ->
+            val x = index * stepX
+            val y = size.height * (1f - ((value - low) / range).toFloat())
+            if (index == 0) path.moveTo(x, y) else path.lineTo(x, y)
+        }
+        drawPath(path = path, color = color, style = Stroke(width = 4.dp.toPx()))
     }
 }

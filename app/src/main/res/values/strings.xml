@@ -302,4 +302,6 @@
     <string name="measure_accuracy">Accuracy</string>
     <string name="measure_hit_rate">Hit rate</string>
     <string name="measure_false_alarm_rate">False alarm rate</string>
+    <string name="trend_title">Baseline trend</string>
+    <string name="trend_empty">No baseline checks yet.</string>
 </resources>

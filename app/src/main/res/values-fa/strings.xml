@@ -302,4 +302,6 @@
     <string name="measure_accuracy">دقت</string>
     <string name="measure_hit_rate">نرخ پاسخ درست</string>
     <string name="measure_false_alarm_rate">نرخ هشدار کاذب</string>
+    <string name="trend_title">روند ارزیابی پایه</string>
+    <string name="trend_empty">هنوز ارزیابی پایه‌ای ثبت نشده است.</string>
 </resources>
