@@ -275,4 +275,31 @@
     <string name="profile_avg_accuracy">میانگین دقت: %1$s٪</string>
     <string name="profile_attempts">تعداد تلاش‌ها: %1$s</string>
     <string name="profile_no_data">هنوز تمرینی ثبت نشده است</string>
+
+    <string name="assessment_title">ارزیابی پایه</string>
+    <string name="assessment_intro">این سه آزمون کوتاه جدا از تمرین‌ها هستند و پیشرفت واقعی را می‌سنجند. هر ۱۴ روز یک بار انجام دهید.</string>
+    <string name="assessment_due">وقت انجام است</string>
+    <string name="assessment_not_due">هنوز زمانش نرسیده</string>
+    <string name="assessment_start">شروع</string>
+    <string name="assessment_back">بازگشت</string>
+    <string name="assessment_done">نتیجه ثبت شد</string>
+    <string name="home_assessment">ارزیابی پایه</string>
+    <string name="task_grad_cpt_title">توجه پایدار (gradCPT)</string>
+    <string name="task_grad_cpt_hint">عددها یکی‌یکی نشان داده می‌شوند. برای همه‌ی عددها ضربه بزنید، جز ۳. وقتی ۳ دیدید، صبر کنید.</string>
+    <string name="task_ant_title">شبکه‌های توجه (ANT)</string>
+    <string name="task_ant_hint">به فلشِ وسط با کلیدِ همان جهت پاسخ دهید. نشانه‌های بالا یا پایین ممکن است کمک کنند.</string>
+    <string name="task_n_back_title">حافظه‌ی کاری ۲-back</string>
+    <string name="task_n_back_hint">وقتی حرفی با حرفِ دو مرحله قبل یکی بود، دکمه‌ی تطابق را بزنید.</string>
+    <string name="respond_tap">ضربه بزن</string>
+    <string name="respond_match">تطابق</string>
+    <string name="measure_dprime">حساسیت (d′)</string>
+    <string name="measure_commission">خطای ارتکاب</string>
+    <string name="measure_omission">خطای حذف</string>
+    <string name="measure_rt_variability">تغییرپذیری زمان واکنش</string>
+    <string name="measure_alerting">اثر هشداری</string>
+    <string name="measure_orienting">اثر جهت‌دهی</string>
+    <string name="measure_conflict">اثر تعارض</string>
+    <string name="measure_accuracy">دقت</string>
+    <string name="measure_hit_rate">نرخ پاسخ درست</string>
+    <string name="measure_false_alarm_rate">نرخ هشدار کاذب</string>
 </resources>
