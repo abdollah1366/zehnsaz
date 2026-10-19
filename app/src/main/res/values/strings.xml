@@ -181,9 +181,6 @@
     <string name="total_stars">Total Stars</string>
     <string name="longest_streak">Longest Streak</string>
     <string name="training_scores">Training Scores</string>
-    <string name="score_attention">Selective Attention: %1$s</string>
-    <string name="score_memory">Working Memory: %1$s</string>
-    <string name="score_speed">Processing Speed: %1$s</string>
 
     <!-- Achievements -->
     <string name="my_achievements">My Achievements</string>
@@ -273,4 +270,8 @@
     <string name="sound_effects_label">Sound Effects</string>
     <string name="background_music_label">Background Music</string>
     <string name="haptic_feedback_label">Vibration &amp; Haptic</string>
+    <string name="profile_best_score">Best score: %1$s</string>
+    <string name="profile_avg_accuracy">Average accuracy: %1$s%%</string>
+    <string name="profile_attempts">Attempts: %1$s</string>
+    <string name="profile_no_data">No training attempts yet</string>
 </resources>
