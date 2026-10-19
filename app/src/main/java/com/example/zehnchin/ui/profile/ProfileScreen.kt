@@ -1,5 +1,6 @@
 package com.example.zehnchin.ui.profile
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,6 +15,7 @@ import com.example.zehnchin.R
 import com.example.zehnchin.data.local.entities.PlayerProfileEntity
 import com.example.zehnchin.domain.progression.DomainSummary
 import com.example.zehnchin.ui.common.FormatUtils
+import com.example.zehnchin.ui.theme.domainColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,25 +87,33 @@ fun ProfileScreen(
 @Composable
 fun DomainScoreCard(domain: DomainSummary) {
     Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(chapterTitleRes(domain.chapterId)),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(6.dp)
+                    .background(domainColor(domain.chapterId))
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.profile_best_score, FormatUtils.formatNumber(domain.bestScore)),
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = stringResource(R.string.profile_avg_accuracy, FormatUtils.formatNumber(domain.averageAccuracy)),
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = stringResource(R.string.profile_attempts, FormatUtils.formatNumber(domain.attemptCount)),
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = stringResource(chapterTitleRes(domain.chapterId)),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.profile_best_score, FormatUtils.formatNumber(domain.bestScore)),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = stringResource(R.string.profile_avg_accuracy, FormatUtils.formatNumber(domain.averageAccuracy)),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = stringResource(R.string.profile_attempts, FormatUtils.formatNumber(domain.attemptCount)),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
     }
 }

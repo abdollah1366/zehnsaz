@@ -22,6 +22,7 @@ import com.example.zehnchin.domain.model.InhibitoryStimulusType
 import com.example.zehnchin.domain.model.LevelConfig
 import com.example.zehnchin.ui.attention.toComposeColor
 import com.example.zehnchin.ui.common.FormatUtils
+import com.example.zehnchin.ui.theme.LocalFeedbackColors
 
 @Composable
 fun InhibitoryControlScreen(
@@ -65,7 +66,7 @@ fun InhibitoryControlScreen(
         // Combo & Feedback
         Box(modifier = Modifier.height(60.dp), contentAlignment = Alignment.Center) {
             if (uiState.lastFeedback != null) {
-                val color = if (uiState.lastFeedback == InhibitoryControlEngine.FeedbackType.CORRECT) Color(0xFF4CAF50) else Color.Red
+                val color = if (uiState.lastFeedback == InhibitoryControlEngine.FeedbackType.CORRECT) LocalFeedbackColors.current.correct else LocalFeedbackColors.current.incorrect
                 val text = if (uiState.lastFeedback == InhibitoryControlEngine.FeedbackType.CORRECT) 
                     stringResource(R.string.correct_feedback) else stringResource(R.string.incorrect_feedback)
                 Text(text = text, color = color, fontWeight = FontWeight.Bold, fontSize = 24.sp)
