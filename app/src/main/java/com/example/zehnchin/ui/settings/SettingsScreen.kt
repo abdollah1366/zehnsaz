@@ -1,5 +1,9 @@
 package com.example.zehnchin.ui.settings
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,6 +23,8 @@ fun SettingsScreen(
     onBack: () -> Unit
 ) {
     val settings by viewModel.settings.collectAsState()
+    // Android 13 and later need the player to allow notifications before a reminder can show.
+    val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     Scaffold(
         topBar = {
@@ -55,6 +61,17 @@ fun SettingsScreen(
                 label = stringResource(R.string.haptic_feedback_label),
                 checked = settings.hapticEnabled,
                 onCheckedChange = { viewModel.setHapticEnabled(it) }
+            )
+
+            SettingsToggleRow(
+                label = stringResource(R.string.daily_reminder_label),
+                checked = settings.dailyReminderEnabled,
+                onCheckedChange = { enabled ->
+                    viewModel.setDailyReminderEnabled(enabled)
+                    if (enabled && Build.VERSION.SDK_INT >= 33) {
+                        notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                }
             )
         }
     }

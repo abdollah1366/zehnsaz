@@ -8,4 +8,5 @@ interface SettingsRepository {
     suspend fun setSoundEnabled(enabled: Boolean)
     suspend fun setMusicEnabled(enabled: Boolean)
     suspend fun setHapticEnabled(enabled: Boolean)
+    suspend fun setDailyReminderEnabled(enabled: Boolean)
 }
