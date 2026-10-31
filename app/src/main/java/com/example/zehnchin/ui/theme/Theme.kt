@@ -1,6 +1,5 @@
 package com.example.zehnchin.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
@@ -13,50 +12,58 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
-// Internal so that game screens can always use the dark scheme, whatever the system theme is.
+// Kept for a possible future night mode. The app currently always uses the bright light scheme.
 internal val DarkColorScheme = darkColorScheme(
-    primary = Blue200,
-    onPrimary = Blue900,
-    primaryContainer = Blue800,
-    onPrimaryContainer = Blue50,
-    secondary = Teal200,
-    onSecondary = Teal900,
-    secondaryContainer = Teal800,
-    onSecondaryContainer = Teal50,
-    tertiary = Amber200,
-    onTertiary = Amber900,
-    tertiaryContainer = Amber800,
-    onTertiaryContainer = Amber50,
+    primary = Violet200,
+    onPrimary = Violet900,
+    primaryContainer = Violet800,
+    onPrimaryContainer = Violet50,
+    secondary = Berry200,
+    onSecondary = Berry900,
+    secondaryContainer = Berry800,
+    onSecondaryContainer = Berry50,
+    tertiary = Sun200,
+    onTertiary = Sun900,
+    tertiaryContainer = Sun800,
+    onTertiaryContainer = Sun50,
     background = Night950,
     onBackground = Ink50,
     surface = Night900,
     onSurface = Ink50,
     surfaceVariant = Night800,
-    onSurfaceVariant = Slate200,
-    outline = Slate300,
+    onSurfaceVariant = Plum300,
+    outline = Plum400,
     error = Error200
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Blue700,
+internal val LightColorScheme = lightColorScheme(
+    primary = Violet700,
     onPrimary = Color.White,
-    primaryContainer = Blue100,
-    onPrimaryContainer = Blue900,
-    secondary = Teal700,
+    primaryContainer = Violet100,
+    onPrimaryContainer = Violet900,
+    secondary = Berry700,
     onSecondary = Color.White,
-    secondaryContainer = Teal100,
-    onSecondaryContainer = Teal900,
-    tertiary = Amber700,
+    secondaryContainer = Berry100,
+    onSecondaryContainer = Berry900,
+    tertiary = Sun700,
     onTertiary = Color.White,
-    tertiaryContainer = Amber100,
-    onTertiaryContainer = Amber900,
-    background = Mist50,
+    tertiaryContainer = Sun100,
+    onTertiaryContainer = Sun900,
+    background = Cream50,
     onBackground = Ink900,
     surface = Color.White,
     onSurface = Ink900,
-    surfaceVariant = Slate100,
-    onSurfaceVariant = Slate700,
-    outline = Slate400,
+    surfaceVariant = Lavender100,
+    onSurfaceVariant = Plum700,
+    surfaceTint = Violet700,
+    outline = Plum400,
+    outlineVariant = Plum200,
+    surfaceContainerLowest = Color.White,
+    surfaceContainerLow = Color(0xFFFFFBFF),
+    surfaceContainer = Color(0xFFF8F4FF),
+    surfaceContainerHigh = Color(0xFFFDFBFF),
+    // Cards use this one: near-white so they stand out on the pastel backdrop.
+    surfaceContainerHighest = Color(0xFFFCFAFF),
     error = Error700
 )
 
@@ -71,7 +78,8 @@ private val AppShapes = Shapes(
 
 @Composable
 fun ZehnChinTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    // Always bright by default: the cheerful light palette is part of the app's character.
+    darkTheme: Boolean = false,
     // Off by default: the brand palette is part of how the app is recognised.
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit

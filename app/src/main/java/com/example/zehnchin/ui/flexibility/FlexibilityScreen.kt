@@ -3,6 +3,7 @@ package com.example.zehnchin.ui.flexibility
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -28,6 +29,7 @@ import com.example.zehnchin.ui.attention.StimulusItem
 import com.example.zehnchin.ui.attention.toComposeColor
 import com.example.zehnchin.ui.common.FormatUtils
 import com.example.zehnchin.ui.common.GeometricShape
+import com.example.zehnchin.ui.common.StimulusOutline
 import com.example.zehnchin.ui.theme.LocalFeedbackColors
 
 @Composable
@@ -170,9 +172,11 @@ fun ResponseOptions(
                     .size(60.dp)
                     .then(
                         if (ruleType == RuleType.COLOR_MATCH && option is PuzzleColor) {
-                            Modifier.background(option.toComposeColor(), CircleShape)
+                            Modifier
+                                .background(option.toComposeColor(), CircleShape)
+                                .border(1.5.dp, StimulusOutline, CircleShape)
                         } else {
-                            Modifier.background(Color.Gray.copy(alpha = 0.1f), RoundedCornerShape(8.dp))
+                            Modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
                         }
                     )
                     .clip(if (ruleType == RuleType.COLOR_MATCH) CircleShape else RoundedCornerShape(8.dp))
@@ -182,7 +186,7 @@ fun ResponseOptions(
                 if (ruleType == RuleType.SHAPE_MATCH && option is Shape) {
                     GeometricShape(
                         shape = option,
-                        color = Color.DarkGray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(40.dp)
                     )
                 }

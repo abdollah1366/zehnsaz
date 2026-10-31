@@ -1,5 +1,7 @@
 package com.example.zehnchin.ui.shop
 
+import androidx.compose.ui.graphics.Color
+import com.example.zehnchin.ui.common.transparentTopBarColors
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -38,8 +40,9 @@ fun ShopScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.shop_title)) })
+            TopAppBar(colors = transparentTopBarColors(), title = { Text(stringResource(R.string.shop_title)) })
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->

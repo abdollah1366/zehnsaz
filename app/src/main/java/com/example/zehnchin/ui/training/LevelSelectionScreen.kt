@@ -1,5 +1,6 @@
 package com.example.zehnchin.ui.training
 
+import com.example.zehnchin.ui.common.transparentTopBarColors
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -39,8 +40,10 @@ fun LevelSelectionScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = transparentTopBarColors(),
                 title = { Text(stringResource(R.string.training_chapters)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -77,8 +80,8 @@ fun LevelItem(
 ) {
     val backgroundColor = when {
         state.isCompleted -> MaterialTheme.colorScheme.primaryContainer
-        state.isUnlocked -> MaterialTheme.colorScheme.surfaceVariant
-        else -> Color.LightGray.copy(alpha = 0.3f)
+        state.isUnlocked -> MaterialTheme.colorScheme.surface
+        else -> MaterialTheme.colorScheme.surfaceVariant
     }
 
     Card(

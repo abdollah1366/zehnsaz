@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -15,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.zehnchin.R
 import com.example.zehnchin.data.local.entities.PlayerProfileEntity
 import com.example.zehnchin.ui.common.FormatUtils
+import com.example.zehnchin.ui.theme.Sun200
 
 @Composable
 fun HomeScreen(
@@ -29,6 +31,7 @@ fun HomeScreen(
     val profile by viewModel.playerProfile.collectAsState()
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             profile?.let { HomeHeader(it, onNavigateToSettings) }
         },
@@ -52,7 +55,9 @@ fun HomeScreen(
         ) {
             Text(
                 text = stringResource(R.string.welcome_message),
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(32.dp))
             
@@ -81,7 +86,7 @@ fun HomeScreen(
             val streak = profile?.currentStreak ?: 0
             Text(
                 text = stringResource(R.string.streak_days, FormatUtils.formatNumber(streak)),
-                color = Color(0xFFE65100),
+                color = MaterialTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -90,13 +95,22 @@ fun HomeScreen(
 
 @Composable
 fun HomeHeader(profile: PlayerProfileEntity, onNavigateToSettings: () -> Unit) {
+    // A violet-to-berry header band; white text keeps more than 5.8:1 contrast on both ends.
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.primaryContainer,
-        shadowElevation = 4.dp
+        color = Color.Transparent,
+        contentColor = Color.White,
+        shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp),
+        shadowElevation = 6.dp
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .background(
+                    Brush.horizontalGradient(
+                        listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
+                    )
+                )
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -112,7 +126,9 @@ fun HomeHeader(profile: PlayerProfileEntity, onNavigateToSettings: () -> Unit) {
                     )
                     LinearProgressIndicator(
                         progress = { 0.5f }, // Mock progress
-                        modifier = Modifier.width(80.dp).height(8.dp)
+                        modifier = Modifier.width(80.dp).height(8.dp),
+                        color = Sun200,
+                        trackColor = Color.White.copy(alpha = 0.35f)
                     )
                 }
             }
@@ -133,7 +149,7 @@ fun HomeBottomBar(
     onNavigateToShop: () -> Unit,
     onNavigateToProfile: () -> Unit
 ) {
-    NavigationBar {
+    NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
         NavigationBarItem(
             selected = true,
             onClick = onNavigateToHome,

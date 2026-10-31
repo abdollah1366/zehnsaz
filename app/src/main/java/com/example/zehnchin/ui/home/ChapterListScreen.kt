@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.example.zehnchin.R
+import com.example.zehnchin.ui.theme.domainTint
 import com.example.zehnchin.domain.model.Chapter
 import com.example.zehnchin.domain.model.CognitiveDomain
 import com.example.zehnchin.domain.repository.ChapterRepository
@@ -70,7 +71,7 @@ fun ChapterItem(
             .clickable(enabled = isUnlocked) { onClick() },
         elevation = CardDefaults.cardElevation(if (isUnlocked) 4.dp else 1.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isUnlocked) MaterialTheme.colorScheme.surface else Color.LightGray.copy(alpha = 0.4f)
+            containerColor = if (isUnlocked) domainTint(chapter.id) else MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Row(

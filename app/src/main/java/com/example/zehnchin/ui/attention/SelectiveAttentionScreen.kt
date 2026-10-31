@@ -241,7 +241,7 @@ fun StimulusItem(stimulus: AttentionStimulus, onClick: () -> Unit) {
         modifier = Modifier
             .aspectRatio(1f)
             .scale(scale.value)
-            .background(Color.LightGray.copy(alpha = 0.2f), shape = CircleShape)
+            .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {

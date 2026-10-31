@@ -1,5 +1,7 @@
 package com.example.zehnchin.ui.settings
 
+import androidx.compose.ui.graphics.Color
+import com.example.zehnchin.ui.common.transparentTopBarColors
 import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -27,8 +29,10 @@ fun SettingsScreen(
     val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = transparentTopBarColors(),
                 title = { Text(stringResource(R.string.settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -38,12 +42,16 @@ fun SettingsScreen(
             )
         }
     ) { padding ->
-        Column(
+        Card(
             modifier = Modifier
                 .padding(padding)
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(16.dp)
+                .fillMaxWidth(),
+            shape = MaterialTheme.shapes.large
+        ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             SettingsToggleRow(
                 label = stringResource(R.string.sound_effects_label),
@@ -73,6 +81,7 @@ fun SettingsScreen(
                     }
                 }
             )
+        }
         }
     }
 }

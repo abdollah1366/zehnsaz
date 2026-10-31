@@ -1,5 +1,6 @@
 package com.example.zehnchin.ui.profile
 
+import com.example.zehnchin.ui.common.transparentTopBarColors
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import com.example.zehnchin.domain.progression.WeeklyPlan
 import com.example.zehnchin.ui.assessment.measureLabelRes
 import com.example.zehnchin.ui.common.FormatUtils
 import com.example.zehnchin.ui.theme.domainColor
+import com.example.zehnchin.ui.theme.domainTint
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,8 +38,9 @@ fun ProfileScreen(
     onBack: () -> Unit
 ) {
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.profile_title)) })
+            TopAppBar(colors = transparentTopBarColors(), title = { Text(stringResource(R.string.profile_title)) })
         }
     ) { padding ->
         Column(
@@ -118,7 +121,10 @@ fun ProfileScreen(
 
 @Composable
 fun DomainScoreCard(domain: DomainSummary) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = domainTint(domain.chapterId))
+    ) {
         Column {
             Box(
                 modifier = Modifier

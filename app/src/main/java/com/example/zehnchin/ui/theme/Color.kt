@@ -1,44 +1,55 @@
 package com.example.zehnchin.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 
-// Brand: calm blue for focus, teal for growth, amber for rewards.
-// Neutral surfaces keep the text contrast high for long sessions.
+// Brand: a bright, cheerful palette. Violet for focus, berry pink for energy, sunny amber for rewards,
+// on warm cream and soft pastel surfaces. Every text colour keeps at least 4.5:1 contrast on the
+// surface it is drawn on (checked against WCAG 2.1), so the app stays readable for long sessions.
 
-val Blue700 = Color(0xFF1F5C8B)
-val Blue100 = Color(0xFFD6E7F5)
-val Blue900 = Color(0xFF0B2D45)
-val Blue200 = Color(0xFF9CC8EE)
-val Blue800 = Color(0xFF00466F)
-val Blue50 = Color(0xFFCDE5FF)
+val Violet700 = Color(0xFF6A3DE8)   // primary, 5.9:1 with white text
+val Violet100 = Color(0xFFEBE3FF)
+val Violet900 = Color(0xFF22005D)
+val Violet200 = Color(0xFFCDBDFF)
+val Violet800 = Color(0xFF4F23C4)
+val Violet50 = Color(0xFFF4EFFF)
 
-val Teal700 = Color(0xFF2E7D6F)
-val Teal100 = Color(0xFFCDEFE8)
-val Teal900 = Color(0xFF0B3D36)
-val Teal200 = Color(0xFF8ED5C6)
-val Teal800 = Color(0xFF00504A)
-val Teal50 = Color(0xFFAEF2E2)
+val Berry700 = Color(0xFFC2185B)    // secondary, 5.9:1 with white text
+val Berry100 = Color(0xFFFFD9E4)
+val Berry900 = Color(0xFF3E001D)
+val Berry200 = Color(0xFFFFB1C8)
+val Berry800 = Color(0xFF8E0F43)
+val Berry50 = Color(0xFFFFECF1)
 
-val Amber700 = Color(0xFFB26A00)
-val Amber100 = Color(0xFFFFE7BF)
-val Amber900 = Color(0xFF3D2500)
-val Amber200 = Color(0xFFF5C26B)
-val Amber800 = Color(0xFF664000)
-val Amber50 = Color(0xFFFFDDA6)
+val Sun700 = Color(0xFFB45309)      // tertiary, 5.0:1 with white text
+val Sun100 = Color(0xFFFFEDB8)
+val Sun900 = Color(0xFF3B2000)
+val Sun200 = Color(0xFFFFC870)
+val Sun800 = Color(0xFF7A3A00)
+val Sun50 = Color(0xFFFFF6D9)
 
-val Ink900 = Color(0xFF14202B)
-val Ink50 = Color(0xFFE3EAF1)
-val Mist50 = Color(0xFFF6F8FA)
-val Night950 = Color(0xFF0D1620)
-val Slate100 = Color(0xFFE6EBF0)
-val Slate700 = Color(0xFF475467)
-val Slate400 = Color(0xFF7A8793)
-val Night800 = Color(0xFF2A3A48)
-val Night900 = Color(0xFF15212C)
-val Slate200 = Color(0xFFB6C3CF)
-val Slate300 = Color(0xFF8A99A8)
-val Error700 = Color(0xFFB42318)
+val Mint100 = Color(0xFFD3F8E8)
+
+val Ink900 = Color(0xFF1E1B2E)
+val Ink50 = Color(0xFFEDE9F8)
+val Cream50 = Color(0xFFFFF8F1)
+val Lavender100 = Color(0xFFF1ECFF)
+val Lavender200 = Color(0xFFE6DEFA)
+val Plum700 = Color(0xFF4E4566)
+val Plum400 = Color(0xFF8B80A6)
+val Plum200 = Color(0xFFD9D0EE)
+val Night950 = Color(0xFF15122A)
+val Night900 = Color(0xFF1F1B38)
+val Night800 = Color(0xFF332D55)
+val Plum300 = Color(0xFFB0A6CC)
+val Error700 = Color(0xFFBA1A1A)
 val Error200 = Color(0xFFFFB4AB)
+
+// Soft pastel backdrop for every non-game screen: blush at the top, lavender in the middle, mint below.
+val BackdropBlush = Color(0xFFFFEEF4)
+val BackdropLavender = Color(0xFFF4EEFF)
+val BackdropMint = Color(0xFFE9FAF3)
+val BackdropSun = Color(0xFFFFE9A8)
 
 // Domain accents: Okabe–Ito palette, distinguishable under common colour-vision deficiencies.
 // Each chapter (cognitive domain) keeps one colour everywhere it appears.
@@ -60,7 +71,7 @@ data class FeedbackColors(
 )
 
 val LightFeedbackColors = FeedbackColors(
-    correct = Color(0xFF2E7D32),
+    correct = Color(0xFF1B7A34),
     incorrect = Color(0xFFC62828),
     warning = Color(0xFF9A5B00)
 )
@@ -71,7 +82,7 @@ val DarkFeedbackColors = FeedbackColors(
     warning = Color(0xFFF5C26B)
 )
 
-/** The accent colour of a chapter (cognitive domain). Chapter 0 is the tutorial and uses the brand blue. */
+/** The accent colour of a chapter (cognitive domain). Chapter 0 is the tutorial and uses the brand violet. */
 fun domainColor(chapterId: Int): Color = when (chapterId) {
     1 -> DomainAttention
     2 -> DomainMemory
@@ -79,5 +90,10 @@ fun domainColor(chapterId: Int): Color = when (chapterId) {
     4 -> DomainControl
     5 -> DomainFlexibility
     6 -> DomainProblemSolving
-    else -> Blue700
+    else -> Violet700
 }
+
+/**
+ * A light pastel tint of a chapter colour, for card backgrounds. Dark text keeps well over 7:1 on it.
+ */
+fun domainTint(chapterId: Int): Color = lerp(domainColor(chapterId), Color.White, 0.86f)
