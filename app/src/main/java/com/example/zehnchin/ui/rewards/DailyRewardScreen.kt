@@ -1,5 +1,6 @@
 package com.example.zehnchin.ui.rewards
 
+import com.example.zehnchin.ui.common.transparentTopBarColors
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -26,8 +27,9 @@ fun DailyRewardScreen(
     onClaim: () -> Unit
 ) {
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.daily_reward_title)) })
+            TopAppBar(colors = transparentTopBarColors(), title = { Text(stringResource(R.string.daily_reward_title)) })
         }
     ) { padding ->
         Column(
@@ -73,7 +75,11 @@ fun DailyRewardScreen(
 fun RewardDayCard(day: Int, isCurrent: Boolean, isClaimed: Boolean) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = if (isCurrent) MaterialTheme.colorScheme.primaryContainer else Color.LightGray.copy(alpha = 0.2f)
+            containerColor = when {
+                isCurrent -> MaterialTheme.colorScheme.tertiaryContainer
+                isClaimed -> MaterialTheme.colorScheme.secondaryContainer
+                else -> MaterialTheme.colorScheme.surface
+            }
         ),
         modifier = Modifier.aspectRatio(1f)
     ) {

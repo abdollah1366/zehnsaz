@@ -46,7 +46,7 @@ fun CognitiveResultScreen(
 
         Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 ResultRow(label = stringResource(R.string.accuracy_label), value = FormatUtils.formatPercent(result.accuracy.toFloat()))
@@ -68,8 +68,8 @@ fun CognitiveResultScreen(
             modifier = Modifier.padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            RewardChip(text = stringResource(R.string.xp_gain, FormatUtils.formatNumber(50)), color = Color(0xFF2196F3))
-            RewardChip(text = stringResource(R.string.coin_gain, FormatUtils.formatNumber(20)), color = Color(0xFFFFC107))
+            RewardChip(text = stringResource(R.string.xp_gain, FormatUtils.formatNumber(50)), color = MaterialTheme.colorScheme.primary)
+            RewardChip(text = stringResource(R.string.coin_gain, FormatUtils.formatNumber(20)), color = MaterialTheme.colorScheme.tertiary)
         }
 
         Spacer(modifier = Modifier.height(48.dp))
@@ -110,7 +110,7 @@ fun CognitiveResultScreen(
 @Composable
 fun RewardChip(text: String, color: Color) {
     Surface(
-        color = color.copy(alpha = 0.2f),
+        color = color.copy(alpha = 0.12f),
         contentColor = color,
         shape = RoundedCornerShape(16.dp),
         border = androidx.compose.foundation.BorderStroke(1.dp, color)

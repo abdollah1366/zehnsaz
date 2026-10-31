@@ -1,5 +1,6 @@
 package com.example.zehnchin.ui.achievements
 
+import com.example.zehnchin.ui.common.transparentTopBarColors
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,8 +23,9 @@ fun AchievementScreen(
     onBack: () -> Unit
 ) {
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.my_achievements)) })
+            TopAppBar(colors = transparentTopBarColors(), title = { Text(stringResource(R.string.my_achievements)) })
         }
     ) { padding ->
         LazyColumn(
@@ -59,7 +61,7 @@ fun AchievementCard(achievement: AchievementEntity) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = if (achievement.isUnlocked) MaterialTheme.colorScheme.primaryContainer else Color.LightGray.copy(alpha = 0.3f)
+            containerColor = if (achievement.isUnlocked) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surface
         )
     ) {
         Row(

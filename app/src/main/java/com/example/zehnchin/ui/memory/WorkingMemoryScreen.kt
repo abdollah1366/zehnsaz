@@ -236,7 +236,7 @@ fun EncodingView(
         Text(
             text = stringResource(R.string.memory_direction_instruction),
             style = MaterialTheme.typography.bodySmall,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 24.dp)
         )
     }
@@ -315,7 +315,7 @@ fun DirectionArrow() {
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(horizontal = 4.dp),
-        color = Color.Gray.copy(alpha = 0.5f)
+        color = MaterialTheme.colorScheme.outline
     )
 }
 
@@ -376,7 +376,7 @@ fun RecallView(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .background(Color.LightGray.copy(alpha = 0.1f), RoundedCornerShape(8.dp)),
+                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f), RoundedCornerShape(8.dp)),
             contentAlignment = Alignment.Center
         ) {
             SequenceLayout(sequence = userSequence)

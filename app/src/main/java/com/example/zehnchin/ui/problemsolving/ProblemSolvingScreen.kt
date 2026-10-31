@@ -3,6 +3,7 @@ package com.example.zehnchin.ui.problemsolving
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import com.example.zehnchin.ui.common.StimulusOutline
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -176,11 +177,11 @@ fun TubeView(
                 .height(140.dp)
                 .border(
                     width = if (isSelected) 3.dp else 2.dp,
-                    color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray,
+                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
                 )
                 .background(
-                    color = Color.LightGray.copy(alpha = 0.1f),
+                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
                     shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
                 ),
             contentAlignment = Alignment.BottomCenter
@@ -194,10 +195,11 @@ fun TubeView(
                         modifier = Modifier
                             .size(width = 40.dp, height = 28.dp)
                             .background(layer.color.toComposeColor(), RoundedCornerShape(4.dp))
+                            .border(1.dp, StimulusOutline, RoundedCornerShape(4.dp))
                     )
                 }
             }
         }
-        Text(text = FormatUtils.formatNumber(tube.id + 1), fontSize = 12.sp, color = Color.Gray)
+        Text(text = FormatUtils.formatNumber(tube.id + 1), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }

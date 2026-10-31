@@ -1,5 +1,6 @@
 package com.example.zehnchin.ui.control
 
+import com.example.zehnchin.ui.common.StimulusOutline
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.clickable
@@ -74,7 +75,7 @@ fun InhibitoryControlScreen(
                 Text(
                     text = stringResource(R.string.game_combo_label, FormatUtils.formatNumber(uiState.currentCombo)),
                     style = MaterialTheme.typography.headlineSmall,
-                    color = Color(0xFFE65100)
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
         }
@@ -100,7 +101,7 @@ fun InhibitoryControlScreen(
             }
             
             if (!uiState.isStimulusVisible && uiState.status == GameStatus.PLAYING) {
-                Text(text = stringResource(R.string.get_ready), style = MaterialTheme.typography.bodyLarge, color = Color.Gray)
+                Text(text = stringResource(R.string.get_ready), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
 
@@ -131,6 +132,7 @@ fun InhibitoryStimulusDisplay(stimulusType: InhibitoryStimulusType, color: Color
         modifier = Modifier.size(120.dp),
         shape = if (stimulusType == InhibitoryStimulusType.GO) CircleShape else RoundedCornerShape(16.dp),
         color = color,
+        border = androidx.compose.foundation.BorderStroke(2.dp, StimulusOutline),
         shadowElevation = 8.dp
     ) {
         Box(contentAlignment = Alignment.Center) {
