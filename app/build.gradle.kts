@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.zehnchin"
+    namespace = "com.barati.zehnsaz"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.example.zehnchin"
+        applicationId = "com.barati.zehnsaz"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
