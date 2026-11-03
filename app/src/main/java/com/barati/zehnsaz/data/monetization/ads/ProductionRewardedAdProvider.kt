@@ -5,19 +5,21 @@ import com.barati.zehnsaz.domain.model.AdResult
 import com.barati.zehnsaz.domain.model.AdStatus
 import com.barati.zehnsaz.domain.monetization.RewardedAdProvider
 import com.barati.zehnsaz.ui.common.ActivityProvider
-import ir.tapsell.mediation.Tapsell
-import ir.tapsell.mediation.ad.AdStateListener
-import ir.tapsell.mediation.ad.request.RequestResultListener
-import ir.tapsell.mediation.ad.show.AdShowCompletionState
+import ir.tapsell.plus.AdRequestCallback
+import ir.tapsell.plus.AdShowListener
+import ir.tapsell.plus.TapsellPlus
+import ir.tapsell.plus.model.TapsellPlusAdModel
+import ir.tapsell.plus.model.TapsellPlusErrorModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Rewarded video ads through Tapsell Mediation.
+ * Rewarded video ads through Tapsell Plus.
  *
- * Flow: [load] requests an ad and keeps its id; [show] plays it. The reward is reported only from
- * `onRewarded` (the user watched to the end); closing early reports CANCELLED. After every show
- * the next ad is preloaded so it is ready by the time the cooldown in AdManager has passed.
+ * Flow: [load] calls requestRewardedVideoAd and keeps the responseId; [show] calls
+ * showRewardedVideoAd with it. The reward is reported only from onRewarded (the user watched to
+ * the end); closing early reports CANCELLED. After every show the next ad is preloaded so it is
+ * ready by the time the cooldown in AdManager has passed.
  */
 @Singleton
 class ProductionRewardedAdProvider @Inject constructor(
@@ -25,33 +27,37 @@ class ProductionRewardedAdProvider @Inject constructor(
 ) : RewardedAdProvider {
 
     @Volatile private var status = AdStatus.IDLE
-    @Volatile private var readyAdId: String? = null
+    @Volatile private var responseId: String? = null
 
     override fun isAvailable(): Boolean {
         if (!TapsellConfig.isConfigured) return false
-        if (readyAdId == null && status != AdStatus.LOADING) load()
-        return readyAdId != null
+        if (responseId == null && status != AdStatus.LOADING) load()
+        return responseId != null
     }
 
     override fun load() {
-        if (!TapsellConfig.isConfigured || status == AdStatus.LOADING || readyAdId != null) return
+        if (!TapsellConfig.isConfigured || status == AdStatus.LOADING || responseId != null) return
+        // Tapsell Plus needs an Activity to request an ad.
+        val activity = activityProvider.getActivity() ?: return
         status = AdStatus.LOADING
-        Tapsell.requestRewardedAd(TapsellConfig.rewardedZoneId, object : RequestResultListener {
-            override fun onSuccess(adId: String) {
-                readyAdId = adId
+        TapsellPlus.requestRewardedVideoAd(activity, TapsellConfig.rewardedZoneId, object : AdRequestCallback() {
+            override fun response(tapsellPlusAdModel: TapsellPlusAdModel) {
+                super.response(tapsellPlusAdModel)
+                responseId = tapsellPlusAdModel.responseId
                 status = AdStatus.READY
             }
 
-            override fun onFailure(message: String) {
-                readyAdId = null
+            override fun error(message: String) {
+                super.error(message)
+                responseId = null
                 status = AdStatus.FAILED
             }
         })
     }
 
     override fun show(placement: AdPlacement, onResult: (AdResult) -> Unit) {
-        val adId = readyAdId
-        if (adId == null) {
+        val id = responseId
+        if (id == null) {
             load()
             onResult(AdResult.NOT_AVAILABLE)
             return
@@ -62,8 +68,8 @@ class ProductionRewardedAdProvider @Inject constructor(
             return
         }
 
-        // Each ad id can be shown once.
-        readyAdId = null
+        // Each responseId can be shown once.
+        responseId = null
         status = AdStatus.SHOWING
         var rewarded = false
         var reported = false
@@ -73,24 +79,27 @@ class ProductionRewardedAdProvider @Inject constructor(
             onResult(result)
         }
 
-        Tapsell.showRewardedAd(adId, activity, object : AdStateListener.Rewarded {
-            override fun onAdImpression() {}
-            override fun onAdClicked() {}
+        TapsellPlus.showRewardedVideoAd(activity, id, object : AdShowListener() {
+            override fun onOpened(tapsellPlusAdModel: TapsellPlusAdModel) {
+                super.onOpened(tapsellPlusAdModel)
+            }
 
-            override fun onRewarded() {
-                // Report straight away: some networks fire onRewarded only after closing,
-                // others before; reporting here works for both orders.
+            override fun onRewarded(tapsellPlusAdModel: TapsellPlusAdModel) {
+                super.onRewarded(tapsellPlusAdModel)
+                // Report straight away, whether onRewarded arrives before or after onClosed.
                 rewarded = true
                 report(AdResult.COMPLETED)
             }
 
-            override fun onAdClosed(completionState: AdShowCompletionState) {
+            override fun onClosed(tapsellPlusAdModel: TapsellPlusAdModel) {
+                super.onClosed(tapsellPlusAdModel)
                 if (!rewarded) report(AdResult.CANCELLED)
                 status = AdStatus.IDLE
                 load()
             }
 
-            override fun onAdFailed(message: String) {
+            override fun onError(tapsellPlusErrorModel: TapsellPlusErrorModel) {
+                super.onError(tapsellPlusErrorModel)
                 status = AdStatus.FAILED
                 report(AdResult.FAILED)
                 status = AdStatus.IDLE

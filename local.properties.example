@@ -1,0 +1,14 @@
+# Copy these lines into local.properties (which is not committed) and fill in your values.
+# Leaving a value empty is safe: debug builds then use Tapsell test ads and a fake Bazaar store.
+
+# Tapsell panel > your app > app key (Tapsell Plus)
+TAPSELL_APP_KEY=
+# Tapsell panel > your app > zones > a "Rewarded video" zone id
+TAPSELL_REWARDED_ZONE_ID=
+
+# Cafe Bazaar developer panel (pishkhan.cafebazaar.ir) > your app > In-app billing > RSA public key
+BAZAAR_RSA_PUBLIC_KEY=
+# Cafe Bazaar > In-app products > Subscriptions: the product ids you created (leave unused ones empty)
+BAZAAR_SUB_MONTHLY=
+BAZAAR_SUB_QUARTERLY=
+BAZAAR_SUB_YEARLY=

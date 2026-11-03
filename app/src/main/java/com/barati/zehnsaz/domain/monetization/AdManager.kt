@@ -51,6 +51,11 @@ class AdManager @Inject constructor(
         return true
     }
 
+    /** Starts loading an ad in the background so it is ready when the user taps "watch". */
+    fun preload() {
+        if (!subscriptionState.isSubscribed) adProvider.load()
+    }
+
     fun showRewardedAd(placement: AdPlacement, onResult: (AdResult) -> Unit) {
         analyticsProvider.trackEvent("AD_OFFERED", mapOf("placement" to placement.name))
         

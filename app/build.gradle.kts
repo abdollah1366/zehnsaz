@@ -18,9 +18,6 @@ fun secret(name: String): String =
     (localProps.getProperty(name) ?: providers.gradleProperty(name).orNull ?: "").trim()
 fun quoted(value: String) = "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
-val tapsellAppKey = secret("TAPSELL_APP_KEY")
-val tapsellTestAppKey = "76798342-99a7-4a5f-bf5a-60a088d5dcfb" // Tapsell's public sample key
-
 android {
     namespace = "com.barati.zehnsaz"
     compileSdk = 37
@@ -34,8 +31,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
-        manifestPlaceholders["TapsellMediationAppMarket"] = "CafeBazaar"
-
+        buildConfigField("String", "TAPSELL_APP_KEY", quoted(secret("TAPSELL_APP_KEY")))
         buildConfigField("String", "TAPSELL_REWARDED_ZONE_ID", quoted(secret("TAPSELL_REWARDED_ZONE_ID")))
         buildConfigField("String", "BAZAAR_RSA_PUBLIC_KEY", quoted(secret("BAZAAR_RSA_PUBLIC_KEY")))
         buildConfigField("String", "BAZAAR_SUB_MONTHLY", quoted(secret("BAZAAR_SUB_MONTHLY")))
@@ -44,14 +40,7 @@ android {
     }
 
     buildTypes {
-        debug {
-            // Without a real key, debug builds show Tapsell's test ads.
-            manifestPlaceholders["TapsellMediationAppKey"] = tapsellAppKey.ifBlank { tapsellTestAppKey }
-            buildConfigField("boolean", "TAPSELL_APP_KEY_CONFIGURED", "true")
-        }
         release {
-            manifestPlaceholders["TapsellMediationAppKey"] = tapsellAppKey
-            buildConfigField("boolean", "TAPSELL_APP_KEY_CONFIGURED", tapsellAppKey.isNotBlank().toString())
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -110,9 +99,8 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    // Tapsell Mediation SDK (rewarded ads) + Tapsell's own ad network adapter
-    implementation(libs.tapsell.mediation)
-    implementation(libs.tapsell.adapter.legacy)
+    // Tapsell Plus SDK (rewarded video ads)
+    implementation(libs.tapsell.plus)
 
     // Cafe Bazaar in-app billing (subscriptions)
     implementation(libs.poolakey)

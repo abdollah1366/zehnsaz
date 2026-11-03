@@ -33,6 +33,7 @@ class ShopViewModel @Inject constructor(
     val message = _message.asStateFlow()
 
     init {
+        adManager.preload()
         viewModelScope.launch {
             shopManager.refreshProducts()
         }
