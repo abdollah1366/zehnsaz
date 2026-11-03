@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -5,6 +7,16 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
+
+// Store keys live in local.properties (not committed) or gradle.properties / -P flags.
+// See the "Billing and ads configuration" section of the PR / README for each value.
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun secret(name: String): String =
+    (localProps.getProperty(name) ?: providers.gradleProperty(name).orNull ?: "").trim()
+fun quoted(value: String) = "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
 android {
     namespace = "com.barati.zehnsaz"
@@ -19,7 +31,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
-        manifestPlaceholders["TapsellMediationAppKey"] = "dummy_app_key_for_manifest"
+        buildConfigField("String", "TAPSELL_APP_KEY", quoted(secret("TAPSELL_APP_KEY")))
+        buildConfigField("String", "TAPSELL_REWARDED_ZONE_ID", quoted(secret("TAPSELL_REWARDED_ZONE_ID")))
+        buildConfigField("String", "BAZAAR_RSA_PUBLIC_KEY", quoted(secret("BAZAAR_RSA_PUBLIC_KEY")))
+        buildConfigField("String", "BAZAAR_SUB_MONTHLY", quoted(secret("BAZAAR_SUB_MONTHLY")))
+        buildConfigField("String", "BAZAAR_SUB_QUARTERLY", quoted(secret("BAZAAR_SUB_QUARTERLY")))
+        buildConfigField("String", "BAZAAR_SUB_YEARLY", quoted(secret("BAZAAR_SUB_YEARLY")))
     }
 
     buildTypes {
@@ -82,8 +99,11 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    // Tapsell Mediation SDK
-    implementation("ir.tapsell.mediation:tapsell:1.3.0")
+    // Tapsell Plus SDK (rewarded video ads)
+    implementation(libs.tapsell.plus)
+
+    // Cafe Bazaar in-app billing (subscriptions)
+    implementation(libs.poolakey)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

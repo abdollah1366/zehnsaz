@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Lets the app check that Cafe Bazaar is installed before offering a subscription (Android 11+). -->
+    <queries>
+        <package android:name="com.farsitel.bazaar" />
+    </queries>
+
     <application
         android:name=".ZehnchinApp"
         android:allowBackup="true"

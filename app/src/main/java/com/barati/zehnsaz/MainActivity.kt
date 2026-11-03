@@ -82,6 +82,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var activityProvider: ActivityProvider
 
+    @Inject
+    lateinit var adManager: com.barati.zehnsaz.domain.monetization.AdManager
+
     override fun attachBaseContext(newBase: Context) {
         val locale = Locale("fa", "IR")
         Locale.setDefault(locale)
@@ -109,6 +112,13 @@ class MainActivity : ComponentActivity() {
                 ZehnchinApp(chapterRepository, levelRepository, playerRepository)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activityProvider.setActivity(this)
+        // Load a rewarded ad in the background so an opt-in offer can appear when a level ends.
+        adManager.preload()
     }
 }
 

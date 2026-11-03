@@ -45,6 +45,7 @@ fun WorkingMemoryScreen(
     val uiState by viewModel.uiState.collectAsState()
     val timer by viewModel.timerValue.collectAsState()
     val isNextUnlocked by viewModel.isNextLevelUnlocked.collectAsState()
+    val canSkipWithAd by viewModel.canSkipWithAd.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.navigationEffect.collectLatest { effect ->
@@ -158,8 +159,11 @@ fun WorkingMemoryScreen(
                         TextButton(onClick = { viewModel.skipLevelWithCoins() }) {
                             Text(stringResource(R.string.btn_unlock_coins))
                         }
-                        TextButton(onClick = { viewModel.skipLevelWithAd() }) {
-                            Text(stringResource(R.string.btn_watch_ad_unlock))
+                        // Offered only after repeated failures (see AdManager's ad policy).
+                        if (canSkipWithAd) {
+                            TextButton(onClick = { viewModel.skipLevelWithAd() }) {
+                                Text(stringResource(R.string.btn_watch_ad_unlock))
+                            }
                         }
                     }
                 }

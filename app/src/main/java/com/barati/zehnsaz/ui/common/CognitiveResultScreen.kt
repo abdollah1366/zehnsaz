@@ -12,6 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.barati.zehnsaz.R
 import com.barati.zehnsaz.domain.model.CognitiveScoreResult
 import kotlinx.coroutines.delay
@@ -28,7 +31,15 @@ fun CognitiveResultScreen(
 ) {
     // After a stage ends, the player goes back to the home screen by itself.
     // Leaving this screen earlier (next level, level list) cancels the countdown.
-    LaunchedEffect(Unit) {
+    val adViewModel: ResultAdViewModel = hiltViewModel()
+    val adState by adViewModel.state.collectAsState()
+    // Once the user engages with the ad offer, stop the automatic return so the ad (or its
+    // reward message) is never cut off by navigation.
+    val autoReturnPaused = adState != ResultAdViewModel.OfferState.OFFERED &&
+        adState != ResultAdViewModel.OfferState.HIDDEN
+
+    LaunchedEffect(autoReturnPaused) {
+        if (autoReturnPaused) return@LaunchedEffect
         delay(AUTO_RETURN_DELAY_MILLIS)
         onExit()
     }
@@ -72,7 +83,13 @@ fun CognitiveResultScreen(
             RewardChip(text = stringResource(R.string.coin_gain, FormatUtils.formatNumber(20)), color = Color(0xFFFFC107))
         }
 
-        Spacer(modifier = Modifier.height(48.dp))
+        ResultAdOffer(
+            state = adState,
+            bonusCoins = adViewModel.bonusCoins,
+            onWatch = adViewModel::watchForBonus
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
 
         Button(
             onClick = onNextLevel,
@@ -134,5 +151,44 @@ fun ResultRow(label: String, value: String) {
     ) {
         Text(text = label, style = MaterialTheme.typography.bodyMedium)
         Text(text = value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+    }
+}
+
+/** Opt-in ad offer, clearly labelled as an ad and stating the reward before anything is shown. */
+@Composable
+private fun ResultAdOffer(
+    state: ResultAdViewModel.OfferState,
+    bonusCoins: Int,
+    onWatch: () -> Unit
+) {
+    when (state) {
+        ResultAdViewModel.OfferState.HIDDEN -> Unit
+        ResultAdViewModel.OfferState.OFFERED, ResultAdViewModel.OfferState.SHOWING -> {
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedButton(
+                onClick = onWatch,
+                enabled = state == ResultAdViewModel.OfferState.OFFERED,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(text = stringResource(R.string.ad_bonus_offer, FormatUtils.formatNumber(bonusCoins)))
+            }
+            Text(
+                text = stringResource(R.string.ad_bonus_optional_note),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        ResultAdViewModel.OfferState.CLAIMED -> {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = stringResource(R.string.ad_bonus_claimed, FormatUtils.formatNumber(bonusCoins)))
+        }
+        ResultAdViewModel.OfferState.UNAVAILABLE -> {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(R.string.ad_not_available),
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }

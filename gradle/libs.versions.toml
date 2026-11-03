@@ -17,6 +17,8 @@ coroutines = "1.11.0"
 serialization = "1.8.0"
 ksp = "2.3.6"
 work = "2.10.0"
+tapsellPlus = "2.3.3"
+poolakey = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,6 +60,10 @@ androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx"
 
 # Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+
+# Ads and billing (Iranian stores)
+tapsell-plus = { group = "ir.tapsell.plus", name = "tapsell-plus-sdk-android", version.ref = "tapsellPlus" }
+poolakey = { group = "com.github.cafebazaar.Poolakey", name = "poolakey", version.ref = "poolakey" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -89,9 +89,9 @@
     <string name="memory_memorize_time_label">Time remaining: %1$s</string>
     <string name="attention_target_label">Level target:</string>
     <string name="attention_instruction_action">Click on this shape as fast as possible when you see it.</string>
-    <string name="attention_skip_unlock_msg">Unlock next level with %1$s coins or watch an ad</string>
+    <string name="attention_skip_unlock_msg">You can unlock the next level with %1$s coins.</string>
     <string name="btn_unlock_coins">Unlock with 50 coins</string>
-    <string name="btn_watch_ad_unlock">Watch Ad</string>
+    <string name="btn_watch_ad_unlock">🎬 Watch an ad to unlock</string>
     <string name="attention_fail_title">Try Again</string>
     <string name="attention_fail_msg">Your score was not enough.</string>
     <string name="memory_correct_feedback">Well done! Correct ✓</string>
@@ -322,4 +322,22 @@
     <string name="weekly_plan_explain">The three areas where your accuracy is lowest come first. Areas you have not played yet count as lowest.</string>
     <string name="weekly_plan_done">Done</string>
     <string name="weekly_plan_start">Start</string>
+
+    <!-- Subscription (Cafe Bazaar) -->
+    <string name="subscription_title">Premium subscription</string>
+    <string name="subscription_benefits">An ad-free app, and support for building Zehnsaz further.</string>
+    <string name="subscription_active">Your subscription is active. Thank you!</string>
+    <string name="subscription_offline_note">Last confirmed while online; it will be checked again when you connect.</string>
+    <string name="subscription_restore">Restore my subscription</string>
+    <string name="subscription_success">Subscription activated.</string>
+    <string name="subscription_cancelled">Payment cancelled.</string>
+    <string name="subscription_failed">Payment did not go through. Please try again.</string>
+    <string name="subscription_already_active">You already have an active subscription.</string>
+    <string name="subscription_store_unavailable">To subscribe, install Cafe Bazaar and sign in.</string>
+    <string name="subscription_restored">Your subscription was restored.</string>
+    <string name="subscription_none_found">No active subscription was found on this Bazaar account.</string>
+    <!-- Opt-in rewarded ad on the result screen -->
+    <string name="ad_bonus_offer">🎬 Watch an ad: +%1$s coins</string>
+    <string name="ad_bonus_optional_note">Optional. Your score is already saved.</string>
+    <string name="ad_bonus_claimed">+%1$s coins added. Thank you!</string>
 </resources>

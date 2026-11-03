@@ -39,10 +39,15 @@ class SelectiveAttentionViewModel @Inject constructor(
 
     private var isFinishing = false
     private var attemptStartTime = 0L
+    private var previousStatus: GameStatus? = null
+
+    private val _canSkipWithAd = MutableStateFlow(false)
+    val canSkipWithAd = _canSkipWithAd.asStateFlow()
 
     init {
         viewModelScope.launch {
             uiState.collect { state ->
+                trackOutcomeForAds(state.status, state.level)
                 if (state.status == GameStatus.WON && !isFinishing) {
                     finishLevel()
                 } else if (state.status == GameStatus.LOST && !isFinishing) {
@@ -59,6 +64,21 @@ class SelectiveAttentionViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    /** Counts each loss once (on the change into LOST) for the ad-skip rule in AdManager. */
+    private fun trackOutcomeForAds(status: GameStatus, level: Level?) {
+        if (status == previousStatus) return
+        previousStatus = status
+        val key = level?.let { "${it.chapterId}:${it.levelNumber}" } ?: return
+        when (status) {
+            GameStatus.LOST -> {
+                adManager.onLevelFailed(key)
+                _canSkipWithAd.value = adManager.canOfferLevelSkip(key)
+            }
+            GameStatus.WON -> adManager.onLevelPassed(key)
+            else -> _canSkipWithAd.value = false
         }
     }
 

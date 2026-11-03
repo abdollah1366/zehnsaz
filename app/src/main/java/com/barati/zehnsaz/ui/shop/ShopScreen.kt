@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.barati.zehnsaz.R
 import com.barati.zehnsaz.domain.model.Product
+import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionPlan
+import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionStatus
 
 import androidx.compose.ui.platform.LocalContext
 
@@ -24,6 +26,8 @@ fun ShopScreen(
     val context = LocalContext.current
     val products by viewModel.products.collectAsState()
     val isPurchasing by viewModel.isPurchasing.collectAsState()
+    val plans by viewModel.subscriptionPlans.collectAsState()
+    val subscription by viewModel.subscriptionStatus.collectAsState()
     val messageRes by viewModel.message.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -55,6 +59,16 @@ fun ShopScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
+                SubscriptionSection(
+                    status = subscription,
+                    plans = plans,
+                    enabled = !isPurchasing,
+                    onSubscribe = viewModel::subscribe,
+                    onRestore = viewModel::restoreSubscription
+                )
+            }
+
+            item {
                 Text(
                     text = stringResource(R.string.shop_currency_section),
                     style = MaterialTheme.typography.titleLarge,
@@ -62,7 +76,7 @@ fun ShopScreen(
                 )
             }
 
-            item {
+            if (!subscription.isActive) item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
@@ -108,6 +122,70 @@ fun ProductCard(product: Product, onBuy: () -> Unit) {
             }
             Button(onClick = onBuy) {
                 Text(text = product.price)
+            }
+        }
+    }
+}
+
+@Composable
+private fun SubscriptionSection(
+    status: SubscriptionStatus,
+    plans: List<SubscriptionPlan>,
+    enabled: Boolean,
+    onSubscribe: (String) -> Unit,
+    onRestore: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.subscription_title),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            if (status.isActive) {
+                Text(text = stringResource(R.string.subscription_active))
+                if (!status.isVerifiedNow) {
+                    Text(
+                        text = stringResource(R.string.subscription_offline_note),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            } else {
+                Text(
+                    text = stringResource(R.string.subscription_benefits),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                if (plans.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.subscription_store_unavailable),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+                plans.forEach { plan ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(text = plan.title, fontWeight = FontWeight.Bold)
+                            if (plan.description.isNotBlank()) {
+                                Text(text = plan.description, style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                        Button(onClick = { onSubscribe(plan.planId) }, enabled = enabled) {
+                            Text(text = plan.price)
+                        }
+                    }
+                }
+                TextButton(onClick = onRestore, enabled = enabled) {
+                    Text(text = stringResource(R.string.subscription_restore))
+                }
             }
         }
     }

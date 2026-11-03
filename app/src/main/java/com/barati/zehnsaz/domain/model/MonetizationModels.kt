@@ -56,7 +56,8 @@ enum class AdPlacement {
 enum class EntitlementType {
     REMOVE_ADS,
     PREMIUM_TRAINING,
-    LEVEL_PACK_01
+    LEVEL_PACK_01,
+    PREMIUM_SUBSCRIPTION
 }
 
 data class PurchaseTransaction(
