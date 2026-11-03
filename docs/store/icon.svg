@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C4DFF"/><stop offset="0.55" stop-color="#6A3DE8"/><stop offset="1" stop-color="#C2185B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="86" cy="18" r="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFB1C8" stop-opacity="0.45"/><stop offset="1" stop-color="#FFC870" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="108" height="108" fill="url(#bg)"/>
+  <rect width="108" height="108" fill="url(#glow)"/>
+  <!-- foreground -->
+  <path fill="#FFFFFF" d="M52,31A8,8 0 0 0 38,34A8,8 0 0 0 30,46A8,8 0 0 0 30,62A8,8 0 0 0 40,74A8,8 0 0 0 52,77Z"/>
+  <path fill="#FFFFFF" d="M56,31A8,8 0 0 1 70,34A8,8 0 0 1 78,46A8,8 0 0 1 78,62A8,8 0 0 1 68,74A8,8 0 0 1 56,77Z"/>
+  <path fill="none" stroke="#B39DFF" stroke-width="2.6" stroke-linecap="round" d="M47,39C42,39 40,43 41,46 M37,52C40,50 44,51 45,54 M40,64C43,61 47,62 48,65 M61,39C66,39 68,43 67,46 M71,52C68,50 64,51 63,54 M68,64C65,61 61,62 60,65"/>
+  <circle cx="54" cy="54" r="9.5" fill="#FFC870" stroke="#FFFFFF" stroke-width="3"/>
+  <circle cx="54" cy="54" r="3.6" fill="#B45309"/>
+</svg>

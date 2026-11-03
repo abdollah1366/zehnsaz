@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Themed-icon (Android 13+) layer: just the brain silhouette, tinted by the system. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M52,31A8,8 0,0 0,38 34A8,8 0,0 0,30 46A8,8 0,0 0,30 62A8,8 0,0 0,40 74A8,8 0,0 0,52 77ZM56,31A8,8 0,0 1,70 34A8,8 0,0 1,78 46A8,8 0,0 1,78 62A8,8 0,0 1,68 74A8,8 0,0 1,56 77Z" />
+</vector>

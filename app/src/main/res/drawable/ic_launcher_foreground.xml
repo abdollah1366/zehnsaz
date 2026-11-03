@@ -1,19 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Zehnsaz launcher foreground: a white brain (two hemispheres) with an amber focus point in the
+     middle, standing for attention and concentration. Kept inside the 66dp adaptive-icon safe zone.
+     Source: docs/store/icon.svg -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-
-    <!-- Outer brain shape (Lobes) -->
+    <!-- Left hemisphere -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,25c-15.5,0 -28,12.5 -28,28c0,4.5 2,8.5 5,11.5c-2.5,4 -4,8.5 -4,13.5c0,11 9,20 20,20c2,0 4,-0.5 6,-1c0.5,0 0.5,0 1,0c0.5,0.5 0.5,1 1,1c2,0.5 4,1 6,1c11,0 20,-9 20,-20c0,-5 -1.5,-9.5 -4,-13.5c3,-3 5,-7 5,-11.5C82,37.5 69.5,25 54,25z M52,83c-9,0 -16,-7 -16,-16c0,-4.5 1.5,-8.5 4,-11.5c-3,-3 -5,-7 -5,-11.5c0,-9 7,-16 16,-16V83z M56,83V28c9,0 16,7 16,16c0,4.5 -2,8.5 -5,11.5c2.5,3 4,7 4,11.5C71,76 64,83 56,83z" />
-
-    <!-- Interior details (Neural paths) -->
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M52,31A8,8 0,0 0,38 34A8,8 0,0 0,30 46A8,8 0,0 0,30 62A8,8 0,0 0,40 74A8,8 0,0 0,52 77Z" />
+    <!-- Right hemisphere -->
     <path
-        android:strokeColor="#E1BEE7"
-        android:strokeWidth="1.5"
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M56,31A8,8 0,0 1,70 34A8,8 0,0 1,78 46A8,8 0,0 1,78 62A8,8 0,0 1,68 74A8,8 0,0 1,56 77Z" />
+    <!-- Folds (gyri) -->
+    <path
+        android:strokeColor="#FFB39DFF"
+        android:strokeWidth="2.6"
         android:strokeLineCap="round"
-        android:pathData="M44,45c0,0 2,-2 4,0 M64,45c0,0 -2,-2 -4,0 M40,60c0,0 4,-2 8,0 M68,60c0,0 -4,-2 -8,0 M44,72c0,0 3,-2 6,0 M64,72c0,0 -3,-2 -6,0" />
-
+        android:pathData="M47,39C42,39 40,43 41,46M37,52C40,50 44,51 45,54M40,64C43,61 47,62 48,65M61,39C66,39 68,43 67,46M71,52C68,50 64,51 63,54M68,64C65,61 61,62 60,65" />
+    <!-- Focus point -->
+    <path
+        android:fillColor="#FFFFC870"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3"
+        android:pathData="M54,54m-9.5,0a9.5,9.5 0,1 1,19 0a9.5,9.5 0,1 1,-19 0" />
+    <path
+        android:fillColor="#FFB45309"
+        android:pathData="M54,54m-3.6,0a3.6,3.6 0,1 1,7.2 0a3.6,3.6 0,1 1,-7.2 0" />
 </vector>

@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">ذهن‌چین</string>
+    <string name="app_name">ذهن‌ساز</string>
 
     <!-- Home Screen -->
-    <string name="welcome_message">به ذهن‌چین خوش آمدید</string>
+    <string name="welcome_message">به ذهن‌ساز خوش آمدید</string>
     <string name="continue_training">ادامه تمرینات</string>
     <string name="streak_days">%1$s روز متوالی</string>
     <string name="level_label">سطح %1$s</string>

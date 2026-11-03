@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Zehn chin</string>
+    <string name="app_name">Zehnsaz</string>
 
     <!-- Home Screen -->
-    <string name="welcome_message">Welcome to Zehn chin</string>
+    <string name="welcome_message">Welcome to Zehnsaz</string>
     <string name="continue_training">Continue Training</string>
     <string name="streak_days">%1$s Consecutive Days</string>
     <string name="level_label">Level %1$s</string>
