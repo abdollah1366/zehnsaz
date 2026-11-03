@@ -322,4 +322,18 @@
     <string name="weekly_plan_explain">اول حوزه‌هایی می‌آیند که دقت شما در آن‌ها کمتر است. حوزه‌هایی که هنوز بازی نکرده‌اید، کمترین دقت حساب می‌شوند.</string>
     <string name="weekly_plan_done">انجام شد</string>
     <string name="weekly_plan_start">شروع</string>
+
+    <!-- اشتراک (کافه‌بازار) -->
+    <string name="subscription_title">اشتراک ویژه</string>
+    <string name="subscription_benefits">برنامه بدون تبلیغ، و حمایت از ادامه‌ی ساخت ذهن‌ساز.</string>
+    <string name="subscription_active">اشتراک شما فعال است. سپاسگزاریم!</string>
+    <string name="subscription_offline_note">آخرین بار در حالت آنلاین تأیید شده؛ با اتصال دوباره بررسی می‌شود.</string>
+    <string name="subscription_restore">بازیابی اشتراک</string>
+    <string name="subscription_success">اشتراک فعال شد.</string>
+    <string name="subscription_cancelled">پرداخت لغو شد.</string>
+    <string name="subscription_failed">پرداخت انجام نشد. لطفاً دوباره تلاش کنید.</string>
+    <string name="subscription_already_active">اشتراک شما از قبل فعال است.</string>
+    <string name="subscription_store_unavailable">برای خرید اشتراک، کافه‌بازار را نصب کنید و وارد حساب خود شوید.</string>
+    <string name="subscription_restored">اشتراک شما بازیابی شد.</string>
+    <string name="subscription_none_found">اشتراک فعالی روی این حساب بازار پیدا نشد.</string>
 </resources>

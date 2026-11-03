@@ -5,6 +5,7 @@ import com.barati.zehnsaz.di.MainDispatcher
 import com.barati.zehnsaz.domain.economy.BalanceConfig
 import com.barati.zehnsaz.domain.economy.RewardEngine
 import com.barati.zehnsaz.domain.model.*
+import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,8 @@ class AdManager @Inject constructor(
     private val rewardEngine: RewardEngine,
     private val playerDao: PlayerDao,
     private val analyticsProvider: AnalyticsProvider,
-    @MainDispatcher private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
+    private val subscriptionState: SubscriptionState = SubscriptionState()
 ) {
     private val scope = CoroutineScope(mainDispatcher)
     
@@ -29,6 +31,8 @@ class AdManager @Inject constructor(
     private var lastDayOfYear: Int = -1
 
     fun canShowAd(): Boolean {
+        // Subscribers get an ad-free app.
+        if (subscriptionState.isSubscribed) return false
         if (!adProvider.isAvailable()) return false
         
         val now = System.currentTimeMillis()

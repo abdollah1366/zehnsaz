@@ -322,4 +322,18 @@
     <string name="weekly_plan_explain">The three areas where your accuracy is lowest come first. Areas you have not played yet count as lowest.</string>
     <string name="weekly_plan_done">Done</string>
     <string name="weekly_plan_start">Start</string>
+
+    <!-- Subscription (Cafe Bazaar) -->
+    <string name="subscription_title">Premium subscription</string>
+    <string name="subscription_benefits">An ad-free app, and support for building Zehnsaz further.</string>
+    <string name="subscription_active">Your subscription is active. Thank you!</string>
+    <string name="subscription_offline_note">Last confirmed while online; it will be checked again when you connect.</string>
+    <string name="subscription_restore">Restore my subscription</string>
+    <string name="subscription_success">Subscription activated.</string>
+    <string name="subscription_cancelled">Payment cancelled.</string>
+    <string name="subscription_failed">Payment did not go through. Please try again.</string>
+    <string name="subscription_already_active">You already have an active subscription.</string>
+    <string name="subscription_store_unavailable">To subscribe, install Cafe Bazaar and sign in.</string>
+    <string name="subscription_restored">Your subscription was restored.</string>
+    <string name="subscription_none_found">No active subscription was found on this Bazaar account.</string>
 </resources>

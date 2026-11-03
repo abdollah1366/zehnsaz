@@ -14,6 +14,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri("https://maven.tapsell.ir") }
+        maven { url = uri("https://jitpack.io") } // Poolakey (Cafe Bazaar billing)
     }
 }
 
