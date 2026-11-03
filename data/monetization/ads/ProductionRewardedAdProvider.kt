@@ -1,11 +1,11 @@
-package com.example.zehnchin.data.monetization.ads
+package com.barati.zehnsaz.data.monetization.ads
 
 import android.content.Context
-import com.example.zehnchin.domain.model.AdPlacement
-import com.example.zehnchin.domain.model.AdResult
-import com.example.zehnchin.domain.model.AdStatus
-import com.example.zehnchin.domain.monetization.RewardedAdProvider
-import com.example.zehnchin.ui.common.ActivityProvider
+import com.barati.zehnsaz.domain.model.AdPlacement
+import com.barati.zehnsaz.domain.model.AdResult
+import com.barati.zehnsaz.domain.model.AdStatus
+import com.barati.zehnsaz.domain.monetization.RewardedAdProvider
+import com.barati.zehnsaz.ui.common.ActivityProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import ir.tapsell.mediation.TapsellMediation
 import ir.tapsell.mediation.ad.TapsellMediationRewardedVideoAd
