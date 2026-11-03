@@ -89,9 +89,9 @@
     <string name="memory_memorize_time_label">Time remaining: %1$s</string>
     <string name="attention_target_label">Level target:</string>
     <string name="attention_instruction_action">Click on this shape as fast as possible when you see it.</string>
-    <string name="attention_skip_unlock_msg">Unlock next level with %1$s coins or watch an ad</string>
+    <string name="attention_skip_unlock_msg">You can unlock the next level with %1$s coins.</string>
     <string name="btn_unlock_coins">Unlock with 50 coins</string>
-    <string name="btn_watch_ad_unlock">Watch Ad</string>
+    <string name="btn_watch_ad_unlock">🎬 Watch an ad to unlock</string>
     <string name="attention_fail_title">Try Again</string>
     <string name="attention_fail_msg">Your score was not enough.</string>
     <string name="memory_correct_feedback">Well done! Correct ✓</string>
@@ -336,4 +336,8 @@
     <string name="subscription_store_unavailable">To subscribe, install Cafe Bazaar and sign in.</string>
     <string name="subscription_restored">Your subscription was restored.</string>
     <string name="subscription_none_found">No active subscription was found on this Bazaar account.</string>
+    <!-- Opt-in rewarded ad on the result screen -->
+    <string name="ad_bonus_offer">🎬 Watch an ad: +%1$s coins</string>
+    <string name="ad_bonus_optional_note">Optional. Your score is already saved.</string>
+    <string name="ad_bonus_claimed">+%1$s coins added. Thank you!</string>
 </resources>

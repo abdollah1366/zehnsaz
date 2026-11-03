@@ -89,9 +89,9 @@
     <string name="memory_memorize_time_label">زمان باقی‌مانده: %1$s</string>
     <string name="attention_target_label">هدف این مرحله:</string>
     <string name="attention_instruction_action">هر وقت این شکل را دیدی، هرچه سریع‌تر روی آن بزن.</string>
-    <string name="attention_skip_unlock_msg">باز کردن مرحله بعد با %1$s سکه یا مشاهده تبلیغ</string>
+    <string name="attention_skip_unlock_msg">می‌توانید مرحله‌ی بعد را با %1$s سکه باز کنید.</string>
     <string name="btn_unlock_coins">بازکردن با ۵۰ سکه</string>
-    <string name="btn_watch_ad_unlock">مشاهده تبلیغ</string>
+    <string name="btn_watch_ad_unlock">🎬 دیدن تبلیغ و باز کردن</string>
     <string name="attention_fail_title">دوباره تلاش کن</string>
     <string name="attention_fail_msg">امتیاز شما کافی نبود.</string>
     <string name="memory_correct_feedback">آفرین! درست بود ✓</string>
@@ -336,4 +336,8 @@
     <string name="subscription_store_unavailable">برای خرید اشتراک، کافه‌بازار را نصب کنید و وارد حساب خود شوید.</string>
     <string name="subscription_restored">اشتراک شما بازیابی شد.</string>
     <string name="subscription_none_found">اشتراک فعالی روی این حساب بازار پیدا نشد.</string>
+    <!-- تبلیغ جایزه‌دار اختیاری در صفحه‌ی نتیجه -->
+    <string name="ad_bonus_offer">🎬 دیدن تبلیغ: %1$s+ سکه</string>
+    <string name="ad_bonus_optional_note">اختیاری است. امتیاز شما ذخیره شده.</string>
+    <string name="ad_bonus_claimed">%1$s سکه اضافه شد. سپاسگزاریم!</string>
 </resources>

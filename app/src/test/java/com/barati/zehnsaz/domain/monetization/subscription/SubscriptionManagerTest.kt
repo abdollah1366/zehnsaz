@@ -7,6 +7,7 @@ import com.barati.zehnsaz.domain.model.*
 import com.barati.zehnsaz.domain.monetization.AdManager
 import com.barati.zehnsaz.domain.monetization.AnalyticsProvider
 import com.barati.zehnsaz.domain.monetization.EntitlementManager
+import com.barati.zehnsaz.domain.monetization.MonetizationConfig
 import com.barati.zehnsaz.domain.monetization.RewardedAdProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -91,6 +92,21 @@ class SubscriptionManagerTest {
         manager.subscribe("monthly")
 
         assertFalse(adManager.canShowAd())
+    }
+
+    @Test
+    fun levelSkipAdIsOfferedOnlyAfterRepeatedFailures() {
+        val adManager = AdManager(AlwaysReadyAd, NoRewards, dao, NoAnalytics, Dispatchers.Unconfined, state)
+        val level = "2:5"
+
+        repeat(MonetizationConfig.FAILURES_BEFORE_AD_SKIP - 1) { adManager.onLevelFailed(level) }
+        assertFalse(adManager.canOfferLevelSkip(level))
+
+        adManager.onLevelFailed(level)
+        assertTrue(adManager.canOfferLevelSkip(level))
+
+        adManager.onLevelPassed(level)
+        assertFalse(adManager.canOfferLevelSkip(level))
     }
 
     private class ScriptedStore : SubscriptionProvider {
