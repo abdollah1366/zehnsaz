@@ -12,6 +12,9 @@ import com.barati.zehnsaz.domain.model.Reward
  */
 object ProductCatalog {
 
+    /** Product id of lifetime premium, as created in the Bazaar panel. */
+    const val PREMIUM_LIFETIME_ID = "1111"
+
     enum class Kind {
         /** Bought again and again (coins, gems, boosters). Consumed in Bazaar right after delivery. */
         CONSUMABLE,
@@ -27,6 +30,9 @@ object ProductCatalog {
     )
 
     val entries: List<Entry> = listOf(
+        // "خرید اشتراک ذهن ساز" in the Bazaar panel: a one-time purchase that gives premium for good.
+        // Listed first so it is the first product in the shop.
+        Entry(PREMIUM_LIFETIME_ID, Kind.ONE_TIME, entitlement = EntitlementType.PREMIUM_LIFETIME),
         Entry("coins_100", Kind.CONSUMABLE, Reward(coins = 100, xp = 10)),
         Entry("coins_500", Kind.CONSUMABLE, Reward(coins = 500, xp = 50)),
         Entry("coins_1200", Kind.CONSUMABLE, Reward(coins = 1200, xp = 150)),
@@ -44,6 +50,9 @@ object ProductCatalog {
     )
 
     private val byId = entries.associateBy { it.productId }
+
+    /** Entitlements that make the app ad-free. */
+    val AD_FREE_ENTITLEMENTS = setOf(EntitlementType.REMOVE_ADS, EntitlementType.PREMIUM_LIFETIME)
 
     val productIds: List<String> get() = entries.map { it.productId }
 

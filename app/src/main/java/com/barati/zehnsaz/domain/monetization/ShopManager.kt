@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -39,8 +40,18 @@ class ShopManager @Inject constructor(
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products.asStateFlow()
 
-    /** True once "remove ads" has been bought (or restored) on this device. */
-    val removeAdsOwned: Flow<Boolean> = entitlementManager.hasEntitlement(EntitlementType.REMOVE_ADS)
+    /** One-time products this device owns (bought or restored), by product id. */
+    val ownedProductIds: Flow<Set<String>> = entitlementManager.activeEntitlements().map { active ->
+        ProductCatalog.entries.filter { it.entitlement != null && it.entitlement in active }.map { it.productId }.toSet()
+    }
+
+    /** True once lifetime premium has been bought (or restored) on this device. */
+    val lifetimePremiumOwned: Flow<Boolean> = entitlementManager.hasEntitlement(EntitlementType.PREMIUM_LIFETIME)
+
+    /** True when a one-time purchase (remove ads or lifetime premium) makes the app ad-free. */
+    val adFreeOwned: Flow<Boolean> = entitlementManager.activeEntitlements().map { active ->
+        active.any { it in ProductCatalog.AD_FREE_ENTITLEMENTS }
+    }
 
     private val deliveryMutex = Mutex()
 

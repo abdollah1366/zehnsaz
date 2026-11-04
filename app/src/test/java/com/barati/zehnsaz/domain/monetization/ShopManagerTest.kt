@@ -7,6 +7,7 @@ import com.barati.zehnsaz.domain.economy.RewardEngine
 import com.barati.zehnsaz.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -97,6 +98,22 @@ class ShopManagerTest {
 
         assertEquals(1, restore.restoredCount)
         assertTrue(playerDao.isActive(EntitlementType.REMOVE_ADS))
+    }
+
+    @Test
+    fun lifetimePremiumIsOneTimeAdFreeAndRestored() = runBlocking {
+        assertEquals(PurchaseResult.SUCCESS, shop.purchase(ProductCatalog.PREMIUM_LIFETIME_ID))
+
+        assertTrue(playerDao.isActive(EntitlementType.PREMIUM_LIFETIME))
+        assertTrue(shop.adFreeOwned.first())
+        assertEquals(setOf(ProductCatalog.PREMIUM_LIFETIME_ID), shop.ownedProductIds.first())
+        assertEquals(1, store.owned.size) // never consumed
+        assertEquals(PurchaseResult.ALREADY_OWNED, shop.purchase(ProductCatalog.PREMIUM_LIFETIME_ID))
+
+        ledger.records.clear()
+        playerDao.clear()
+        newShop().restorePurchases()
+        assertTrue(playerDao.isActive(EntitlementType.PREMIUM_LIFETIME))
     }
 
     @Test

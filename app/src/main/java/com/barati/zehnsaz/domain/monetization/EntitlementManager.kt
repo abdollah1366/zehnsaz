@@ -18,6 +18,12 @@ open class EntitlementManager @Inject constructor(
         }
     }
 
+    fun activeEntitlements(): Flow<Set<EntitlementType>> {
+        return playerDao.getAllEntitlements().map { list ->
+            list.filter { it.isActive }.map { it.type }.toSet()
+        }
+    }
+
     open suspend fun grantEntitlement(type: EntitlementType) {
         playerDao.saveEntitlement(EntitlementEntity(type = type, isActive = true))
     }
