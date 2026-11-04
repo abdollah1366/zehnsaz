@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Zehnsaz store mockups</title>
+<!-- Mock-ups of the app's screens, drawn from the Compose code and the light palette
+     (ui/theme/Color.kt). Render with render-screens.js. Replace with real device
+     screenshots before publishing if possible. -->
+<style>
+@font-face{font-family:Vazirmatn;src:url(../../../app/src/main/res/font/vazirmatn_regular.ttf);font-weight:400}
+@font-face{font-family:Vazirmatn;src:url(../../../app/src/main/res/font/vazirmatn_medium.ttf);font-weight:500}
+@font-face{font-family:Vazirmatn;src:url(../../../app/src/main/res/font/vazirmatn_bold.ttf);font-weight:700}
+:root{--primary:#6A3DE8;--secondary:#C2185B;--tertiary:#B45309;--sun200:#FFC870;--ink:#1E1B2E;--muted:#4E4566;
+--att:#0072B2;--mem:#CC79A7;--spd:#56B4E9;--ctl:#D55E00;--flx:#009E73;--ps:#E69F00}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Vazirmatn,sans-serif;background:#ccc;color:var(--ink)}
+.screen{width:360px;height:640px;position:relative;overflow:hidden;display:flex;flex-direction:column;
+background:radial-gradient(circle at 100% 0,rgba(255,233,168,.55),transparent 60%),radial-gradient(circle at 0 55%,rgba(255,177,200,.3),transparent 55%),radial-gradient(circle at 100% 100%,rgba(211,248,232,.8),transparent 60%),linear-gradient(#FFEEF4,#F4EEFF,#E9FAF3);margin:20px}
+.status{height:24px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;font-size:11px;font-weight:500;direction:ltr;flex:none}
+.hdr{background:linear-gradient(270deg,var(--primary),var(--secondary));color:#fff;border-radius:0 0 24px 24px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 10px rgba(80,30,140,.25);margin-top:-24px;padding-top:38px}
+.hdr .lvl{font-weight:700;font-size:14px}
+.bar{width:80px;height:8px;border-radius:4px;background:rgba(255,255,255,.35);overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;width:50%;background:var(--sun200);border-radius:4px}
+.hdr .res{font-size:14px;display:flex;gap:16px}
+.body{flex:1;padding:16px;display:flex;flex-direction:column;overflow:hidden}
+.center{justify-content:center;align-items:center}
+h1{font-size:24px;font-weight:700}
+.btn{background:var(--primary);color:#fff;border-radius:12px;display:flex;justify-content:center;align-items:center;font-weight:500;width:100%}
+.obtn{border:1px solid #7A7289;color:var(--primary);border-radius:12px;display:flex;justify-content:center;align-items:center;font-weight:500;width:100%}
+.nav{height:72px;background:#FFFBFF;display:flex;justify-content:space-around;align-items:center;flex:none;font-size:12px}
+.nav div{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted)}
+.nav span{font-size:18px;width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+.nav .on span{background:#EBE3FF}.nav .on{color:var(--ink);font-weight:700}
+.topbar{height:56px;display:flex;align-items:center;padding:0 16px;font-size:20px;font-weight:500;flex:none}
+.card{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(40,20,80,.12);padding:14px}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;border-radius:12px;padding:12px 14px;box-shadow:0 2px 6px rgba(40,20,80,.14)}
+.ch b{font-size:17px;display:block}.ch small{font-size:12.5px;color:var(--muted);display:block}
+.ch em{font-style:normal;font-size:11px;color:var(--primary);display:block;margin-top:6px}
+.lock{background:#E6DEFA!important;box-shadow:0 1px 2px rgba(40,20,80,.1)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.cell{aspect-ratio:1;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(40,20,80,.12)}
+.row{display:flex;justify-content:space-between;align-items:center}
+.stat{display:flex;justify-content:space-between;padding:6px 0;font-size:14.5px}.stat b{font-size:15.5px}
+.sec{font-size:17px;font-weight:700;margin:14px 0 8px}
+.pill{font-size:12px;background:var(--primary);color:#fff;border-radius:16px;padding:4px 14px}
+</style>
+</head>
+<body>
+
+<!-- 1. Home -->
+<section class="screen" id="home">
+  <div class="status" style="color:#fff;position:relative;z-index:2"><span>9:41</span><span>▂▄▆ 100%</span></div>
+  <div class="hdr">
+    <div class="row" style="gap:8px"><span style="font-size:22px">⚙</span><div><div class="lvl">سطح ۷</div><div class="bar"><i></i></div></div></div>
+    <div class="res"><span>🪙 ۱٬۲۴۰</span><span>💎 ۱۸</span></div>
+  </div>
+  <div class="body center">
+    <h1 style="color:var(--primary)">به ذهن‌ساز خوش آمدید</h1>
+    <div style="height:32px"></div>
+    <div class="btn" style="height:60px;font-size:20px">ادامه تمرینات</div>
+    <div style="height:28px"></div>
+    <div class="obtn" style="height:52px;font-size:18px">ارزیابی پایه</div>
+    <div style="height:16px"></div>
+    <div style="color:var(--tertiary);font-weight:700">🔥 ۵ روز متوالی</div>
+  </div>
+  <div class="nav"><div class="on"><span>🏠</span>خانه</div><div><span>🧠</span>تمرین</div><div><span>🏆</span>دستاورد</div><div><span>🛒</span>فروشگاه</div><div><span>👤</span>پروفایل</div></div>
+</section>
+
+<!-- 2. Chapters -->
+<section class="screen" id="chapters">
+  <div class="status"><span>9:41</span><span>▂▄▆ 100%</span></div>
+  <div class="body" style="padding-top:8px">
+    <h1 style="margin-bottom:18px">فصل‌های آموزشی</h1>
+    <div class="ch" style="background:#E8DFFC"><div><b>آموزش اصول</b><small>شناسایی رنگ، شکل و اندازه</small><em>حوزه شناختی: توجه</em></div></div>
+    <div class="ch" style="background:#DBEDF6"><div><b>توجه و تمرکز</b><small>تمرین توجه انتخابی</small><em>حوزه شناختی: توجه</em></div></div>
+    <div class="ch" style="background:#F8EDF3"><div><b>حافظه فعال</b><small>حافظه کاری</small><em>حوزه شناختی: حافظه</em></div></div>
+    <div class="ch" style="background:#E5F4FC"><div><b>سرعت پردازش</b><small>سرعت پردازش</small><em>حوزه شناختی: سرعت</em></div></div>
+    <div class="ch" style="background:#FAE9DB"><div><b>کنترل تکانه</b><small>مهار پاسخ</small><em>حوزه شناختی: عملکرد اجرایی</em></div></div>
+    <div class="ch lock"><div><b>انعطاف ذهنی</b><small>انعطاف‌پذیری شناختی</small><em>حوزه شناختی: عملکرد اجرایی</em></div><span>🔒</span></div>
+  </div>
+  <div class="nav"><div><span>🏠</span>خانه</div><div class="on"><span>🧠</span>تمرین</div><div><span>🏆</span>دستاورد</div><div><span>🛒</span>فروشگاه</div><div><span>👤</span>پروفایل</div></div>
+</section>
+
+<!-- 3. Selective attention -->
+<section class="screen" id="attention" style="background:radial-gradient(circle at 50% 0,rgba(0,114,178,.22),transparent 60%),radial-gradient(circle at 100% 100%,rgba(255,233,168,.35),transparent 60%),linear-gradient(#CCE3F0,#EBF4F9,#FFF8F1)">
+  <div class="status"><span>9:41</span><span>▂▄▆ 100%</span></div>
+  <div class="body">
+    <div class="row"><b style="font-size:20px">مرحله ۴</b><span style="font-weight:500">⏱ ۲۴ ثانیه</span></div>
+    <div style="text-align:center;font-size:13px;color:var(--muted);margin:6px 0 10px">دور ۳ از ۱۰</div>
+    <div class="card" style="display:flex;align-items:center;justify-content:center;gap:12px">
+      <span style="font-weight:500">هدف این مرحله:</span>
+      <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,3 31,30 3,30" fill="#1E88E5" stroke="#1E1B2E" stroke-opacity=".35" stroke-width="1.5"/></svg>
+      <b>مثلث آبی</b>
+    </div>
+    <div style="text-align:center;font-size:13px;margin-top:10px;color:var(--muted)">هر وقت این شکل را دیدی، هرچه سریع‌تر روی آن بزن.</div>
+    <div class="grid" id="g"></div>
+  </div>
+</section>
+
+<!-- 4. Profile -->
+<section class="screen" id="profile">
+  <div class="status"><span>9:41</span><span>▂▄▆ 100%</span></div>
+  <div class="topbar">پروفایل بازیکن</div>
+  <div class="body" style="padding-top:0">
+    <div class="card" style="padding:10px 14px">
+      <div class="stat"><span>مراحل تکمیل شده</span><b>۴۲</b></div>
+      <div class="stat"><span>مجموع ستاره‌ها</span><b>۱۰۷</b></div>
+      <div class="stat"><span>بیشترین استریک</span><b>۹</b></div>
+    </div>
+    <div class="card" style="margin-top:12px;background:#F4EFFF">
+      <b style="font-size:16px">برنامه‌ی این هفته</b>
+      <div style="font-size:13px;color:var(--muted);margin:2px 0 8px">۲ از ۵ جلسه انجام شد</div>
+      <div class="row" style="padding:5px 0;color:var(--muted)"><span>✓ توجه و تمرکز</span><span style="color:var(--tertiary);font-size:13px">انجام شد</span></div>
+      <div class="row" style="padding:5px 0;color:var(--muted)"><span>✓ حافظه فعال</span><span style="color:var(--tertiary);font-size:13px">انجام شد</span></div>
+      <div class="row" style="padding:5px 0"><span>کنترل تکانه</span><span class="pill">شروع</span></div>
+      <div class="row" style="padding:5px 0"><span>سرعت پردازش</span><span class="pill">شروع</span></div>
+    </div>
+    <div class="sec">روند ارزیابی پایه</div>
+    <div class="card"><div class="row" style="font-size:14px"><span>حساسیت (d′)</span><b style="color:var(--primary)">۲٫۸</b></div>
+      <svg width="100%" height="44" viewBox="0 0 300 44" preserveAspectRatio="none"><polyline fill="none" stroke="#6A3DE8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="4,38 74,30 148,32 222,16 296,8"/></svg></div>
+    <div class="card" style="margin-top:10px"><div class="row" style="font-size:14px"><span>اثر تعارض</span><b style="color:var(--primary)">۸۴ ms</b></div>
+      <svg width="100%" height="44" viewBox="0 0 300 44" preserveAspectRatio="none"><polyline fill="none" stroke="#6A3DE8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="4,8 74,14 148,22 222,26 296,34"/></svg></div>
+  </div>
+</section>
+
+<!-- 5. Baseline assessment -->
+<section class="screen" id="assessment">
+  <div class="status"><span>9:41</span><span>▂▄▆ 100%</span></div>
+  <div class="topbar">ارزیابی پایه</div>
+  <div class="body" style="padding-top:0;gap:12px">
+    <p style="font-size:14.5px;line-height:1.8">این سه آزمون کوتاه جدا از تمرین‌ها هستند و پیشرفت واقعی را می‌سنجند. هر ۱۴ روز یک بار انجام دهید.</p>
+    <div class="card"><b>توجه پایدار (gradCPT)</b><p style="font-size:13px;line-height:1.7;margin:6px 0">عددها یکی‌یکی نشان داده می‌شوند. برای همه‌ی عددها ضربه بزنید، جز ۳. وقتی ۳ دیدید، صبر کنید.</p><div style="color:var(--tertiary);font-size:13px;font-weight:500;margin-bottom:8px">وقت انجام است</div><div class="btn" style="height:40px">شروع</div></div>
+    <div class="card"><b>شبکه‌های توجه (ANT)</b><p style="font-size:13px;line-height:1.7;margin:6px 0">به فلشِ وسط با کلیدِ همان جهت پاسخ دهید. نشانه‌های بالا یا پایین ممکن است کمک کنند.</p><div style="color:var(--tertiary);font-size:13px;font-weight:500;margin-bottom:8px">وقت انجام است</div><div class="btn" style="height:40px">شروع</div></div>
+    <div class="card"><b>حافظه‌ی کاری ۲-back</b><p style="font-size:13px;line-height:1.7;margin:6px 0">وقتی حرفی با حرفِ دو مرحله قبل یکی بود، دکمه‌ی تطابق را بزنید.</p><div style="color:var(--muted);font-size:13px;font-weight:500;margin-bottom:8px">هنوز زمانش نرسیده</div><div class="btn" style="height:40px">شروع</div></div>
+  </div>
+</section>
+
+<script>
+// Visual-search grid: one blue triangle target among distractors that share colour or shape.
+const items=[['c','#E53935'],['t','#43A047'],['s','#1E88E5'],['c','#1E88E5'],['t','#E53935'],['s','#FDD835'],['t','#1E88E5'],['c','#43A047'],
+['s','#E53935'],['t','#FDD835'],['c','#8E24AA'],['s','#1E88E5'],['t','#43A047'],['c','#1E88E5'],['s','#8E24AA'],['t','#E53935'],
+['c','#FDD835'],['s','#43A047'],['t','#8E24AA'],['c','#E53935']];
+const g=document.getElementById('g');
+for(const [k,col] of items){const s=k==='c'?`<circle cx="17" cy="17" r="14"/>`:k==='t'?`<polygon points="17,3 31,30 3,30"/>`:`<rect x="4" y="4" width="26" height="26" rx="3"/>`;
+g.insertAdjacentHTML('beforeend',`<div class="cell"><svg width="40" height="40" viewBox="0 0 34 34"><g fill="${col}" stroke="#1E1B2E" stroke-opacity=".35" stroke-width="1.5">${s}</g></svg></div>`);}
+</script>
+</body>
+</html>
