@@ -29,7 +29,9 @@ fun ShopScreen(
     val plans by viewModel.subscriptionPlans.collectAsState()
     val subscription by viewModel.subscriptionStatus.collectAsState()
     val messageRes by viewModel.message.collectAsState()
-    val removeAdsOwned by viewModel.removeAdsOwned.collectAsState(initial = false)
+    val ownedProductIds by viewModel.ownedProductIds.collectAsState(initial = emptySet())
+    val adFreeOwned by viewModel.adFreeOwned.collectAsState(initial = false)
+    val lifetimePremium by viewModel.lifetimePremiumOwned.collectAsState(initial = false)
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(messageRes) {
@@ -59,9 +61,11 @@ fun ShopScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
+            // Lifetime premium (a one-time product) counts as an active subscription here.
+            val premiumStatus = if (lifetimePremium) subscription.copy(isActive = true, isVerifiedNow = true) else subscription
+            if (premiumStatus.isActive || plans.isNotEmpty()) item {
                 SubscriptionSection(
-                    status = subscription,
+                    status = premiumStatus,
                     plans = plans,
                     enabled = !isPurchasing,
                     onSubscribe = viewModel::subscribe,
@@ -77,7 +81,7 @@ fun ShopScreen(
                 )
             }
 
-            if (!subscription.isActive && !removeAdsOwned) item {
+            if (!subscription.isActive && !adFreeOwned) item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
@@ -106,7 +110,7 @@ fun ShopScreen(
             }
 
             items(products, key = { it.productId }) { product ->
-                val owned = product.productId == "remove_ads" && removeAdsOwned
+                val owned = product.productId in ownedProductIds
                 ProductCard(product, enabled = !isPurchasing && !owned, owned = owned) {
                     viewModel.purchase(product.productId)
                 }

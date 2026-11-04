@@ -23,7 +23,9 @@ class ShopViewModel @Inject constructor(
 ) : ViewModel() {
 
     val products = shopManager.products
-    val removeAdsOwned = shopManager.removeAdsOwned
+    val ownedProductIds = shopManager.ownedProductIds
+    val adFreeOwned = shopManager.adFreeOwned
+    val lifetimePremiumOwned = shopManager.lifetimePremiumOwned
     val subscriptionPlans = subscriptionManager.plans
     val subscriptionStatus = subscriptionManager.status
 

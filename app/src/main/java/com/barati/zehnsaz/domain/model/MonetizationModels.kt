@@ -75,7 +75,9 @@ enum class EntitlementType {
     REMOVE_ADS,
     PREMIUM_TRAINING,
     LEVEL_PACK_01,
-    PREMIUM_SUBSCRIPTION
+    PREMIUM_SUBSCRIPTION,
+    /** Bought once (Bazaar product "1111"): the same benefits as the subscription, for good. */
+    PREMIUM_LIFETIME
 }
 
 data class PurchaseTransaction(

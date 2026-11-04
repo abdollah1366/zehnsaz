@@ -26,7 +26,7 @@ import javax.inject.Singleton
  * - "Skip a level with an ad" only after [MonetizationConfig.FAILURES_BEFORE_AD_SKIP] failures in
  *   a row, so ads don't replace practice at the right difficulty.
  * - The reward is granted only after the video was watched to the end.
- * - Daily cap and cooldown below; subscribers and buyers of "remove ads" never see ads.
+ * - Daily cap and cooldown below; subscribers, lifetime premium and "remove ads" buyers never see ads.
  */
 @Singleton
 class AdManager @Inject constructor(
@@ -39,14 +39,14 @@ class AdManager @Inject constructor(
 ) {
     private val scope = CoroutineScope(mainDispatcher)
 
-    // Kept in step with the entitlements table: a "remove_ads" purchase turns ads off for good.
+    // Kept in step with the entitlements table: "remove_ads" or lifetime premium turns ads off for good.
     @Volatile
     private var removeAdsOwned = false
 
     init {
         scope.launch {
             playerDao.getAllEntitlements().collect { list ->
-                removeAdsOwned = list.any { it.type == EntitlementType.REMOVE_ADS && it.isActive }
+                removeAdsOwned = list.any { it.type in ProductCatalog.AD_FREE_ENTITLEMENTS && it.isActive }
             }
         }
     }
