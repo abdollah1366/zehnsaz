@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">ذهن‌چین</string>
+    <string name="app_name">ذهن‌ساز</string>
 
     <!-- Home Screen -->
-    <string name="welcome_message">به ذهن‌چین خوش آمدید</string>
+    <string name="welcome_message">به ذهن‌ساز خوش آمدید</string>
     <string name="continue_training">ادامه تمرینات</string>
     <string name="streak_days">%1$s روز متوالی</string>
     <string name="level_label">سطح %1$s</string>
@@ -350,4 +350,10 @@
     <string name="ad_bonus_offer">🎬 دیدن تبلیغ: %1$s+ سکه</string>
     <string name="ad_bonus_optional_note">اختیاری است. امتیاز شما ذخیره شده.</string>
     <string name="ad_bonus_claimed">%1$s سکه اضافه شد. سپاسگزاریم!</string>
+    <string name="about_developer_title">معرفی سازنده</string>
+    <string name="about_developer_entry">👨‍⚕️ معرفی سازنده و راه‌های ارتباط</string>
+    <string name="developer_name">عبدالله براتی</string>
+    <string name="developer_credentials">کارشناس گفتار و شناخت (نوروساینس) · کارشناس ارشد انفورماتیک پزشکی</string>
+    <string name="developer_bio">ذهن‌ساز را عبدالله براتی، کارشناس گفتار و شناخت (نوروساینس) و کارشناس ارشد انفورماتیک پزشکی، طراحی و ساخته است. تمرین‌ها و آزمون‌های برنامه بر پایه‌ی پژوهش‌های علوم اعصاب شناختی انتخاب شده‌اند.</string>
+    <string name="developer_contact_title">برای پیشنهاد، گزارش مشکل یا همکاری</string>
 </resources>

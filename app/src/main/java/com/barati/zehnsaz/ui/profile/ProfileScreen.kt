@@ -1,5 +1,6 @@
 package com.barati.zehnsaz.ui.profile
 
+import com.barati.zehnsaz.ui.common.transparentTopBarColors
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import com.barati.zehnsaz.domain.progression.WeeklyPlan
 import com.barati.zehnsaz.ui.assessment.measureLabelRes
 import com.barati.zehnsaz.ui.common.FormatUtils
 import com.barati.zehnsaz.ui.theme.domainColor
+import com.barati.zehnsaz.ui.theme.domainTint
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,11 +35,13 @@ fun ProfileScreen(
     assessmentTrends: List<MeasureTrend>,
     weeklyPlan: WeeklyPlan,
     onStartSession: (chapterId: Int) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onOpenAboutDeveloper: () -> Unit = {}
 ) {
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.profile_title)) })
+            TopAppBar(colors = transparentTopBarColors(), title = { Text(stringResource(R.string.profile_title)) })
         }
     ) { padding ->
         Column(
@@ -112,13 +116,24 @@ fun ProfileScreen(
                 TrendCard(trend)
                 Spacer(modifier = Modifier.height(12.dp))
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+            OutlinedButton(
+                onClick = onOpenAboutDeveloper,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.about_developer_entry))
+            }
         }
     }
 }
 
 @Composable
 fun DomainScoreCard(domain: DomainSummary) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = domainTint(domain.chapterId))
+    ) {
         Column {
             Box(
                 modifier = Modifier

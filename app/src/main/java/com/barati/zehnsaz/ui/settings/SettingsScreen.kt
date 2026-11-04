@@ -1,5 +1,7 @@
 package com.barati.zehnsaz.ui.settings
 
+import androidx.compose.ui.graphics.Color
+import com.barati.zehnsaz.ui.common.transparentTopBarColors
 import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,15 +22,18 @@ import com.barati.zehnsaz.R
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onOpenAboutDeveloper: () -> Unit = {}
 ) {
     val settings by viewModel.settings.collectAsState()
     // Android 13 and later need the player to allow notifications before a reminder can show.
     val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = transparentTopBarColors(),
                 title = { Text(stringResource(R.string.settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -38,12 +43,16 @@ fun SettingsScreen(
             )
         }
     ) { padding ->
-        Column(
+        Card(
             modifier = Modifier
                 .padding(padding)
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(16.dp)
+                .fillMaxWidth(),
+            shape = MaterialTheme.shapes.large
+        ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             SettingsToggleRow(
                 label = stringResource(R.string.sound_effects_label),
@@ -73,6 +82,19 @@ fun SettingsScreen(
                     }
                 }
             )
+
+            HorizontalDivider()
+            TextButton(
+                onClick = onOpenAboutDeveloper,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.about_developer_entry),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
         }
     }
 }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Zehnsaz launcher background: bright violet to berry pink, with a soft pink glow top right.
+     Matches the app's light palette (Violet700 / Berry700). Source: docs/store/icon.svg -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
@@ -8,29 +10,27 @@
     <path android:pathData="M0,0h108v108h-108z">
         <aapt:attr name="android:fillColor">
             <gradient
-                android:endX="108"
-                android:endY="108"
+                android:type="linear"
                 android:startX="0"
                 android:startY="0"
-                android:type="linear">
-                <item
-                    android:color="#6200EE"
-                    android:offset="0.0" />
-                <item
-                    android:color="#9C27B0"
-                    android:offset="1.0" />
+                android:endX="108"
+                android:endY="108">
+                <item android:color="#FF7C4DFF" android:offset="0.0" />
+                <item android:color="#FF6A3DE8" android:offset="0.55" />
+                <item android:color="#FFC2185B" android:offset="1.0" />
             </gradient>
         </aapt:attr>
     </path>
-
-    <!-- Subtle pattern circles -->
-    <path
-        android:fillColor="#11FFFFFF"
-        android:pathData="M20,20m-15,0a15,15 0,1 1,30 0a15,15 0,1 1,-30 0" />
-    <path
-        android:fillColor="#11FFFFFF"
-        android:pathData="M88,88m-12,0a12,12 0,1 1,24 0a12,12 0,1 1,-24 0" />
-    <path
-        android:fillColor="#08FFFFFF"
-        android:pathData="M90,20m-8,0a8,8 0,1 1,16 0a8,8 0,1 1,-16 0" />
+    <path android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="86"
+                android:centerY="18"
+                android:gradientRadius="46">
+                <item android:color="#73FFB1C8" android:offset="0.0" />
+                <item android:color="#00FFB1C8" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
 </vector>
