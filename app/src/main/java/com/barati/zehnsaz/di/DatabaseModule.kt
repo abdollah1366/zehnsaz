@@ -5,12 +5,14 @@ import androidx.room.Room
 import com.barati.zehnsaz.data.local.AppDatabase
 import com.barati.zehnsaz.data.local.MIGRATION_3_4
 import com.barati.zehnsaz.data.local.MIGRATION_4_5
+import com.barati.zehnsaz.data.local.MIGRATION_5_6
 import com.barati.zehnsaz.data.local.dao.AssessmentDao
 import com.barati.zehnsaz.data.local.dao.AttemptDao
 import com.barati.zehnsaz.data.local.dao.CognitiveSessionDao
 import com.barati.zehnsaz.data.local.dao.LevelDao
 import com.barati.zehnsaz.data.local.dao.PersonalBestDao
 import com.barati.zehnsaz.data.local.dao.PlayerDao
+import com.barati.zehnsaz.data.local.dao.PurchaseDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,7 +33,7 @@ object DatabaseModule {
             "zehnchin_db"
         )
             // No destructive fallback: a missing migration should fail loudly, not erase player data.
-            .addMigrations(MIGRATION_3_4, MIGRATION_4_5)
+            .addMigrations(MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
             .build()
     }
 
@@ -52,4 +54,7 @@ object DatabaseModule {
 
     @Provides
     fun providePlayerDao(database: AppDatabase): PlayerDao = database.playerDao()
+
+    @Provides
+    fun providePurchaseDao(database: AppDatabase): PurchaseDao = database.purchaseDao()
 }

@@ -4,6 +4,7 @@ import com.barati.zehnsaz.BuildConfig
 import com.barati.zehnsaz.data.monetization.*
 import com.barati.zehnsaz.data.monetization.ads.*
 import com.barati.zehnsaz.data.monetization.bazaar.BazaarConfig
+import com.barati.zehnsaz.data.monetization.bazaar.BazaarPurchaseProvider
 import com.barati.zehnsaz.data.monetization.bazaar.BazaarSubscriptionProvider
 import com.barati.zehnsaz.domain.monetization.*
 import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionProvider
@@ -20,9 +21,19 @@ object MonetizationModule {
 
     @Provides
     @Singleton
-    fun providePurchaseProvider(fake: FakePurchaseProvider): PurchaseProvider {
-        // Keep fake for now as we only do ads in this phase
-        return fake 
+    fun providePurchaseProvider(
+        fake: FakePurchaseProvider,
+        bazaar: BazaarPurchaseProvider
+    ): PurchaseProvider {
+        // Same rule as subscriptions: debug builds without a Bazaar key use a fake store.
+        return if (BazaarConfig.isConfigured || !BuildConfig.DEBUG) bazaar else fake
+    }
+
+    @Provides
+    @Singleton
+    fun providePurchaseVerifier(onDevice: OnDevicePurchaseVerifier): PurchaseVerifier {
+        // Swap for a server-backed verifier once the app signs in to the server.
+        return onDevice
     }
 
     @Provides

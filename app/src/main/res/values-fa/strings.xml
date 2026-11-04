@@ -336,6 +336,16 @@
     <string name="subscription_store_unavailable">برای خرید اشتراک، کافه‌بازار را نصب کنید و وارد حساب خود شوید.</string>
     <string name="subscription_restored">اشتراک شما بازیابی شد.</string>
     <string name="subscription_none_found">اشتراک فعالی روی این حساب بازار پیدا نشد.</string>
+    <string name="purchase_success">خرید انجام شد و جایزه‌ی آن اضافه شد.</string>
+    <string name="purchase_cancelled">پرداخت لغو شد.</string>
+    <string name="purchase_failed">پرداخت انجام نشد. اگر مبلغی کم شده، «بازیابی خریدها» را بزنید؛ چیزی از دست نمی‌رود.</string>
+    <string name="purchase_already_owned">این مورد را قبلاً خریده‌اید.</string>
+    <string name="purchase_store_unavailable">برای خرید، کافه‌بازار را نصب کنید، وارد حساب شوید و اتصال اینترنت را بررسی کنید.</string>
+    <string name="purchase_verification_failed">این خرید تأیید نشد. لطفاً با پشتیبانی تماس بگیرید.</string>
+    <string name="purchase_restore">بازیابی خریدها</string>
+    <string name="purchase_restored">خریدهای شما بازیابی شد.</string>
+    <string name="purchase_none_found">مورد تازه‌ای برای بازیابی روی این حساب بازار پیدا نشد.</string>
+    <string name="purchase_owned">خریداری شده</string>
     <!-- تبلیغ جایزه‌دار اختیاری در صفحه‌ی نتیجه -->
     <string name="ad_bonus_offer">🎬 دیدن تبلیغ: %1$s+ سکه</string>
     <string name="ad_bonus_optional_note">اختیاری است. امتیاز شما ذخیره شده.</string>

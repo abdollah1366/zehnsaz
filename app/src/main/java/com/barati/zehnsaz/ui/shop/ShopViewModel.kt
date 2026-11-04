@@ -23,6 +23,7 @@ class ShopViewModel @Inject constructor(
 ) : ViewModel() {
 
     val products = shopManager.products
+    val removeAdsOwned = shopManager.removeAdsOwned
     val subscriptionPlans = subscriptionManager.plans
     val subscriptionStatus = subscriptionManager.status
 
@@ -36,6 +37,8 @@ class ShopViewModel @Inject constructor(
         adManager.preload()
         viewModelScope.launch {
             shopManager.refreshProducts()
+            // Picks up a purchase that was paid for but not delivered last time.
+            shopManager.restorePurchases()
         }
         viewModelScope.launch {
             subscriptionManager.refreshPlans()
@@ -71,9 +74,34 @@ class ShopViewModel @Inject constructor(
     }
 
     fun purchase(productId: String) {
+        if (_isPurchasing.value) return
         _isPurchasing.value = true
-        shopManager.purchaseProduct(productId) {
+        viewModelScope.launch {
+            val result = shopManager.purchase(productId)
             _isPurchasing.value = false
+            _message.value = when (result) {
+                PurchaseResult.SUCCESS -> R.string.purchase_success
+                PurchaseResult.CANCELLED -> R.string.purchase_cancelled
+                PurchaseResult.ALREADY_OWNED -> R.string.purchase_already_owned
+                PurchaseResult.NOT_AVAILABLE -> R.string.purchase_store_unavailable
+                PurchaseResult.VERIFICATION_FAILED -> R.string.purchase_verification_failed
+                else -> R.string.purchase_failed
+            }
+        }
+    }
+
+    /** Restores one-time products and finishes interrupted purchases. */
+    fun restorePurchases() {
+        if (_isPurchasing.value) return
+        _isPurchasing.value = true
+        viewModelScope.launch {
+            val restore = shopManager.restorePurchases()
+            _isPurchasing.value = false
+            _message.value = when {
+                !restore.reachedStore -> R.string.purchase_store_unavailable
+                restore.restoredCount > 0 -> R.string.purchase_restored
+                else -> R.string.purchase_none_found
+            }
         }
     }
 

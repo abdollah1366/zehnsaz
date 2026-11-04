@@ -1,14 +1,18 @@
 const express = require('express')
 const { hashPassword, verifyPassword, newSessionToken, hashToken } = require('./auth')
+const { BazaarUnavailableError } = require('./bazaar')
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MIN_PASSWORD_LENGTH = 8
+// Bazaar product ids and purchase tokens are short ASCII strings; anything else is refused before calling Bazaar.
+const PRODUCT_ID_PATTERN = /^[A-Za-z0-9._-]{1,100}$/
+const PURCHASE_TOKEN_PATTERN = /^[A-Za-z0-9._:-]{1,500}$/
 
 /**
  * Builds the HTTP app. Accounts are always created as patients. A doctor role is
  * given only by an administrator (see src/cli/make-doctor.js), never by sign-up.
  */
-function createApp({ pool, sessionDays }) {
+function createApp({ pool, sessionDays, bazaar = null }) {
   const app = express()
   app.use(express.json({ limit: '10kb' }))
 
@@ -71,6 +75,54 @@ function createApp({ pool, sessionDays }) {
 
   app.get('/api/me', requireSession(pool), (req, res) => {
     res.json({ user: req.user })
+  })
+
+  /**
+   * Checks a Bazaar purchase for the signed-in user.
+   * Body: { type: "product" | "subscription", productId, purchaseToken }.
+   * Answers { valid: true, ... } or { valid: false, reason }, so the app knows whether to deliver.
+   */
+  app.post('/api/billing/bazaar/verify', requireSession(pool), async (req, res, next) => {
+    try {
+      if (!bazaar) return sendError(res, 503, 'billing_not_configured')
+      const { type, productId, purchaseToken } = req.body || {}
+      if (type !== 'product' && type !== 'subscription') return sendError(res, 400, 'invalid_type')
+      if (typeof productId !== 'string' || !PRODUCT_ID_PATTERN.test(productId)) return sendError(res, 400, 'invalid_product_id')
+      if (typeof purchaseToken !== 'string' || !PURCHASE_TOKEN_PATTERN.test(purchaseToken)) {
+        return sendError(res, 400, 'invalid_purchase_token')
+      }
+
+      let check
+      try {
+        check = type === 'product'
+          ? await bazaar.verifyProduct(productId, purchaseToken)
+          : await bazaar.verifySubscription(productId, purchaseToken)
+      } catch (error) {
+        if (error instanceof BazaarUnavailableError) {
+          console.warn('Bazaar check failed:', error.message)
+          return sendError(res, 502, 'store_unavailable')
+        }
+        throw error
+      }
+      if (!check.valid) return res.json({ valid: false, reason: check.reason })
+
+      const validUntil = check.validUntil ? new Date(check.validUntil) : null
+      await pool.query(
+        `INSERT INTO store_purchases (purchase_token, kind, product_id, user_id, valid_until)
+              VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (purchase_token) DO UPDATE SET valid_until = EXCLUDED.valid_until, verified_at = now()
+               WHERE store_purchases.user_id = EXCLUDED.user_id`,
+        [purchaseToken, type, productId, req.user.id, validUntil]
+      )
+      const owner = await pool.query('SELECT user_id, product_id FROM store_purchases WHERE purchase_token = $1', [purchaseToken])
+      const row = owner.rows[0]
+      if (row.user_id !== req.user.id) return res.json({ valid: false, reason: 'used_by_another_account' })
+      if (row.product_id !== productId) return res.json({ valid: false, reason: 'product_mismatch' })
+
+      res.json({ valid: true, ...check })
+    } catch (error) {
+      next(error)
+    }
   })
 
   app.use((error, _req, res, _next) => {

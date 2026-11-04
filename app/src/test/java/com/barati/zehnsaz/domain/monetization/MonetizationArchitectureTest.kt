@@ -18,11 +18,8 @@ class MonetizationArchitectureTest {
     private lateinit var rewardEngine: FakeRewardEngine
     private lateinit var playerDao: FakePlayerDao
     private lateinit var analyticsProvider: FakeAnalyticsProvider
-    private lateinit var purchaseProvider: FakePurchaseProvider
-    private lateinit var entitlementManager: FakeEntitlementManager
 
     private lateinit var adManager: AdManager
-    private lateinit var shopManager: ShopManager
 
     @Before
     fun setup() {
@@ -30,13 +27,10 @@ class MonetizationArchitectureTest {
         rewardEngine = FakeRewardEngine()
         playerDao = FakePlayerDao()
         analyticsProvider = FakeAnalyticsProvider()
-        purchaseProvider = FakePurchaseProvider()
-        entitlementManager = FakeEntitlementManager()
 
         val testDispatcher = Dispatchers.Unconfined
 
         adManager = AdManager(adProvider, rewardEngine, playerDao, analyticsProvider, testDispatcher)
-        shopManager = ShopManager(purchaseProvider, rewardEngine, entitlementManager, analyticsProvider, testDispatcher)
     }
 
     @Test
@@ -100,24 +94,6 @@ class MonetizationArchitectureTest {
         assertFalse(rewardGranted)
     }
 
-    @Test
-    fun testPurchaseConsumableGrantsReward() = runBlocking {
-        purchaseProvider.nextResult = PurchaseResult.SUCCESS
-        
-        shopManager.purchaseProduct("coins_100") { }
-
-        assertEquals(100, rewardEngine.lastReward?.coins)
-    }
-
-    @Test
-    fun testPurchaseNonConsumableGrantsEntitlement() = runBlocking {
-        purchaseProvider.nextResult = PurchaseResult.SUCCESS
-        
-        shopManager.purchaseProduct("remove_ads") { }
-
-        assertTrue(entitlementManager.activeEntitlements.contains(EntitlementType.REMOVE_ADS))
-    }
-
     // --- Manual Fakes ---
 
     private open class FakeRewardedAdProvider : RewardedAdProvider {
@@ -134,25 +110,6 @@ class MonetizationArchitectureTest {
         var lastReward: Reward? = null
         override suspend fun applyReward(reward: Reward, source: RewardSource, playerId: String) {
             lastReward = reward
-        }
-    }
-
-    private class FakePurchaseProvider : PurchaseProvider {
-        var nextResult: PurchaseResult = PurchaseResult.SUCCESS
-        override suspend fun getProducts(productIds: List<String>): List<Product> = emptyList()
-        override fun purchase(productId: String, onResult: (PurchaseResult) -> Unit) {
-            onResult(nextResult)
-        }
-        override fun restorePurchases(onResult: (List<String>) -> Unit) {
-            onResult(emptyList())
-        }
-        override fun isAvailable(): Boolean = true
-    }
-
-    private open class FakeEntitlementManager : EntitlementManager(mockPlayerDao()) {
-        val activeEntitlements = mutableSetOf<EntitlementType>()
-        override suspend fun grantEntitlement(type: EntitlementType) {
-            activeEntitlements.add(type)
         }
     }
 

@@ -29,6 +29,7 @@ fun ShopScreen(
     val plans by viewModel.subscriptionPlans.collectAsState()
     val subscription by viewModel.subscriptionStatus.collectAsState()
     val messageRes by viewModel.message.collectAsState()
+    val removeAdsOwned by viewModel.removeAdsOwned.collectAsState(initial = false)
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(messageRes) {
@@ -76,7 +77,7 @@ fun ShopScreen(
                 )
             }
 
-            if (!subscription.isActive) item {
+            if (!subscription.isActive && !removeAdsOwned) item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
@@ -97,9 +98,23 @@ fun ShopScreen(
                 }
             }
             
-            items(products) { product ->
-                ProductCard(product) {
+            if (products.isEmpty()) item {
+                Text(
+                    text = stringResource(R.string.purchase_store_unavailable),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
+            items(products, key = { it.productId }) { product ->
+                val owned = product.productId == "remove_ads" && removeAdsOwned
+                ProductCard(product, enabled = !isPurchasing && !owned, owned = owned) {
                     viewModel.purchase(product.productId)
+                }
+            }
+
+            item {
+                TextButton(onClick = viewModel::restorePurchases, enabled = !isPurchasing) {
+                    Text(text = stringResource(R.string.purchase_restore))
                 }
             }
         }
@@ -107,7 +122,7 @@ fun ShopScreen(
 }
 
 @Composable
-fun ProductCard(product: Product, onBuy: () -> Unit) {
+fun ProductCard(product: Product, enabled: Boolean = true, owned: Boolean = false, onBuy: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -120,8 +135,8 @@ fun ProductCard(product: Product, onBuy: () -> Unit) {
                 Text(text = product.title, fontWeight = FontWeight.Bold)
                 Text(text = product.description, style = MaterialTheme.typography.bodySmall)
             }
-            Button(onClick = onBuy) {
-                Text(text = product.price)
+            Button(onClick = onBuy, enabled = enabled) {
+                Text(text = if (owned) stringResource(R.string.purchase_owned) else product.price)
             }
         }
     }

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "test": "node --test test/server.test.js",
+    "test": "node --test test/server.test.js test/bazaar.test.js",
     "make-doctor": "node src/cli/make-doctor.js"
   },
   "dependencies": {

@@ -12,3 +12,8 @@ BAZAAR_RSA_PUBLIC_KEY=
 BAZAAR_SUB_MONTHLY=
 BAZAAR_SUB_QUARTERLY=
 BAZAAR_SUB_YEARLY=
+
+# One-time in-app products are not set here: create them in Cafe Bazaar > In-app products > Products
+# with exactly these ids (see app/.../domain/monetization/ProductCatalog.kt):
+#   coins_100, coins_500, coins_1200, gems_10, gems_50, gems_150,
+#   booster_pack_small, booster_pack_large, remove_ads

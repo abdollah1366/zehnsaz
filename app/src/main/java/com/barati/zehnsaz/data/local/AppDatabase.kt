@@ -9,6 +9,7 @@ import com.barati.zehnsaz.data.local.dao.CognitiveSessionDao
 import com.barati.zehnsaz.data.local.dao.LevelDao
 import com.barati.zehnsaz.data.local.dao.PersonalBestDao
 import com.barati.zehnsaz.data.local.dao.PlayerDao
+import com.barati.zehnsaz.data.local.dao.PurchaseDao
 import com.barati.zehnsaz.data.local.entities.*
 
 @Database(
@@ -23,9 +24,10 @@ import com.barati.zehnsaz.data.local.entities.*
         EntitlementEntity::class,
         LevelAttemptEntity::class,
         TrialRecordEntity::class,
-        AssessmentMeasureEntity::class
+        AssessmentMeasureEntity::class,
+        PurchaseRecordEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -36,4 +38,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun cognitiveSessionDao(): CognitiveSessionDao
     abstract fun personalBestDao(): PersonalBestDao
     abstract fun playerDao(): PlayerDao
+    abstract fun purchaseDao(): PurchaseDao
 }

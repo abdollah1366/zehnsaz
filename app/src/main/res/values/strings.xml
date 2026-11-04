@@ -336,6 +336,16 @@
     <string name="subscription_store_unavailable">To subscribe, install Cafe Bazaar and sign in.</string>
     <string name="subscription_restored">Your subscription was restored.</string>
     <string name="subscription_none_found">No active subscription was found on this Bazaar account.</string>
+    <string name="purchase_success">Purchase complete. Your reward has been added.</string>
+    <string name="purchase_cancelled">Payment was cancelled.</string>
+    <string name="purchase_failed">The payment did not go through. If money was taken, tap \"Restore purchases\"; nothing is lost.</string>
+    <string name="purchase_already_owned">You already own this.</string>
+    <string name="purchase_store_unavailable">To buy, install Cafe Bazaar, sign in, and check your internet connection.</string>
+    <string name="purchase_verification_failed">This purchase could not be verified. Please contact support.</string>
+    <string name="purchase_restore">Restore purchases</string>
+    <string name="purchase_restored">Your purchases have been restored.</string>
+    <string name="purchase_none_found">Nothing new to restore on this Bazaar account.</string>
+    <string name="purchase_owned">Owned</string>
     <!-- Opt-in rewarded ad on the result screen -->
     <string name="ad_bonus_offer">🎬 Watch an ad: +%1$s coins</string>
     <string name="ad_bonus_optional_note">Optional. Your score is already saved.</string>

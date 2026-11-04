@@ -8,7 +8,10 @@ function loadConfig(env = process.env) {
     databaseUrl,
     host: env.HOST || '0.0.0.0',
     port: Number(env.PORT || 3000),
-    sessionDays: Number(env.SESSION_DAYS || 30)
+    sessionDays: Number(env.SESSION_DAYS || 30),
+    // Cafe Bazaar developer API key. Without it the purchase check endpoint answers 503.
+    bazaarApiSecret: env.BAZAAR_API_SECRET || '',
+    bazaarPackageName: env.BAZAAR_PACKAGE_NAME || 'com.barati.zehnsaz'
   }
 }
 
