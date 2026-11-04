@@ -7,6 +7,7 @@ TAPSELL_APP_KEY=
 TAPSELL_REWARDED_ZONE_ID=
 
 # Cafe Bazaar developer panel (pishkhan.cafebazaar.ir) > your app > In-app billing > RSA public key
+# (already set in gradle.properties; only fill this to override it)
 BAZAAR_RSA_PUBLIC_KEY=
 # Cafe Bazaar > In-app products > Subscriptions: the product ids you created (leave unused ones empty)
 BAZAAR_SUB_MONTHLY=
