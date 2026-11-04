@@ -193,7 +193,7 @@ fun SpeedInstructionView(
         Text(
             text = stringResource(R.string.speed_scoring_instruction),
             style = MaterialTheme.typography.bodySmall,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
         
@@ -252,7 +252,7 @@ fun SpeedGameplayView(
                     ProcessingSpeedEngine.FeedbackType.CORRECT -> R.string.correct_feedback to LocalFeedbackColors.current.correct
                     ProcessingSpeedEngine.FeedbackType.INCORRECT -> R.string.incorrect_feedback to LocalFeedbackColors.current.incorrect
                     ProcessingSpeedEngine.FeedbackType.FALSE_START -> R.string.false_start_msg to LocalFeedbackColors.current.warning
-                    ProcessingSpeedEngine.FeedbackType.TOO_SLOW -> R.string.game_remaining_label to Color.Gray // Placeholder
+                    ProcessingSpeedEngine.FeedbackType.TOO_SLOW -> R.string.game_remaining_label to MaterialTheme.colorScheme.onSurfaceVariant // Placeholder
                 }
                 if (feedback != ProcessingSpeedEngine.FeedbackType.TOO_SLOW) {
                     Text(
@@ -281,7 +281,7 @@ fun SpeedGameplayView(
                     Box(
                         modifier = Modifier
                             .size(120.dp)
-                            .background(Color.Gray.copy(alpha = 0.05f), CircleShape)
+                            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.7f), CircleShape)
                             .clickable { onTargetClick() },
                         contentAlignment = Alignment.Center
                     ) {

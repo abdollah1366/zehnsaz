@@ -2,12 +2,12 @@ package com.barati.zehnsaz
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -34,6 +34,7 @@ import com.barati.zehnsaz.ui.attention.SelectiveAttentionScreen
 import com.barati.zehnsaz.ui.attention.SelectiveAttentionViewModel
 import com.barati.zehnsaz.ui.common.ActivityProvider
 import com.barati.zehnsaz.ui.common.CognitiveResultScreen
+import com.barati.zehnsaz.ui.common.drawAppBackdrop
 import com.barati.zehnsaz.ui.common.drawGameBackdrop
 import com.barati.zehnsaz.ui.control.InhibitoryControlScreen
 import com.barati.zehnsaz.ui.control.InhibitoryControlViewModel
@@ -53,9 +54,6 @@ import com.barati.zehnsaz.ui.shop.ShopScreen
 import com.barati.zehnsaz.ui.shop.ShopViewModel
 import com.barati.zehnsaz.ui.speed.ProcessingSpeedScreen
 import com.barati.zehnsaz.ui.speed.ProcessingSpeedViewModel
-import com.barati.zehnsaz.ui.theme.DarkColorScheme
-import com.barati.zehnsaz.ui.theme.DarkFeedbackColors
-import com.barati.zehnsaz.ui.theme.LocalFeedbackColors
 import com.barati.zehnsaz.ui.theme.ZehnChinTheme
 import com.barati.zehnsaz.ui.theme.domainColor
 import com.barati.zehnsaz.ui.training.LevelSelectionScreen
@@ -106,7 +104,11 @@ class MainActivity : ComponentActivity() {
         resources.updateConfiguration(config, resources.displayMetrics)
 
         activityProvider.setActivity(this)
-        enableEdgeToEdge()
+        // The app is always bright, so the system bars always use dark icons.
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.light(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT)
+        )
         setContent {
             ZehnChinTheme {
                 ZehnchinApp(chapterRepository, levelRepository, playerRepository)
@@ -143,28 +145,20 @@ private fun NavDestination.gameChapter(): Int? {
 }
 
 /**
- * Switches to the dark, game-like look while a training game (or its result) is on screen.
- * Every other screen keeps the light brand theme.
+ * Draws the bright backdrop behind every screen. Menu screens get the pastel brand backdrop;
+ * a training game (or its result) gets a light wash of its chapter colour.
  */
 @Composable
-private fun GameAwareTheme(gameChapter: Int?, content: @Composable (inGame: Boolean) -> Unit) {
+private fun GameAwareTheme(gameChapter: Int?, content: @Composable () -> Unit) {
     val inGame = gameChapter != null
-    MaterialTheme(
-        colorScheme = if (inGame) DarkColorScheme else MaterialTheme.colorScheme,
-        typography = MaterialTheme.typography,
-        shapes = MaterialTheme.shapes
-    ) {
-        CompositionLocalProvider(
-            LocalFeedbackColors provides (if (inGame) DarkFeedbackColors else LocalFeedbackColors.current)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .drawBehind { if (inGame) drawGameBackdrop(domainColor(gameChapter ?: 0)) }
-            ) {
-                content(inGame)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawBehind {
+                if (inGame) drawGameBackdrop(domainColor(gameChapter ?: 0)) else drawAppBackdrop()
             }
-        }
+    ) {
+        content()
     }
 }
 
@@ -178,15 +172,14 @@ fun ZehnchinApp(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val gameChapter = backStackEntry?.destination?.gameChapter()
 
-    GameAwareTheme(gameChapter = gameChapter) { inGame ->
-        ZehnchinNavHost(navController, inGame, chapterRepository, levelRepository, playerRepository)
+    GameAwareTheme(gameChapter = gameChapter) {
+        ZehnchinNavHost(navController, chapterRepository, levelRepository, playerRepository)
     }
 }
 
 @Composable
 private fun ZehnchinNavHost(
     navController: NavHostController,
-    inGame: Boolean,
     chapterRepository: ChapterRepository,
     levelRepository: LevelRepository,
     playerRepository: PlayerRepository
@@ -195,7 +188,7 @@ private fun ZehnchinNavHost(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = if (inGame) Color.Transparent else MaterialTheme.colorScheme.background
+        containerColor = Color.Transparent
     ) { innerPadding ->
         NavHost(
             navController = navController,
