@@ -27,6 +27,7 @@ import com.barati.zehnsaz.domain.model.*
 import com.barati.zehnsaz.domain.repository.ChapterRepository
 import com.barati.zehnsaz.domain.repository.LevelRepository
 import com.barati.zehnsaz.domain.repository.PlayerRepository
+import com.barati.zehnsaz.ui.about.AboutDeveloperScreen
 import com.barati.zehnsaz.ui.achievements.AchievementScreen
 import com.barati.zehnsaz.ui.assessment.AssessmentScreen
 import com.barati.zehnsaz.ui.assessment.AssessmentViewModel
@@ -209,7 +210,15 @@ private fun ZehnchinNavHost(
 
             composable("settings") {
                 val viewModel: SettingsViewModel = hiltViewModel()
-                SettingsScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+                SettingsScreen(
+                    viewModel = viewModel,
+                    onBack = { navController.popBackStack() },
+                    onOpenAboutDeveloper = { navController.navigate("about_developer") }
+                )
+            }
+
+            composable("about_developer") {
+                AboutDeveloperScreen(onBack = { navController.popBackStack() })
             }
 
             composable("chapter_list") {
@@ -551,7 +560,8 @@ private fun ZehnchinNavHost(
                     assessmentTrends = assessmentTrends,
                     weeklyPlan = weeklyPlan,
                     onStartSession = { chapterId -> navController.navigate("level_selection/$chapterId") },
-                    onBack = { navController.popBackStack() }
+                    onBack = { navController.popBackStack() },
+                    onOpenAboutDeveloper = { navController.navigate("about_developer") }
                 )
             }
 

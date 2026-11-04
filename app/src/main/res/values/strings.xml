@@ -350,4 +350,10 @@
     <string name="ad_bonus_offer">🎬 Watch an ad: +%1$s coins</string>
     <string name="ad_bonus_optional_note">Optional. Your score is already saved.</string>
     <string name="ad_bonus_claimed">+%1$s coins added. Thank you!</string>
+    <string name="about_developer_title">About the developer</string>
+    <string name="about_developer_entry">👨‍⚕️ About the developer and contact</string>
+    <string name="developer_name">Abdollah Barati</string>
+    <string name="developer_credentials">Speech and cognition specialist (neuroscience) · MSc in medical informatics</string>
+    <string name="developer_bio">Zehnsaz was designed and built by Abdollah Barati, a speech and cognition specialist (neuroscience) with an MSc in medical informatics. The app\'s exercises and tests are chosen based on cognitive neuroscience research.</string>
+    <string name="developer_contact_title">For suggestions, bug reports or collaboration</string>
 </resources>

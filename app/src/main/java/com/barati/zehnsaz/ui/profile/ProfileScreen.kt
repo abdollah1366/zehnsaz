@@ -35,7 +35,8 @@ fun ProfileScreen(
     assessmentTrends: List<MeasureTrend>,
     weeklyPlan: WeeklyPlan,
     onStartSession: (chapterId: Int) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onOpenAboutDeveloper: () -> Unit = {}
 ) {
     Scaffold(
         containerColor = Color.Transparent,
@@ -114,6 +115,14 @@ fun ProfileScreen(
             assessmentTrends.forEach { trend ->
                 TrendCard(trend)
                 Spacer(modifier = Modifier.height(12.dp))
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+            OutlinedButton(
+                onClick = onOpenAboutDeveloper,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.about_developer_entry))
             }
         }
     }
