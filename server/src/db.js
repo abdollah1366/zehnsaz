@@ -14,6 +14,18 @@ CREATE TABLE IF NOT EXISTS sessions (
   user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   expires_at TIMESTAMPTZ NOT NULL
 );
+
+-- Bazaar purchase tokens that passed the server check. A token belongs to the first account that
+-- verified it, so one payment cannot unlock several accounts.
+CREATE TABLE IF NOT EXISTS store_purchases (
+  purchase_token TEXT PRIMARY KEY,
+  store          TEXT NOT NULL DEFAULT 'bazaar',
+  kind           TEXT NOT NULL CHECK (kind IN ('product', 'subscription')),
+  product_id     TEXT NOT NULL,
+  user_id        INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  valid_until    TIMESTAMPTZ,
+  verified_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+);
 `
 
 function createPool(databaseUrl) {

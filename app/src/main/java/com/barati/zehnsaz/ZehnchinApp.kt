@@ -2,6 +2,7 @@ package com.barati.zehnsaz
 
 import android.app.Application
 import com.barati.zehnsaz.data.monetization.ads.TapsellInitializer
+import com.barati.zehnsaz.domain.monetization.ShopManager
 import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionManager
 import com.barati.zehnsaz.reminder.DailyReminder
 import dagger.hilt.android.HiltAndroidApp
@@ -17,6 +18,9 @@ class ZehnchinApp : Application() {
     @Inject
     lateinit var subscriptionManager: SubscriptionManager
 
+    @Inject
+    lateinit var shopManager: ShopManager
+
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onCreate() {
@@ -27,6 +31,10 @@ class ZehnchinApp : Application() {
         appScope.launch {
             subscriptionManager.loadCachedStatus()
             subscriptionManager.refresh()
+        }
+        // Finish any product purchase that was paid for but not delivered (e.g. the app was killed).
+        appScope.launch {
+            shopManager.restorePurchases()
         }
     }
 }

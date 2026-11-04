@@ -6,16 +6,26 @@ import com.barati.zehnsaz.domain.model.*
 import com.barati.zehnsaz.domain.monetization.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Used in debug builds when Bazaar is not configured, so the shop can be tried on an emulator
+ * without the Bazaar app. Every purchase succeeds; one-time products stay "owned" for restore.
+ * Never bound in release builds.
+ */
 @Singleton
 class FakePurchaseProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) : PurchaseProvider {
+    override val providerName = "fake"
+    private val owned = mutableMapOf<String, OwnedPurchase>()
+
     override suspend fun getProducts(productIds: List<String>): List<Product> {
-        delay(500)
-        return productIds.map { id ->
+        delay(300)
+        return productIds.mapNotNull { id -> ProductCatalog.find(id) }.map { entry ->
+            val id = entry.productId
             val titleRes = when (id) {
                 "coins_100" -> R.string.product_coins_100
                 "coins_500" -> R.string.product_coins_500
@@ -30,38 +40,36 @@ class FakePurchaseProvider @Inject constructor(
                 "level_pack_01" -> R.string.product_level_pack_01
                 else -> R.string.product_test
             }
-            
-            val title = if (titleRes == R.string.product_test) {
-                context.getString(titleRes, id)
-            } else {
-                context.getString(titleRes)
-            }
-
+            val title = if (titleRes == R.string.product_test) context.getString(titleRes, id) else context.getString(titleRes)
             Product(
                 productId = id,
                 title = title,
-                description = "توضیحات مربوط به $title",
-                price = "۵۰,۰۰۰ تومان",
-                currency = "IRT",
-                productType = when {
-                    id.contains("coin") || id.contains("gem") -> ProductType.CONSUMABLE
-                    id.contains("booster") -> ProductType.BOOSTER_PACK
-                    else -> ProductType.NON_CONSUMABLE
-                },
-                isAvailable = true
+                description = "محصول آزمایشی (بدون پرداخت واقعی)",
+                price = "۰ تومان",
+                currency = "IRR",
+                productType = if (entry.kind == ProductCatalog.Kind.CONSUMABLE) ProductType.CONSUMABLE else ProductType.NON_CONSUMABLE
             )
         }
     }
 
-    override fun purchase(productId: String, onResult: (PurchaseResult) -> Unit) {
-        // Simple success for fake provider
-        onResult(PurchaseResult.SUCCESS)
+    override suspend fun purchase(productId: String): ProductPurchaseOutcome {
+        val purchase = OwnedPurchase(
+            productId = productId,
+            purchaseToken = "fake_" + UUID.randomUUID(),
+            orderId = "fake_order",
+            purchaseTime = System.currentTimeMillis(),
+            provider = providerName
+        )
+        owned[purchase.purchaseToken] = purchase
+        return ProductPurchaseOutcome(PurchaseResult.SUCCESS, purchase)
     }
 
-    override fun restorePurchases(onResult: (List<String>) -> Unit) {
-        // Mock restore of non-consumables if they were "purchased" before
-        onResult(emptyList()) 
+    override suspend fun consume(purchaseToken: String): Boolean {
+        owned.remove(purchaseToken)
+        return true
     }
+
+    override suspend fun queryOwnedPurchases(): Result<List<OwnedPurchase>> = Result.success(owned.values.toList())
 
     override fun isAvailable(): Boolean = true
 }

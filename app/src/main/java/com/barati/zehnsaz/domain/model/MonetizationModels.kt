@@ -24,8 +24,26 @@ enum class PurchaseResult {
     FAILED,
     PENDING,
     ALREADY_OWNED,
-    NOT_AVAILABLE
+    NOT_AVAILABLE,
+    /** The store took the payment but our verification rejected the purchase token. */
+    VERIFICATION_FAILED
 }
+
+/** A purchase the store has confirmed (signature checked on the device by Poolakey). */
+data class OwnedPurchase(
+    val productId: String,
+    val purchaseToken: String,
+    val orderId: String,
+    val purchaseTime: Long,
+    val provider: String
+)
+
+data class ProductPurchaseOutcome(
+    val result: PurchaseResult,
+    val purchase: OwnedPurchase? = null,
+    /** A short machine-readable reason for logs and analytics, never shown to the user. */
+    val errorMessage: String? = null
+)
 
 enum class AdStatus {
     IDLE,

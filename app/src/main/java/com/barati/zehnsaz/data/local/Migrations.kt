@@ -60,3 +60,23 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         )
     }
 }
+
+/**
+ * v5 → v6: adds the store purchase ledger, so each Bazaar purchase is delivered exactly once.
+ */
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `purchase_records` (" +
+                "`purchaseToken` TEXT NOT NULL, " +
+                "`productId` TEXT NOT NULL, " +
+                "`orderId` TEXT NOT NULL, " +
+                "`provider` TEXT NOT NULL, " +
+                "`purchaseTime` INTEGER NOT NULL, " +
+                "`granted` INTEGER NOT NULL, " +
+                "`consumed` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, " +
+                "PRIMARY KEY(`purchaseToken`))"
+        )
+    }
+}

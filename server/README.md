@@ -49,6 +49,24 @@ npm run make-doctor -- doctor@example.com
 
    Do not open PostgreSQL (5432) or the Node port (3000) to the internet.
 
+## Check Bazaar purchases
+
+`POST /api/billing/bazaar/verify` (signed in) asks Cafe Bazaar whether a purchase token is genuine and ties it to
+the account, so one payment cannot unlock several accounts. Body:
+
+```
+{ "type": "product", "productId": "coins_100", "purchaseToken": "..." }
+{ "type": "subscription", "productId": "<subscription id>", "purchaseToken": "..." }
+```
+
+It answers `{ "valid": true, ... }` or `{ "valid": false, "reason": "not_found" | "refunded" | "expired" | "used_by_another_account" | "product_mismatch" }`,
+`502 store_unavailable` when Bazaar does not answer, and `503 billing_not_configured` when the key below is missing.
+
+Settings (environment variables):
+
+- `BAZAAR_API_SECRET`: the developer API key from the Bazaar panel (pishkhan.cafebazaar.ir > Developer API). Keep it on the server only.
+- `BAZAAR_PACKAGE_NAME`: defaults to `com.barati.zehnsaz`.
+
 ## Tests
 
 ```

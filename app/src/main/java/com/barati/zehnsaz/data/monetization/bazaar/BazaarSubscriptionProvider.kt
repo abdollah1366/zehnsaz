@@ -1,7 +1,5 @@
 package com.barati.zehnsaz.data.monetization.bazaar
 
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
 import com.barati.zehnsaz.domain.model.PurchaseResult
 import com.barati.zehnsaz.domain.monetization.subscription.ActiveSubscription
@@ -10,19 +8,12 @@ import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionPlan
 import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionProvider
 import com.barati.zehnsaz.domain.monetization.subscription.SubscriptionPurchaseOutcome
 import com.barati.zehnsaz.ui.common.ActivityProvider
-import dagger.hilt.android.qualifiers.ApplicationContext
-import ir.cafebazaar.poolakey.Connection
-import ir.cafebazaar.poolakey.ConnectionState
 import ir.cafebazaar.poolakey.Payment
-import ir.cafebazaar.poolakey.config.PaymentConfiguration
-import ir.cafebazaar.poolakey.config.SecurityCheck
 import ir.cafebazaar.poolakey.entity.PurchaseInfo
 import ir.cafebazaar.poolakey.entity.PurchaseState
 import ir.cafebazaar.poolakey.request.PurchaseRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
@@ -30,31 +21,20 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 
 /**
- * Cafe Bazaar subscriptions through the official Poolakey library.
- *
- * Poolakey verifies each purchase's signature on the device with the app's RSA public key.
- * For stronger protection (e.g. against a patched APK) the purchase token should also be checked
- * on our server with the Bazaar developer API; that is a follow-up once the server has billing.
+ * Cafe Bazaar subscriptions through the official Poolakey library, over the shared [BazaarBilling]
+ * connection. For a server-side check of a subscription token, see POST /api/billing/bazaar/verify.
  */
 @Singleton
 class BazaarSubscriptionProvider @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val billing: BazaarBilling,
     private val activityProvider: ActivityProvider
 ) : SubscriptionProvider {
 
     override val providerName: String = PROVIDER
 
-    private val payment: Payment by lazy {
-        val config = PaymentConfiguration(
-            localSecurityCheck = SecurityCheck.Enable(rsaPublicKey = BazaarConfig.rsaPublicKey)
-        )
-        Payment(context = context, config = config)
-    }
+    private val payment: Payment get() = billing.payment
 
-    private var connection: Connection? = null
-    private val connectMutex = Mutex()
-
-    override fun isAvailable(): Boolean = BazaarConfig.isConfigured && isBazaarInstalled()
+    override fun isAvailable(): Boolean = billing.isAvailable()
 
     override suspend fun getPlans(planIds: List<String>): List<SubscriptionPlan> {
         if (planIds.isEmpty() || !ensureConnected()) return emptyList()
@@ -136,26 +116,7 @@ class BazaarSubscriptionProvider @Inject constructor(
         }
     }
 
-    private suspend fun ensureConnected(): Boolean = connectMutex.withLock {
-        if (!isAvailable()) return false
-        if (connection?.getState() is ConnectionState.Connected) return true
-        withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine<Boolean> { cont ->
-                connection = payment.connect {
-                    connectionSucceed { if (cont.isActive) cont.resume(true) }
-                    connectionFailed { if (cont.isActive) cont.resume(false) }
-                    disconnected { if (cont.isActive) cont.resume(false) }
-                }
-            }
-        }
-    }
-
-    private fun isBazaarInstalled(): Boolean = try {
-        context.packageManager.getPackageInfo(BazaarConfig.BAZAAR_PACKAGE, 0)
-        true
-    } catch (e: PackageManager.NameNotFoundException) {
-        false
-    }
+    private suspend fun ensureConnected(): Boolean = billing.ensureConnected()
 
     private fun PurchaseInfo.toActive() = ActiveSubscription(
         planId = productId,
@@ -166,6 +127,6 @@ class BazaarSubscriptionProvider @Inject constructor(
     )
 
     companion object {
-        const val PROVIDER = "bazaar"
+        const val PROVIDER = BazaarBilling.PROVIDER
     }
 }

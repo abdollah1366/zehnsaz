@@ -26,7 +26,7 @@ import javax.inject.Singleton
  * - "Skip a level with an ad" only after [MonetizationConfig.FAILURES_BEFORE_AD_SKIP] failures in
  *   a row, so ads don't replace practice at the right difficulty.
  * - The reward is granted only after the video was watched to the end.
- * - Daily cap and cooldown below; subscribers never see ads.
+ * - Daily cap and cooldown below; subscribers and buyers of "remove ads" never see ads.
  */
 @Singleton
 class AdManager @Inject constructor(
@@ -38,6 +38,20 @@ class AdManager @Inject constructor(
     private val subscriptionState: SubscriptionState = SubscriptionState()
 ) {
     private val scope = CoroutineScope(mainDispatcher)
+
+    // Kept in step with the entitlements table: a "remove_ads" purchase turns ads off for good.
+    @Volatile
+    private var removeAdsOwned = false
+
+    init {
+        scope.launch {
+            playerDao.getAllEntitlements().collect { list ->
+                removeAdsOwned = list.any { it.type == EntitlementType.REMOVE_ADS && it.isActive }
+            }
+        }
+    }
+
+    private val isAdFree: Boolean get() = subscriptionState.isSubscribed || removeAdsOwned
     
     private var lastAdTimestamp: Long = 0
     private var adsWatchedToday: Int = 0
@@ -59,8 +73,8 @@ class AdManager @Inject constructor(
         (consecutiveFailures[levelKey] ?: 0) >= MonetizationConfig.FAILURES_BEFORE_AD_SKIP && canShowAd()
 
     fun canShowAd(): Boolean {
-        // Subscribers get an ad-free app.
-        if (subscriptionState.isSubscribed) return false
+        // Subscribers and "remove ads" buyers get an ad-free app.
+        if (isAdFree) return false
         if (!adProvider.isAvailable()) return false
         
         val now = System.currentTimeMillis()
@@ -81,7 +95,7 @@ class AdManager @Inject constructor(
 
     /** Starts loading an ad in the background so it is ready when the user taps "watch". */
     fun preload() {
-        if (!subscriptionState.isSubscribed) adProvider.load()
+        if (!isAdFree) adProvider.load()
     }
 
     fun showRewardedAd(placement: AdPlacement, onResult: (AdResult) -> Unit) {
